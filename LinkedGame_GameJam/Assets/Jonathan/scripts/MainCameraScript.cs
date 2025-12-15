@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class MainCameraScript : MonoBehaviour
 {
-    [SerializeField] GameObject MainSceneCamera; 
-    [SerializeField] GameObject Camera1;
-    [SerializeField] GameObject Camera2;
-    [SerializeField] GameObject Camera3;
+    //[SerializeField] GameObject MainSceneCamera; 
+    //[SerializeField] GameObject Camera1;
+    //[SerializeField] GameObject Camera2;
+    //[SerializeField] GameObject Camera3;
 
     [SerializeField] GameObject[] Cameras; 
 
-    [SerializeField] GameObject BackButton;
+    //[SerializeField] GameObject BackButton;
 
-    [SerializeField] GameObject StageScene; 
+    //[SerializeField] GameObject StageScene; 
 
 
     public void test(int camera)

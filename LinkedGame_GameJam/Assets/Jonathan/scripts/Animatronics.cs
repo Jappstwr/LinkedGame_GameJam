@@ -23,7 +23,7 @@ public class Animatronics : MonoBehaviour
         cameraManager = Object.FindFirstObjectByType<MainCameraScript>();
 
         // Start on Stage
-        currentRoom = 0;
+        currentRoom = 0; // TODO by Kaj: is this needed?
         ApplyRoomState();
 
         StartCoroutine(MoveLoop());
@@ -36,16 +36,11 @@ public class Animatronics : MonoBehaviour
             float waitTime = Random.Range(minMoveDelay, maxMoveDelay);
             yield return new WaitForSeconds(waitTime);
 
-            Debug.Log("Trying to move. isBeingWatched = " + isBeingWatched);
+            // Debug.Log("Trying to move. isBeingWatched = " + isBeingWatched);
+            Debug.Log($"Trying to move. isBeingWatched = {isBeingWatched}");
 
             // If being watched, skip this move attempt
-            if (isBeingWatched)
-            {
-                continue;
-            }
-                
-
-           
+            if (isBeingWatched) continue;
 
             MoveToRandomRoom();
         }
@@ -53,9 +48,9 @@ public class Animatronics : MonoBehaviour
 
     void MoveToRandomRoom()
     {
-        if (roomPositions.Length < 2)
-            return;
+        if (roomPositions.Length < 2) return;
 
+        // Do-While loops ensures that nextRoom is unique
         int nextRoom;
         do
         {
@@ -74,21 +69,16 @@ public class Animatronics : MonoBehaviour
 
         // Apply sorting layer
         if (sr != null && currentRoom < roomSortingLayers.Length)
+        {
             sr.sortingLayerName = roomSortingLayers[currentRoom];
+        }
 
         // Update camera visibility + watched state
         if (cameraManager != null)
+        {
             cameraManager.UpdateAnimatronicVisibility(this);
+        }
     }
-
-
-
-
-
-
-
-
-
 
 
     //[Header("Movement Settings")]

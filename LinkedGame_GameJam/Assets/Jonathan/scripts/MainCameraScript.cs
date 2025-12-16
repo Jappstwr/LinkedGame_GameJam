@@ -21,7 +21,7 @@ public class MainCameraScript : MonoBehaviour
         {
             cam.SetActive(false);
         }
-            
+
     }
 
     void Awake()
@@ -52,7 +52,6 @@ public class MainCameraScript : MonoBehaviour
         {
             cam.SetActive(false);
         }
-           
 
         UpdateAllAnimatronicVisibility();
     }

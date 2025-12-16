@@ -38,15 +38,26 @@ public class NightLogicScript : MonoBehaviour
     void Update()
     {
         currentPart = OfficeParts[index];
-        for (int i = 0; i < OfficeParts.Length; i++)
+        // for (int i = 0; i < OfficeParts.Length; i++)
+        // {
+        //     if (currentPart == OfficeParts[i])
+        //     {
+        //         OfficeParts[i].SetActive(true);
+        //     }
+        //     else
+        //     {
+        //         OfficeParts[i].SetActive(false);
+        //     }
+        // }
+        foreach (GameObject officePart in OfficeParts)
         {
-            if (currentPart == OfficeParts[i])
+            if (currentPart == officePart)
             {
-                OfficeParts[i].SetActive(true);
+                officePart.SetActive(true);
             }
             else
             {
-                OfficeParts[i].SetActive(false);
+                officePart.SetActive(false);
             }
         }
 
@@ -72,41 +83,69 @@ public class NightLogicScript : MonoBehaviour
             Computer.SetActive(false);
             Ventilation.SetActive(false);
         }
-        LeftCooldown -= UnityEngine.Time.deltaTime;
-        RightCooldown -= UnityEngine.Time.deltaTime;
+        //? Name can be simplifiedIDE0002
+        // LeftCooldown -= UnityEngine.Time.deltaTime;
+        // RightCooldown -= UnityEngine.Time.deltaTime;
+        LeftCooldown -= Time.deltaTime;
+        RightCooldown -= Time.deltaTime;
 
-        if (isHacking == true)
+        // No need to write "== true" if isHacking itself is true
+        // if (isHacking == true)
+        if (isHacking)
         {
-            HackTimer -= UnityEngine.Time.deltaTime;
+            HackTimer -= Time.deltaTime;
             UpdateHacking();
         }
     }
     public void UpdateHacking()
     {
-        if (HackTimer >= 12)
+        // if (HackTimer >= 12)
+        // {
+        //     Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite1;
+        // }
+        // else if (HackTimer >= 9)
+        // {
+        //     Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite2;
+        // }
+        // else if (HackTimer >= 6)
+        // {
+        //     Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite3;
+        // }
+        // else if (HackTimer >= 3)
+        // {
+        //     Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite4;
+        // }
+        // else if (HackTimer >= 0)
+        // {
+        //     Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite5;
+        // }
+        // else
+        // {
+        //     Computer.GetComponent<SpriteRenderer>().sprite = doneSprite;
+        //     isHacking = false;
+        // }
+
+        switch (HackTimer)
         {
-            Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite1;
-        }
-        else if (HackTimer >= 9)
-        {
-            Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite2;
-        }
-        else if (HackTimer >= 6)
-        {
-            Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite3;
-        }
-        else if (HackTimer >= 3)
-        {
-            Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite4;
-        }
-        else if (HackTimer >= 0)
-        {
-            Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite5;
-        }
-        else
-        {
-            Computer.GetComponent<SpriteRenderer>().sprite = doneSprite;
-            isHacking = false;
+            case >= 12:
+                Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite1;
+                break;
+            case >= 9:
+                Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite2;
+                break;
+            case >= 6:
+                Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite3;
+                break;
+            case >= 3:
+                Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite4;
+                break;
+            case >= 0:
+                Computer.GetComponent<SpriteRenderer>().sprite = hackingSprite5;
+                break;
+            default:
+                Computer.GetComponent<SpriteRenderer>().sprite = doneSprite;
+                isHacking = false;
+                break;
         }
     }
     public void Right()
@@ -120,7 +159,7 @@ public class NightLogicScript : MonoBehaviour
             index++;
         }
         SoundEffectsScript.instance.PlaySoundEffect(turnSound, 0.5f);
-        
+
     }
     public void Left()
     {
@@ -133,30 +172,32 @@ public class NightLogicScript : MonoBehaviour
             index--;
         }
         SoundEffectsScript.instance.PlaySoundEffect(turnSound, 0.5f);
-        
+
     }
     public void CameraToggle()
     {
-        if (CameraisOpen == true)
-        {
-            CameraisOpen = false;
-        }
-        else
-        {
-            CameraisOpen = true;
-        }
+        // if (CameraisOpen == true)
+        // {
+        //     CameraisOpen = false;
+        // }
+        // else
+        // {
+        //     CameraisOpen = true;
+        // }
+        CameraisOpen = !CameraisOpen;
     }
 
     public void VentToggle()
     {
-        if (VentisOpen == true)
-        {
-            VentisOpen = false;
-        }
-        else
-        {
-            VentisOpen = true;
-        }
+        // if (VentisOpen == true)
+        // {
+        //     VentisOpen = false;
+        // }
+        // else
+        // {
+        //     VentisOpen = true;
+        // }
+        VentisOpen = !VentisOpen;
     }
     public void ComputerToggle()
     {
@@ -179,10 +220,10 @@ public class NightLogicScript : MonoBehaviour
             HackTimer = HackTime;
             SoundEffectsScript.instance.PlaySoundEffect(hackSound, 1f);
         }
-        else
-        {
+        // else
+        // {
 
-        }
+        // }
     }
     public void LeftDoorToggle()
     {

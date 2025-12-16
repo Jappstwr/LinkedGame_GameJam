@@ -23,7 +23,7 @@ public class Animatronics : MonoBehaviour
         cameraManager = Object.FindFirstObjectByType<MainCameraScript>();
 
         // Start on Stage
-        currentRoom = 0; // TODO by Kaj: is this needed?
+        currentRoom = 0; // TODO is this needed? / Kaj
         ApplyRoomState();
 
         StartCoroutine(MoveLoop());

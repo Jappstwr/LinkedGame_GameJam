@@ -76,12 +76,16 @@ public class NightLogicScript : MonoBehaviour
                 Computer.SetActive(false);
                 Ventilation.SetActive(false);
             }
-            LeftCooldown -= UnityEngine.Time.deltaTime;
-            RightCooldown -= UnityEngine.Time.deltaTime;
+            // Name can be simplified
+            // LeftCooldown -= UnityEngine.Time.deltaTime;
+            // RightCooldown -= UnityEngine.Time.deltaTime;
+            LeftCooldown -= Time.deltaTime;
+            RightCooldown -= Time.deltaTime;
 
             if (isHacking == true)
             {
-                HackTimer -= UnityEngine.Time.deltaTime;
+                // HackTimer -= UnityEngine.Time.deltaTime;
+                HackTimer -= Time.deltaTime;
                 UpdateHacking();
             }
         }
@@ -209,6 +213,7 @@ public class NightLogicScript : MonoBehaviour
             HackTimer = HackTime;
             SoundEffectsScript.instance.PlaySoundEffect(hackSound, 1f);
         }
+        // TODO: remove?
         // else
         // {
 

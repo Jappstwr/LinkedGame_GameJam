@@ -22,42 +22,51 @@ public class VentScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (NLS.Alive)
-        {
-            if (killMode == false)
-            {
-                MovementTimer -= UnityEngine.Time.deltaTime;
-                if (MovementTimer <= 0)
-                {
-                    Opportunity();
-                    MovementTimer = OpportunityTime;
-                }
-            }
-            else
-            {
-                if (NLS.CameraisOpen || NLS.ComputerisOpen || NLS.VentisOpen)
-                {
-                    NLS.Camera.SetActive(false);
-                    NLS.Computer.SetActive(false);
-                    NLS.Office.SetActive(false);
-                    Jumpscare.SetActive(true);
+        // if (NLS.Alive)
+        // {
 
-                    NLS.Alive = false;
-                    SoundEffectsScript.instance.PlaySoundEffect(NLS.yamsSound, 1f);
-                }
+        if (!NLS.Alive) return;
+
+        // if (killMode == false)
+        if (!killMode)
+        {
+            // MovementTimer -= UnityEngine.Time.deltaTime;
+            MovementTimer -= Time.deltaTime;
+
+            if (MovementTimer <= 0)
+            {
+                Opportunity();
+                MovementTimer = OpportunityTime;
             }
         }
+        else
+        {
+            if (NLS.CameraisOpen || NLS.ComputerisOpen || NLS.VentisOpen)
+            {
+                NLS.Camera.SetActive(false);
+                NLS.Computer.SetActive(false);
+                NLS.Office.SetActive(false);
+                Jumpscare.SetActive(true);
+
+                NLS.Alive = false;
+                SoundEffectsScript.instance.PlaySoundEffect(NLS.yamsSound, 1f);
+            }
+        }
+
     }
 
     public void Opportunity()
     {
         int rng = Random.Range(1, 21);
 
+
         if (rng <= AiLevel)
         {
             if (currentPosition == 2)
             {
-                if (currentPosition == 2 && NLS.VentisOpen)
+                //? You checked for currentPosition == 2 twice
+                // if (currentPosition == 2 && NLS.VentisOpen)
+                if (NLS.VentisOpen)
                 {
                     currentPosition = 0;
                     Immortality = 1;
@@ -85,7 +94,7 @@ public class VentScript : MonoBehaviour
                     }
                 }
             }
-            else if(currentPosition == 1)
+            else if (currentPosition == 1)
             {
                 currentPosition++;
                 SoundEffectsScript.instance.PlaySoundEffect(advanceSound, 1f);

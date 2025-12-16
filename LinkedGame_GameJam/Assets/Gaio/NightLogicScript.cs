@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class NightLogicScript : MonoBehaviour
 {
+    public bool Alive = true;
+
     public SpriteRenderer LeftSR, RightSR;
     public GameObject[] OfficeParts;
     private GameObject currentPart;
@@ -37,64 +39,51 @@ public class NightLogicScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentPart = OfficeParts[index];
-        // for (int i = 0; i < OfficeParts.Length; i++)
-        // {
-        //     if (currentPart == OfficeParts[i])
-        //     {
-        //         OfficeParts[i].SetActive(true);
-        //     }
-        //     else
-        //     {
-        //         OfficeParts[i].SetActive(false);
-        //     }
-        // }
-        foreach (GameObject officePart in OfficeParts)
+        if (Alive)
         {
-            if (currentPart == officePart)
+            currentPart = OfficeParts[index];
+            for (int i = 0; i < OfficeParts.Length; i++)
             {
-                officePart.SetActive(true);
+                if (currentPart == OfficeParts[i])
+                {
+                    OfficeParts[i].SetActive(true);
+                }
+                else
+                {
+                    OfficeParts[i].SetActive(false);
+                }
+            }
+
+            if (CameraisOpen == true)
+            {
+                Camera.SetActive(true);
+                Office.SetActive(false);
+            }
+            else if (ComputerisOpen == true)
+            {
+                Computer.SetActive(true);
+                Office.SetActive(false);
+            }
+            else if (VentisOpen == true)
+            {
+                Ventilation.SetActive(true);
+                Office.SetActive(false);
             }
             else
             {
-                officePart.SetActive(false);
+                Office.SetActive(true);
+                Camera.SetActive(false);
+                Computer.SetActive(false);
+                Ventilation.SetActive(false);
             }
-        }
+            LeftCooldown -= UnityEngine.Time.deltaTime;
+            RightCooldown -= UnityEngine.Time.deltaTime;
 
-        if (CameraisOpen == true)
-        {
-            Camera.SetActive(true);
-            Office.SetActive(false);
-        }
-        else if (ComputerisOpen == true)
-        {
-            Computer.SetActive(true);
-            Office.SetActive(false);
-        }
-        else if (VentisOpen == true)
-        {
-            Ventilation.SetActive(true);
-            Office.SetActive(false);
-        }
-        else
-        {
-            Office.SetActive(true);
-            Camera.SetActive(false);
-            Computer.SetActive(false);
-            Ventilation.SetActive(false);
-        }
-        //? Name can be simplifiedIDE0002
-        // LeftCooldown -= UnityEngine.Time.deltaTime;
-        // RightCooldown -= UnityEngine.Time.deltaTime;
-        LeftCooldown -= Time.deltaTime;
-        RightCooldown -= Time.deltaTime;
-
-        // No need to write "== true" if isHacking itself is true
-        // if (isHacking == true)
-        if (isHacking)
-        {
-            HackTimer -= Time.deltaTime;
-            UpdateHacking();
+            if (isHacking == true)
+            {
+                HackTimer -= UnityEngine.Time.deltaTime;
+                UpdateHacking();
+            }
         }
     }
     public void UpdateHacking()

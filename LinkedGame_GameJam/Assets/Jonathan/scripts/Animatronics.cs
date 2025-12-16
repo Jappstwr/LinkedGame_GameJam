@@ -73,11 +73,13 @@ public class Animatronics : MonoBehaviour
             sr.sortingLayerName = roomSortingLayers[currentRoom];
         }
 
+
         // Update camera visibility + watched state
         if (cameraManager != null)
         {
             cameraManager.UpdateAnimatronicVisibility(this);
         }
+
     }
 
 

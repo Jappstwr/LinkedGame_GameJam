@@ -54,7 +54,10 @@ public class Animatronics : MonoBehaviour
     void MoveToRandomRoom()
     {
         if (roomPositions.Length < 2)
+        {
             return;
+        }
+            
 
         int nextRoom;
         do
@@ -74,11 +77,17 @@ public class Animatronics : MonoBehaviour
 
         // Apply sorting layer
         if (sr != null && currentRoom < roomSortingLayers.Length)
+        {
             sr.sortingLayerName = roomSortingLayers[currentRoom];
+        }
+            
 
         // Update camera visibility + watched state
         if (cameraManager != null)
+        {
             cameraManager.UpdateAnimatronicVisibility(this);
+        }
+            
     }
 
 

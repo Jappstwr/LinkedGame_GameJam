@@ -15,7 +15,6 @@ public class InteriorPanning : MonoBehaviour
     void Start()
     {
         image = GetComponent<RectTransform>();
-        Debug.Log(image.position);
     }
 
     // Update is called once per frame

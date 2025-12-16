@@ -1,76 +1,197 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
 
 public class MainCameraScript : MonoBehaviour
 {
-    //[SerializeField] GameObject MainSceneCamera; 
-    //[SerializeField] GameObject Camera1;
-    //[SerializeField] GameObject Camera2;
-    //[SerializeField] GameObject Camera3;
+    [Header("Camera Setup")]
+    [SerializeField] private GameObject[] Cameras; // Assign camera GameObjects in Inspector
 
-    [SerializeField] GameObject[] Cameras; 
+    private List<Animatronics> animatronics;
+    private int activeCamera = 0;
 
-    //[SerializeField] GameObject BackButton;
+    public bool camerasOpen = false;
 
-    //[SerializeField] GameObject StageScene; 
-
-
-    public void test(int camera)
+    void Start()
     {
+        camerasOpen = false;
+
+        foreach (var cam in Cameras)
+        {
+            cam.SetActive(false);
+        }
+            
+    }
+
+    void Awake()
+    {
+        // Automatically find all animatronics in the scene
+        Animatronics[] foundAnims = Object.FindObjectsByType<Animatronics>(FindObjectsSortMode.None);
+        animatronics = new List<Animatronics>(foundAnims);
+    }
+
+    public void SwitchCamera(int camera)
+    {
+        activeCamera = camera;
+        camerasOpen = true;
+
         for (int i = 0; i < Cameras.Length; i++)
         {
-            if (i == camera)
-            {
-                Cameras[i].SetActive(true); 
-            }
-            else
-            {
-                Cameras[i].SetActive(false); 
-            }
+            Cameras[i].SetActive(i == camera);
+        }
+
+        UpdateAllAnimatronicVisibility();
+    }
+
+    public void CloseCameras()
+    {
+        camerasOpen = false;
+
+        foreach (var cam in Cameras)
+        {
+            cam.SetActive(false);
+        }
+           
+
+        UpdateAllAnimatronicVisibility();
+    }
+
+    public void UpdateAnimatronicVisibility(Animatronics anim)
+    {
+        // Freeze ONLY if cameras are open AND player is watching his room
+        anim.isBeingWatched = camerasOpen && anim.currentRoom == activeCamera;
+
+        // Hide/show visually WITHOUT disabling the GameObject
+        SpriteRenderer sr = anim.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.enabled = (anim.currentRoom == activeCamera);
         }
     }
 
-    //public void MainSceneCam()
-    //{
-    //    MainSceneCamera.SetActive(true);
-    //    Camera1.SetActive(false); 
+    private void UpdateAllAnimatronicVisibility()
+    {
+        foreach (var anim in animatronics)
+        {
+            UpdateAnimatronicVisibility(anim);
+        }
+    }
 
-    //}
-    //public void CAM1()
-    //{
-    //    MainSceneCamera.SetActive(true); 
-    //    Camera1.SetActive(true);
-    //    StageScene.SetActive(true); 
 
-    //    Camera2.SetActive(false);
-    //    Camera3.SetActive(false);
 
-    //    Debug.Log("Opened Cam 1"); 
-    //}
-    //public void CAM2()
-    //{
+    //[Header("Camera Setup")]
+    //[SerializeField] private GameObject[] Cameras;      // Assign camera GameObjects in inspector
+    ////[SerializeField] private int stageCameraIndex = 0;  // Index of the Stage camera (optional)
 
-    //    MainSceneCamera.SetActive(true);
-    //    StageScene.SetActive(false); 
-    //    Camera1.SetActive(false);
-    //    Camera2.SetActive(true);
-    //    Camera3.SetActive(false);
-    //}
-    //public void CAM3()
-    //{
+    //private List<Animatronics> animatronics;
 
-    //    MainSceneCamera.SetActive(true);
-    //    StageScene.SetActive(false); 
-    //    Camera1.SetActive(false);
-    //    Camera2.SetActive(false);
-    //    Camera3.SetActive(true);
-    //}
-    //public void BackToGame()
+    //private int activeCamera = 0;
+
+    //void Awake()
     //{
-    //    MainSceneCamera.SetActive(true);
-    //    StageScene.SetActive(false); 
-    //    Camera1.SetActive(false);
-    //    Camera2.SetActive(false);
-    //    Camera3.SetActive(false);
+    //    // Automatically find all animatronics in the scene (modern API)
+    //    Animatronics[] foundAnims = Object.FindObjectsByType<Animatronics>(FindObjectsSortMode.None);
+    //    animatronics = new List<Animatronics>(foundAnims);
     //}
+
+    //public void SwitchCamera(int camera)
+    //{
+    //    activeCamera = camera;
+
+    //    for (int i = 0; i < Cameras.Length; i++)
+    //    {
+    //        bool isActive = (i == camera);
+    //        Cameras[i].SetActive(isActive);
+    //    }
+
+    //    UpdateAllAnimatronicVisibility();
+    //}
+
+    //public void UpdateAnimatronicVisibility(Animatronics anim)
+    //{
+    //    // Animatronic is being watched only if the **currently active camera's room matches his room**
+    //    anim.isBeingWatched = (anim.currentRoom == activeCamera);
+
+    //    // Show the animatronic only if he is in the active camera
+    //    anim.gameObject.SetActive(anim.currentRoom == activeCamera);
+    //}
+
+    //private void UpdateAllAnimatronicVisibility()
+    //{
+    //    foreach (var anim in animatronics)
+    //    {
+    //        UpdateAnimatronicVisibility(anim);
+    //    }
+    //}
+
+
+
+
+
+
+
+
+
+
+    //[SerializeField] GameObject[] Cameras; // Array of camera GameObjects
+    //[SerializeField] GameObject fredrik;   // Fredrik GameObject
+
+    //private int fredrikRoom = 0; // Which room Fredrik is currently in
+
+    //public void test(int camera)
+    //{
+    //    for (int i = 0; i < Cameras.Length; i++)
+    //    {
+    //        bool isActive = (i == camera);
+    //        Cameras[i].SetActive(isActive);
+
+    //        // Show Fredrik only if he is in this camera's room
+    //        if (fredrik != null)
+    //        {
+    //            fredrik.SetActive(fredrikRoom == camera && isActive);
+    //        }
+    //    }
+    //}
+
+    //// Called by FredrikMovement when he changes rooms
+    //public void UpdateFredrikVisibility(int room)
+    //{
+    //    fredrikRoom = room;
+
+    //    // Refresh camera visibility in case a camera is open
+    //    for (int i = 0; i < Cameras.Length; i++)
+    //    {
+    //        if (Cameras[i].activeSelf)
+    //        {
+    //            fredrik.SetActive(fredrikRoom == i);
+    //        }
+    //    }
+    //}
+
+
+
+
+
+
+
+    //[SerializeField] GameObject[] Cameras; 
+
+
+
+    //public void test(int camera)
+    //{
+    //    for (int i = 0; i < Cameras.Length; i++)
+    //    {
+    //        if (i == camera)
+    //        {
+    //            Cameras[i].SetActive(true); 
+    //        }
+    //        else
+    //        {
+    //            Cameras[i].SetActive(false); 
+    //        }
+    //    }
+    //}
+
 }

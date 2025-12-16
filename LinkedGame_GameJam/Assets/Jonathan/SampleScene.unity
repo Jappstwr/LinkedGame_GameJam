@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 162943964}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StagePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ Transform:
   m_GameObject: {fileID: 162943963}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -870.08, y: -541.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -160,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 219047544}
   - component: {fileID: 219047545}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Background_Hallway1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 240097949}
   - component: {fileID: 240097948}
   - component: {fileID: 240097947}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: CAM1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +424,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2051561802}
         m_TargetAssemblyTypeName: MainCameraScript, Assembly-CSharp
-        m_MethodName: test
+        m_MethodName: SwitchCamera
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 288577882}
   - component: {fileID: 288577881}
   - component: {fileID: 288577880}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: CAM3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2051561802}
         m_TargetAssemblyTypeName: MainCameraScript, Assembly-CSharp
-        m_MethodName: test
+        m_MethodName: SwitchCamera
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -947,7 +947,7 @@ GameObject:
   - component: {fileID: 883041166}
   - component: {fileID: 883041165}
   - component: {fileID: 883041164}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: CAM2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1019,7 +1019,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2051561802}
         m_TargetAssemblyTypeName: MainCameraScript, Assembly-CSharp
-        m_MethodName: test
+        m_MethodName: SwitchCamera
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1076,7 +1076,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 892262167}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HallwayPoint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1092,7 +1092,7 @@ Transform:
   m_GameObject: {fileID: 892262166}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 489, y: -82, z: 0}
+  m_LocalPosition: {x: -863.1, y: -544.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1108,13 +1108,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1048841531}
   - component: {fileID: 1048841532}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Background_Hallway2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1048841531
 Transform:
   m_ObjectHideFlags: 0
@@ -1249,6 +1249,7 @@ Transform:
   - {fileID: 162943964}
   - {fileID: 1717442357}
   - {fileID: 892262167}
+  - {fileID: 1594257514}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1577709325
@@ -1387,6 +1388,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577709325}
   m_CullTransparentMesh: 1
+--- !u!1 &1594257513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1594257514}
+  m_Layer: 6
+  m_Name: PartyRoomStage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1594257514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594257513}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -860.37, y: -544.28, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1171594729}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1692476760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1398,7 +1430,8 @@ GameObject:
   - component: {fileID: 1692476762}
   - component: {fileID: 1692476761}
   - component: {fileID: 1692476763}
-  m_Layer: 6
+  - component: {fileID: 1692476764}
+  m_Layer: 10
   m_Name: FredrikNew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1482,14 +1515,35 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1692476760}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 702b6949b7870904591de7f18e0a6988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stagePoint: {fileID: 2016991259}
-  hallwayPoint: {fileID: 219047544}
-  moveDelay: 10
+--- !u!114 &1692476764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692476760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9953196035be02d4eaf8352ed5c60ae1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomPositions:
+  - {fileID: 162943964}
+  - {fileID: 1717442357}
+  - {fileID: 892262167}
+  roomSortingLayers:
+  - Stage
+  - Hallway1
+  - Hallway2
+  minMoveDelay: 5
+  maxMoveDelay: 15
+  currentRoom: 0
+  isBeingWatched: 0
 --- !u!1 &1712915389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,7 +1664,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1717442357}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HallwayPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1626,7 +1680,7 @@ Transform:
   m_GameObject: {fileID: 1717442356}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: -28, z: 0}
+  m_LocalPosition: {x: -867.11, y: -544.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1674,7 +1728,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2016991259}
   - component: {fileID: 2016991260}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Background_StageScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1784,6 +1838,7 @@ MonoBehaviour:
   - {fileID: 2016991258}
   - {fileID: 219047543}
   - {fileID: 1048841530}
+  camerasOpen: 0
 --- !u!4 &2051561803
 Transform:
   m_ObjectHideFlags: 0

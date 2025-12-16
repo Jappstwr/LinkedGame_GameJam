@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 162943964}
+  - component: {fileID: 162943965}
   m_Layer: 6
   m_Name: StagePoint
   m_TagString: Untagged
@@ -150,6 +151,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1171594729}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &162943965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162943963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a27ca85a6aeaf438fa26d3ec0f4342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomIndex: 0
+  roomLayer: CAM1
 --- !u!1 &219047543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,6 +1091,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 892262167}
+  - component: {fileID: 892262168}
   m_Layer: 8
   m_Name: HallwayPoint2
   m_TagString: Untagged
@@ -1098,6 +1114,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1171594729}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &892262168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892262166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a27ca85a6aeaf438fa26d3ec0f4342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomIndex: 2
+  roomLayer: CAM3
 --- !u!1 &1048841530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1397,6 +1427,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1594257514}
+  - component: {fileID: 1594257515}
   m_Layer: 6
   m_Name: PartyRoomStage
   m_TagString: Untagged
@@ -1419,6 +1450,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1171594729}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1594257515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594257513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a27ca85a6aeaf438fa26d3ec0f4342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomIndex: 0
+  roomLayer: CAM1
 --- !u!1 &1692476760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,16 +1577,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9953196035be02d4eaf8352ed5c60ae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPositions:
-  - {fileID: 162943964}
-  - {fileID: 1717442357}
-  - {fileID: 892262167}
-  roomSortingLayers:
-  - Stage
-  - Hallway1
-  - Hallway2
-  minMoveDelay: 5
-  maxMoveDelay: 15
+  waypoints:
+  - {fileID: 162943965}
+  - {fileID: 1594257515}
+  - {fileID: 892262168}
+  minMoveDelay: 60
+  maxMoveDelay: 80
   currentRoom: 0
   isBeingWatched: 0
 --- !u!1 &1712915389
@@ -1664,6 +1705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1717442357}
+  - component: {fileID: 1717442358}
   m_Layer: 7
   m_Name: HallwayPoint
   m_TagString: Untagged
@@ -1686,6 +1728,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1171594729}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1717442358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717442356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a27ca85a6aeaf438fa26d3ec0f4342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomIndex: 1
+  roomLayer: CAM2
 --- !u!1 &1837155807
 GameObject:
   m_ObjectHideFlags: 0

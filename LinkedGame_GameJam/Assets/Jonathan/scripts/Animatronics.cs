@@ -3,9 +3,8 @@ using System.Collections;
 
 public class Animatronics : MonoBehaviour
 {
-    [Header("Rooms")]
-    public Transform[] roomPositions;        // One position per camera room
-    public string[] roomSortingLayers;       // Sorting layer per room
+    [Header("Waypoints")]
+    public RoomWaypoint[] waypoints;      // All waypoints for this animatronic
 
     [Header("Movement Timing")]
     public float minMoveDelay = 5f;
@@ -20,75 +19,86 @@ public class Animatronics : MonoBehaviour
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        cameraManager = Object.FindFirstObjectByType<MainCameraScript>();
+        // cameraManager = Object.FindFirstObjectByType<MainCameraScript>();
+        cameraManager = FindFirstObjectByType<MainCameraScript>();
 
-        // Start on Stage
-        currentRoom = 0; // TODO is this needed? / Kaj
-        ApplyRoomState();
-
-        StartCoroutine(MoveLoop());
-    }
-
-    IEnumerator MoveLoop()
-    {
-        while (true)
+        // Start at first waypoint
+        if (waypoints.Length > 0)
         {
-            float waitTime = Random.Range(minMoveDelay, maxMoveDelay);
-            yield return new WaitForSeconds(waitTime);
-
-            // Debug.Log("Trying to move. isBeingWatched = " + isBeingWatched);
-            Debug.Log($"Trying to move. isBeingWatched = {isBeingWatched}");
-
-            // If being watched, skip this move attempt
-            if (isBeingWatched) continue;
-
-            MoveToRandomRoom();
+            MoveToWaypoint(0);
         }
+
+        // Begin automatic movement
+        Invoke(nameof(MoveRandom), Random.Range(minMoveDelay, maxMoveDelay));
     }
 
-    void MoveToRandomRoom()
+    void MoveRandom()
     {
-        if (roomPositions.Length < 2) return;
+        if (waypoints.Length == 0) return;
 
-        // Do-While loops ensures that nextRoom is unique
-        int nextRoom;
+        int nextIndex;
         do
         {
-            nextRoom = Random.Range(0, roomPositions.Length);
-        }
-        while (nextRoom == currentRoom);
+            nextIndex = Random.Range(0, waypoints.Length);
+        } while (nextIndex == GetCurrentWaypointIndex());
 
-        currentRoom = nextRoom;
-        ApplyRoomState();
+        MoveToWaypoint(nextIndex);
+
+        // Schedule next move
+        Invoke(nameof(MoveRandom), Random.Range(minMoveDelay, maxMoveDelay));
     }
 
-    void ApplyRoomState()
+    void MoveToWaypoint(int index)
     {
-        // Instantly move to room position
-        transform.position = roomPositions[currentRoom].position;
+        if (index < 0 || index >= waypoints.Length) return;
 
-        // Apply sorting layer
-        if (sr != null && currentRoom < roomSortingLayers.Length)
-        {
-            sr.sortingLayerName = roomSortingLayers[currentRoom];
-        }
+        RoomWaypoint wp = waypoints[index];
+        if (wp == null) return;
 
 
-        // Update camera visibility + watched state
+        Debug.Log($"{name} isBeingWatched = {isBeingWatched}");
+
+        // Only move if not being watched
+        if (isBeingWatched) return;
+
+        // Move to waypoint position
+        transform.position = wp.transform.position;
+
+        // Update currentRoom for camera visibility
+        currentRoom = wp.roomIndex;
+
+        // Update camera visibility (no need to change layers)
         if (cameraManager != null)
         {
             cameraManager.UpdateAnimatronicVisibility(this);
         }
 
+
+        Debug.Log($"{name} moved to waypoint {index} at position {wp.transform.position} in room {currentRoom}");
+    }
+
+    int GetCurrentWaypointIndex()
+    {
+        for (int i = 0; i < waypoints.Length; i++)
+        {
+            if (waypoints[i] != null &&
+                waypoints[i].roomIndex == currentRoom &&
+                waypoints[i].transform.position == transform.position)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
 
-    //[Header("Movement Settings")]
-    //public Transform[] waypoints;         // Rooms the animatronic can move to
-    //public string[] roomSortingLayers;    // Sorting Layer for each room
-    //public float minMoveDelay = 5f;       // Minimum delay before moving
-    //public float maxMoveDelay = 15f;      // Maximum delay before moving
-    //public float extraPauseAfterWatched = 1.5f; // Extra pause after being watched
+    //[Header("Rooms")]
+    //public Transform[] roomPositions;        // One position per camera room
+    //public string[] roomSortingLayers;       // Sorting layer per room
+
+    //[Header("Movement Timing")]
+    //public float minMoveDelay = 5f;
+    //public float maxMoveDelay = 15f;
 
     //[HideInInspector] public int currentRoom = 0;
     //[HideInInspector] public bool isBeingWatched = false;
@@ -99,84 +109,73 @@ public class Animatronics : MonoBehaviour
     //void Start()
     //{
     //    sr = GetComponent<SpriteRenderer>();
-    //    if (sr == null) Debug.LogWarning("Animatronic missing SpriteRenderer!");
-
     //    cameraManager = Object.FindFirstObjectByType<MainCameraScript>();
 
-    //    if (waypoints.Length == 0)
-    //    {
-    //        Debug.LogError("No waypoints set for Animatronic!");
-    //        return;
-    //    }
-
+    //    // Start on Stage
     //    currentRoom = 0;
-    //    transform.position = waypoints[currentRoom].position;
-    //    SetSortingLayerForCurrentRoom();
-    //    NotifyCameraManager();
+    //    ApplyRoomState();
 
-    //    StartCoroutine(MoveRoutine());
+    //    StartCoroutine(MoveLoop());
     //}
 
-    //IEnumerator MoveRoutine()
+    //IEnumerator MoveLoop()
     //{
     //    while (true)
     //    {
     //        float waitTime = Random.Range(minMoveDelay, maxMoveDelay);
     //        yield return new WaitForSeconds(waitTime);
 
-    //        // Only move if not being watched
-    //        if (!isBeingWatched)
+    //        Debug.Log("Trying to move. isBeingWatched = " + isBeingWatched);
+
+    //        // If being watched, skip this move attempt
+    //        if (isBeingWatched)
     //        {
-    //            MoveToNextRoom();
+    //            continue;
     //        }
-    //        else
-    //        {
-    //            // If watched, wait a little longer before checking again
-    //            yield return new WaitForSeconds(extraPauseAfterWatched);
-    //        }
+
+
+
+
+    //        MoveToRandomRoom();
     //    }
     //}
 
-    //void MoveToNextRoom()
+    //void MoveToRandomRoom()
     //{
-    //    if (waypoints.Length < 2) return;
+    //    if (roomPositions.Length < 2)
+    //    {
+    //        return;
+    //    }
+
 
     //    int nextRoom;
     //    do
     //    {
-    //        nextRoom = Random.Range(0, waypoints.Length);
-    //    } while (nextRoom == currentRoom);
+    //        nextRoom = Random.Range(0, roomPositions.Length);
+    //    }
+    //    while (nextRoom == currentRoom);
 
     //    currentRoom = nextRoom;
-    //    transform.position = waypoints[currentRoom].position;
-    //    SetSortingLayerForCurrentRoom();
-    //    NotifyCameraManager();
+    //    ApplyRoomState();
     //}
 
-    //void SetSortingLayerForCurrentRoom()
+    //void ApplyRoomState()
     //{
-    //    if (sr == null) return;
+    //    // Instantly move to room position
+    //    transform.position = roomPositions[currentRoom].position;
 
-    //    if (currentRoom < roomSortingLayers.Length)
+    //    // Apply sorting layer
+    //    if (sr != null && currentRoom < roomSortingLayers.Length)
     //    {
     //        sr.sortingLayerName = roomSortingLayers[currentRoom];
     //    }
-    //    else
-    //    {
-    //        sr.sortingLayerName = "Default";
-    //    }
 
-    //    sr.sortingOrder = 1;
-    //}
 
-    //public void NotifyCameraManager()
-    //{
+    //    // Update camera visibility + watched state
     //    if (cameraManager != null)
     //    {
     //        cameraManager.UpdateAnimatronicVisibility(this);
     //    }
+
     //}
-
-
-
 }

@@ -2988,9 +2988,9 @@ MonoBehaviour:
   - {fileID: 681318434}
   - {fileID: 758933106}
   - {fileID: 1116321428}
-  minMoveDelay: 29
+  minMoveDelay: 5
   maxMoveDelay: 30
-  baseDoorChance: 100
+  baseDoorChance: 10
   doorChanceIncrease: 5
   baseIgnoreCameraChance: 0
   ignoreCameraIncreasePerMinute: 3
@@ -3964,9 +3964,9 @@ MonoBehaviour:
   - {fileID: 1468316453}
   - {fileID: 1463305185}
   - {fileID: 672352079}
-  minMoveDelay: 5
-  maxMoveDelay: 6
-  baseDoorChance: 50
+  minMoveDelay: 6
+  maxMoveDelay: 30
+  baseDoorChance: 10
   doorChanceIncrease: 5
   baseIgnoreCameraChance: 0
   ignoreCameraIncreasePerMinute: 3

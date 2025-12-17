@@ -8,6 +8,8 @@ public class MainCameraScript : MonoBehaviour
     [Header("Camera Setup")]
     [SerializeField] private GameObject[] Cameras; // Assign camera GameObjects in Inspector
 
+    [SerializeField] private int startingCameraIndex = 1; // Camera 1 (index 1)
+
     private List<Animatronics> animatronics;
     private int activeCamera = 0;
 
@@ -15,13 +17,34 @@ public class MainCameraScript : MonoBehaviour
 
     void Start()
     {
-        camerasOpen = false;
 
+        camerasOpen = false; // Animatronics won't freeze
+
+        // Deactivate all cameras first
         foreach (var cam in Cameras)
         {
-            cam.SetActive(false);
+            if (cam != null)
+                cam.SetActive(false);
         }
-            
+
+        // Activate the starting camera visually using startingCameraIndex
+        if (Cameras != null && startingCameraIndex >= 0 && startingCameraIndex < Cameras.Length)
+        {
+            Cameras[startingCameraIndex].SetActive(true);
+            activeCamera = startingCameraIndex; // So the script knows which camera is "active"
+        }
+
+        // Update all animatronics visibility at start
+        UpdateAllAnimatronicVisibility();
+
+
+        //camerasOpen = false;
+
+        //foreach (var cam in Cameras)
+        //{
+        //    cam.SetActive(false);
+        //}
+
     }
 
     void Awake()

@@ -7,6 +7,8 @@ using UnityEngine;
 public class Animatronics : MonoBehaviour
 {
 
+    [HideInInspector] public bool isAtDoor = false;
+
     [Header("Waypoints")]
     public RoomWaypoint[] waypoints;      // All waypoints for this animatronic
 
@@ -20,6 +22,10 @@ public class Animatronics : MonoBehaviour
 
     private float hallway1DoorChance;
     private float hallway2DoorChance;
+
+    [Header("Ignore Camera")]
+    [Range(0f, 100f)] public float baseIgnoreCameraChance = 0f; // early night
+    public float ignoreCameraIncreasePerMinute = 3f;           // ramps up
 
     [HideInInspector] public int currentRoom = 0;
     [HideInInspector] public bool isBeingWatched = false;
@@ -46,51 +52,78 @@ public class Animatronics : MonoBehaviour
 
     void ScheduleNextMove()
     {
-        float difficulty = GetMinuteDifficultyMultiplier();
+        float difficulty = GetDifficultyMultiplier();
+
         float min = minMoveDelay / difficulty;
         float max = maxMoveDelay / difficulty;
 
         Invoke(nameof(MoveRandom), Random.Range(min, max));
     }
+    bool ShouldIgnoreCamera()
+    {
+        int minute = Mathf.Min(NightsDifficulty.CurrentMinute, 20);
+        float ignoreChance = baseIgnoreCameraChance + (minute * ignoreCameraIncreasePerMinute);
+        ignoreChance = Mathf.Clamp(ignoreChance, 0f, 50f); // never too extreme
 
+        float roll = Random.Range(0f, 100f);
+        Debug.Log($"{name} ignore camera roll: {roll} / {ignoreChance}");
+
+        return roll < ignoreChance;
+    }
     void MoveRandom()
     {
         if (waypoints.Length == 0) return;
 
         Debug.Log($"{name} attempting move. Room: {currentRoom}, isBeingWatched={isBeingWatched}");
 
-        if (isBeingWatched)
+        // Camera freeze check
+        if (isBeingWatched && !ShouldIgnoreCamera())
         {
+            Debug.Log($"{name} frozen by camera");
             ScheduleNextMove();
             return;
         }
-
-        // Check if we're in a hallway with door probability
-        if (currentRoom == 1)
+        else if (isBeingWatched)
         {
-            if (TryMoveToDoor(ref hallway1DoorChance))
-            {
-                ScheduleNextMove();
-                return;
-            }
-        }
-        else if (currentRoom == 2)
-        {
-            if (TryMoveToDoor(ref hallway2DoorChance))
-            {
-                ScheduleNextMove();
-                return;
-            }
+            Debug.Log($"{name} IGNORED camera");
         }
 
-        // Move to any random non-door waypoint (all rooms included)
-        MoveToRandomNonDoorWaypointAnywhere();
+        // Hallway / Door logic
+        bool moved = false;
+        if (currentRoom == 1) moved = TryMoveToDoor(ref hallway1DoorChance);
+        else if (currentRoom == 2) moved = TryMoveToDoor(ref hallway2DoorChance);
+
+        // Difficulty affects likelihood of moving toward hallways/doors
+        float stagePenalty = 0f;
+        if (!moved && currentRoom == 0) // On stage
+        {
+            float difficulty = GetMinuteDifficultyMultiplier();
+            stagePenalty = Random.value < difficulty * 0.3f ? 1f : 0f; // Higher difficulty → more likely to leave stage
+        }
+
+        if (!moved && stagePenalty > 0f)
+        {
+            MoveToRandomNonDoorWaypointAnywhere();
+            moved = true;
+        }
+
+        // Normal random movement if no door/hallway movement
+        if (!moved)
+        {
+            MoveToRandomNonDoorWaypointAnywhere();
+        }
+
         ScheduleNextMove();
     }
 
     bool TryMoveToDoor(ref float doorChance)
     {
         float effectiveChance = doorChance * GetMinuteDifficultyMultiplier();
+
+        // Make door movement slightly more likely as night progresses
+        if (currentRoom == 0) // stage → hallway
+            effectiveChance *= 1.5f;
+
         float roll = Random.Range(0f, 100f);
         Debug.Log($"{name} door roll: {roll} / {effectiveChance}");
 
@@ -101,7 +134,6 @@ public class Animatronics : MonoBehaviour
             {
                 Debug.Log($"{name} SUCCESS → moving to DOOR");
                 doorChance = baseDoorChance;
-
                 MoveToWaypoint(System.Array.IndexOf(waypoints, door));
                 return true;
             }
@@ -150,15 +182,49 @@ public class Animatronics : MonoBehaviour
         RoomWaypoint wp = waypoints[index];
         if (wp == null) return;
 
-        Debug.Log($"{name} moving to waypoint {index}, Room {wp.roomIndex}, isDoor={wp.isDoorWaypoint}");
-
         if (isBeingWatched) return;
 
         transform.position = wp.transform.position;
         currentRoom = wp.roomIndex;
 
+        // Update camera visibility
         if (cameraManager != null)
             cameraManager.UpdateAnimatronicVisibility(this);
+
+        // Check if animatronic is at a door
+        if (wp.isDoorWaypoint)
+        {
+            isAtDoor = true;
+            StartCoroutine(DoorCountdown());
+        }
+        else
+        {
+            isAtDoor = false;
+        }
+    }
+    private IEnumerator DoorCountdown()
+    {
+        float doorTime = 10f; // Player has 10 seconds to close
+        float timer = 0f;
+
+        while (timer < doorTime)
+        {
+            if (!isAtDoor) yield break; // Door closed or animatronic moved away
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // Time ran out → jumpscare
+        TriggerJumpscare();
+    }
+    public void CloseDoorForAnimatronic(Animatronics anim)
+    {
+        anim.isAtDoor = false;
+    }
+    void TriggerJumpscare()
+    {
+        Debug.Log($"{name} jumpscared the player!");
+        // Play sound, animation, trigger game over, etc.
     }
 
     int GetCurrentWaypointIndex()
@@ -179,5 +245,15 @@ public class Animatronics : MonoBehaviour
     {
         int minute = NightsDifficulty.CurrentMinute;
         return 1f + (minute * 0.15f); // scales door chance and movement
+    }
+
+    float GetDifficultyMultiplier()
+    {
+        // Cap at 20 minutes
+        int minute = Mathf.Min(NightsDifficulty.CurrentMinute, 20);
+
+        // Difficulty ramps up 0 → 20
+        // 1.0 = calm, 4.0 = extreme late night
+        return 1f + (minute * 0.15f);
     }
 }

@@ -9,15 +9,17 @@ public class NightsDifficulty : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime; 
+        timer += Time.deltaTime;
 
         if (timer >= minuteLength)
         {
             timer -= minuteLength;
-            CurrentMinute++;
 
-            
-            Debug.Log($"Night minute advanced → {CurrentMinute}"); 
+            if (CurrentMinute < 20) // Cap at 20 minutes
+            {
+                CurrentMinute++;
+                Debug.Log($"Night minute advanced → {CurrentMinute}");
+            }
         }
     }
 }

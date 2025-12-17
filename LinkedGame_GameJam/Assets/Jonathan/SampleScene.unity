@@ -1820,14 +1820,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9953196035be02d4eaf8352ed5c60ae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NLS: {fileID: 0}
+  Jumpscare: {fileID: 0}
+  IsFredrik: 0
+  isAtDoor: 0
   waypoints:
   - {fileID: 770270795}
   - {fileID: 1536437580}
   - {fileID: 1717442358}
   - {fileID: 1678366155}
-  minMoveDelay: 20
-  maxMoveDelay: 30
-  baseDoorChance: 10
+  minMoveDelay: 5
+  maxMoveDelay: 6
+  baseDoorChance: 50
   doorChanceIncrease: 5
   baseIgnoreCameraChance: 0
   ignoreCameraIncreasePerMinute: 3
@@ -2060,6 +2064,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9953196035be02d4eaf8352ed5c60ae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NLS: {fileID: 0}
+  Jumpscare: {fileID: 0}
+  IsFredrik: 0
+  isAtDoor: 0
   waypoints:
   - {fileID: 162943965}
   - {fileID: 1594257515}
@@ -2429,6 +2437,7 @@ MonoBehaviour:
   - {fileID: 2016991258}
   - {fileID: 219047543}
   - {fileID: 1048841530}
+  startingCameraIndex: 1
   camerasOpen: 0
 --- !u!4 &2051561803
 Transform:

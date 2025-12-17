@@ -1960,8 +1960,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -415, y: 34}
-  m_SizeDelta: {x: 400, y: 400}
+  m_AnchoredPosition: {x: -450, y: -20}
+  m_SizeDelta: {x: 550, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &682624668
 MonoBehaviour:
@@ -2103,6 +2103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomIndex: 0
   roomLayer: CAM1
+  isDoorWaypoint: 0
 --- !u!1 &709737400
 GameObject:
   m_ObjectHideFlags: 0
@@ -4259,7 +4260,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 287.77, y: 126.5}
+  m_AnchoredPosition: {x: 431.2, y: 72.6}
   m_SizeDelta: {x: 700, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1237040149
@@ -4777,6 +4778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomIndex: 0
   roomLayer: CAM1
+  isDoorWaypoint: 0
 --- !u!1 &1408098769
 GameObject:
   m_ObjectHideFlags: 0
@@ -4826,7 +4828,7 @@ MonoBehaviour:
   RightOpen: {fileID: 21300000, guid: 7e625a27df087504bb5fbd900b68bb6d, type: 3}
   LeftClosed: {fileID: 21300000, guid: 989575a608204564381a2c3df7a48e46, type: 3}
   LeftOpen: {fileID: 21300000, guid: 56830925d472baf46b7b0ba5c738df08, type: 3}
-  DoorPower: 0
+  DoorPower: 10
   DoorCooldown: 1
   ErrorCooldown: 30
   Error: 0
@@ -4840,12 +4842,13 @@ MonoBehaviour:
   hackingSprite4: {fileID: 21300000, guid: fbc73459f83c0c24497fb44098802556, type: 3}
   hackingSprite5: {fileID: 21300000, guid: 5e959bd4a6a846749879edc8c6fc5491, type: 3}
   doneSprite: {fileID: 21300000, guid: 77582626081fa3144989ec0acf1ed7e9, type: 3}
-  doorSound: {fileID: 8300000, guid: 699318d298962ab4fafe7abdc481e428, type: 3}
+  doorSound: {fileID: 8300000, guid: ad1b4a9c097fd694fa6903859440286c, type: 3}
   turnSound: {fileID: 8300000, guid: 1ef64ab329f15d8448ddd77fd5f8009b, type: 3}
   yamsSound: {fileID: 8300000, guid: 33cd8b197fedbf84e85af44c40fc2a80, type: 3}
   hackSound: {fileID: 8300000, guid: 94755265f62af4f48b0957290ab5d2a9, type: 3}
   clickSound: {fileID: 8300000, guid: 68c93f16f8488554c8641d2140c8d9d2, type: 3}
   pressSound: {fileID: 8300000, guid: e7500ff5b8bc26847a751e4e2613852d, type: 3}
+  jumpscareSound: {fileID: 8300000, guid: 4e2376a10953ac14795fd492a8618de2, type: 3}
 --- !u!4 &1408098771
 Transform:
   m_ObjectHideFlags: 0
@@ -5600,7 +5603,7 @@ MonoBehaviour:
   Jumpscare: {fileID: 597756381}
   AiLevel: 20
   currentPosition: 0
-  OpportunityTime: 5.075
+  OpportunityTime: 5.2
   advanceSound: {fileID: 8300000, guid: dcfa4776472ee45409a3ad8513ed5b0a, type: 3}
   retreatSound: {fileID: 8300000, guid: a7a7e18e96f0c1e4b96fd975dca542e3, type: 3}
 --- !u!4 &1805268188
@@ -5865,6 +5868,8 @@ MonoBehaviour:
   - {fileID: 2074924950}
   minMoveDelay: 60
   maxMoveDelay: 80
+  baseDoorChance: 10
+  doorChanceIncrease: 5
   currentRoom: 0
   isBeingWatched: 0
 --- !u!114 &1867834094
@@ -6068,6 +6073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomIndex: 1
   roomLayer: CAM2
+  isDoorWaypoint: 0
 --- !u!1 &1949597591
 GameObject:
   m_ObjectHideFlags: 0
@@ -6548,6 +6554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomIndex: 2
   roomLayer: CAM3
+  isDoorWaypoint: 0
 --- !u!4 &2074924951
 Transform:
   m_ObjectHideFlags: 0

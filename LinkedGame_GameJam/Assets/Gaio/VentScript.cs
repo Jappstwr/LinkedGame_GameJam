@@ -11,6 +11,7 @@ public class VentScript : MonoBehaviour
     private float MovementTimer;
     private int Immortality = 1;
     private bool killMode = false;
+    private float AiTimer = 60;
 
     public AudioClip advanceSound, retreatSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +25,14 @@ public class VentScript : MonoBehaviour
     {
         if (NLS.Alive)
         {
+            AiTimer -= UnityEngine.Time.deltaTime;
+
+            if (AiTimer <= 0)
+            {
+                AiLevel++;
+                AiTimer = 60;
+            }
+
             if (killMode == false)
             {
                 MovementTimer -= UnityEngine.Time.deltaTime;
@@ -43,7 +52,7 @@ public class VentScript : MonoBehaviour
                     Jumpscare.SetActive(true);
 
                     NLS.Alive = false;
-                    SoundEffectsScript.instance.PlaySoundEffect(NLS.yamsSound, 1f);
+                    SoundEffectsScript.instance.PlaySoundEffect(NLS.jumpscareSound, 1f);
                 }
             }
         }
@@ -77,7 +86,7 @@ public class VentScript : MonoBehaviour
                         Jumpscare.SetActive(true);
 
                         NLS.Alive = false;
-                        SoundEffectsScript.instance.PlaySoundEffect(NLS.yamsSound, 1f);
+                        SoundEffectsScript.instance.PlaySoundEffect(NLS.jumpscareSound, 1f);
                     }
                     else
                     {

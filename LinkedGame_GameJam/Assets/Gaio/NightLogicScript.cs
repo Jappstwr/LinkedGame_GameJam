@@ -32,7 +32,7 @@ public class NightLogicScript : MonoBehaviour
     private float HackTimer;
     public Sprite frontSprite, errorSprite, computerSprite, hackingSprite1, hackingSprite2, hackingSprite3, hackingSprite4, hackingSprite5, doneSprite;
 
-    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound;
+    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound, jumpscareSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -100,6 +100,7 @@ public class NightLogicScript : MonoBehaviour
                 {
                     RightisClosed = false;
                     RightSR.sprite = RightOpen;
+                    SoundEffectsScript.instance.PlaySoundEffect(doorSound, 1f);
                 }
             }
             else
@@ -114,6 +115,7 @@ public class NightLogicScript : MonoBehaviour
                 {
                     LeftisClosed = false;
                     LeftSR.sprite = LeftOpen;
+                    SoundEffectsScript.instance.PlaySoundEffect(doorSound, 1f);
                 }
             }
             else
@@ -179,7 +181,7 @@ public class NightLogicScript : MonoBehaviour
             index++;
         }
         SoundEffectsScript.instance.PlaySoundEffect(turnSound, 0.5f);
-        SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
+        SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
     }
     public void Left()
     {
@@ -192,40 +194,40 @@ public class NightLogicScript : MonoBehaviour
             index--;
         }
         SoundEffectsScript.instance.PlaySoundEffect(turnSound, 0.5f);
-        SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
+        SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
     }
     public void CameraToggle()
     {
         if (CameraisOpen == false && Error == false)
         {
             CameraisOpen = true;
-            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
+            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
             ErrorTimer -= 3;
         }
         else if (CameraisOpen == true)
         {
             CameraisOpen = false;
-            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
+            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
         }
     }
 
     public void VentToggle()
     {
         VentisOpen = !VentisOpen;
-        SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
+        SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
     }
     public void ComputerToggle()
     {
         if (ComputerisOpen == true && isHacking == false)
         {
             ComputerisOpen = false;
-            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
+            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
         }
         else if (ComputerisOpen == false && Error == true)
         {
             ComputerisOpen = true;
             Computer.GetComponent<SpriteRenderer>().sprite = computerSprite;
-            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
+            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
         }
     }
 
@@ -247,14 +249,16 @@ public class NightLogicScript : MonoBehaviour
             {
                 LeftisClosed = false;
                 LeftSR.sprite = LeftOpen;
+                SoundEffectsScript.instance.PlaySoundEffect(doorSound, 0.2f);
             }
             else if (LeftPower >= 5)
             {
                 LeftisClosed = true;
                 LeftSR.sprite = LeftClosed;
+                SoundEffectsScript.instance.PlaySoundEffect(doorSound, 1f);
             }
 
-            SoundEffectsScript.instance.PlaySoundEffect(doorSound, 1f);
+            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
             LeftCooldown = DoorCooldown;
         }
     }
@@ -267,14 +271,16 @@ public class NightLogicScript : MonoBehaviour
             {
                 RightisClosed = false;
                 RightSR.sprite = RightOpen;
+                SoundEffectsScript.instance.PlaySoundEffect(doorSound, 1f);
             }
-            else if(RightPower >= 5)
+            else if (RightPower >= 5)
             {
                 RightisClosed = true;
                 RightSR.sprite = RightClosed;
+                SoundEffectsScript.instance.PlaySoundEffect(doorSound, 1f);
             }
 
-            SoundEffectsScript.instance.PlaySoundEffect(doorSound, 1f);
+            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
             RightCooldown = DoorCooldown;
         }
     }

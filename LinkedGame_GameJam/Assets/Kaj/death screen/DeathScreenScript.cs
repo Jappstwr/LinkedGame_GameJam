@@ -6,4 +6,6 @@ public class DeathScreenScript : MonoBehaviour
     {
         Debug.Log("go to main menu");
     }
+
+
 }

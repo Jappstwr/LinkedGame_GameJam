@@ -7,4 +7,6 @@ public class RoomWaypoint : MonoBehaviour
 
     [Tooltip("Layer name for this room")]
     public string roomLayer;
+
+    public bool isDoorWaypoint; 
 }

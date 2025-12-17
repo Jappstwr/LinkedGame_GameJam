@@ -1831,7 +1831,7 @@ MonoBehaviour:
   - {fileID: 1678366155}
   minMoveDelay: 5
   maxMoveDelay: 6
-  baseDoorChance: 50
+  baseDoorChance: 10
   doorChanceIncrease: 5
   baseIgnoreCameraChance: 0
   ignoreCameraIncreasePerMinute: 3

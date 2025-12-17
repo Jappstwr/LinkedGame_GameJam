@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class Animatronics : MonoBehaviour
 {
+    public NightLogicScript NLS;
+    public GameObject Jumpscare;
+    public bool IsFredrik;
 
     [HideInInspector] public bool isAtDoor = false;
 
@@ -215,15 +218,46 @@ public class Animatronics : MonoBehaviour
         }
 
         // Time ran out → jumpscare
+        
+        if (IsFredrik)
+        {
+            if (NLS.RightClosed)
+            {
+                CloseDoorForAnimatronic();
+            }
+            else
+            {
+                TriggerJumpscare();
+            }
+        }
+        else
+        {
+            if (NLS.LeftClosed)
+            {
+                CloseDoorForAnimatronic();
+            }
+            else
+            {
+                TriggerJumpscare();
+            }
+        }
+
         TriggerJumpscare();
     }
-    public void CloseDoorForAnimatronic(Animatronics anim)
+    public void CloseDoorForAnimatronic()
     {
-        anim.isAtDoor = false;
+        isAtDoor = false;
     }
     void TriggerJumpscare()
     {
-        Debug.Log($"{name} jumpscared the player!");
+        NLS.Camera.SetActive(false);
+        NLS.Computer.SetActive(false);
+        NLS.Office.SetActive(true);
+        Jumpscare.SetActive(true);
+
+        NLS.Alive = false;
+        SoundEffectsScript.instance.PlaySoundEffect(NLS.jumpscareSound, 1f);
+
         // Play sound, animation, trigger game over, etc.
     }
 

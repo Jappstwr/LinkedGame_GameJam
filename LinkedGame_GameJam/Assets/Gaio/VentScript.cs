@@ -48,7 +48,7 @@ public class VentScript : MonoBehaviour
                 {
                     NLS.Camera.SetActive(false);
                     NLS.Computer.SetActive(false);
-                    NLS.Office.SetActive(false);
+                    NLS.Office.SetActive(true);
                     Jumpscare.SetActive(true);
 
                     NLS.Alive = false;

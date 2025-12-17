@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 70151c23f3f10ee4883e407748d9e94f
+guid: 7e625a27df087504bb5fbd900b68bb6d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1688440109439027205
-    second: RightOpen_0
+      213: 2480268939582727705
+    second: RightDoor_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RightOpen_0
+      name: RightDoor_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 50882a3755b8e6710800000000000000
-      internalID: 1688440109439027205
+      spriteID: 9166343a57fab6220800000000000000
+      internalID: 2480268939582727705
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      RightOpen_0: 1688440109439027205
+      RightDoor_0: 2480268939582727705
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

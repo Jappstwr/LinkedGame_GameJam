@@ -206,27 +206,38 @@ public class Animatronics : MonoBehaviour
 
     private IEnumerator DoorCountdown()
     {
-        float doorTime = 10f; // Player has 10 seconds to close
+        if (NLS == null)
+        {
+            Debug.LogError($"{name} has no NightLogicScript assigned!");
+            yield break;
+        }
+
+        float doorTime = 10f; // Player has 10 seconds to react
         float timer = 0f;
 
         while (timer < doorTime)
         {
-            if (!isAtDoor) yield break;
+            // Check if door is closed
+            bool doorClosed = IsFredrik ? NLS.IsRightClosed : NLS.IsLeftClosed;
+
+            if (doorClosed)
+            {
+                // Door is closed → move animatronic away from door
+                Debug.Log($"{name} door is closed, leaving the door.");
+                isAtDoor = false;
+
+                // Move to a random non-door waypoint in the same room
+                MoveToRandomNonDoorWaypointAnywhere();
+                yield break;
+            }
+
             timer += Time.deltaTime;
             yield return null;
         }
 
-        // Time ran out → check if door is closed
-        bool doorClosed = IsFredrik ? NLS.IsRightClosed : NLS.IsLeftClosed;
-
-        if (!doorClosed)
-        {
-            TriggerJumpscare();
-        }
-        else
-        {
-            CloseDoorForAnimatronic();
-        }
+        // Time ran out → door was not closed → jumpscare
+        Debug.Log($"{name} reached the door! Player failed to close it.");
+        TriggerJumpscare();
     }
 
     public void CloseDoorForAnimatronic()

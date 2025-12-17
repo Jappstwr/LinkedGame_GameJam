@@ -18,8 +18,14 @@ public class NightLogicScript : MonoBehaviour
     public bool VentisOpen = false;
     private bool isHacking = false;
     public Sprite RightClosed, RightOpen, LeftClosed, LeftOpen;
+
     private bool LeftisClosed = false;
     private bool RightisClosed = false;
+
+    // Public getters to expose them
+    public bool IsLeftClosed => LeftisClosed;
+    public bool IsRightClosed => RightisClosed;
+
     public float DoorPower;
     private float LeftPower, RightPower;
     public float DoorCooldown;

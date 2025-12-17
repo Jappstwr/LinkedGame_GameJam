@@ -2988,8 +2988,8 @@ MonoBehaviour:
   - {fileID: 681318434}
   - {fileID: 758933106}
   - {fileID: 1116321428}
-  minMoveDelay: 5
-  maxMoveDelay: 6
+  minMoveDelay: 29
+  maxMoveDelay: 30
   baseDoorChance: 100
   doorChanceIncrease: 5
   baseIgnoreCameraChance: 0
@@ -3966,7 +3966,7 @@ MonoBehaviour:
   - {fileID: 672352079}
   minMoveDelay: 5
   maxMoveDelay: 6
-  baseDoorChance: 100
+  baseDoorChance: 50
   doorChanceIncrease: 5
   baseIgnoreCameraChance: 0
   ignoreCameraIncreasePerMinute: 3
@@ -5483,9 +5483,9 @@ MonoBehaviour:
   RightOpen: {fileID: 21300000, guid: 7e625a27df087504bb5fbd900b68bb6d, type: 3}
   LeftClosed: {fileID: 21300000, guid: 989575a608204564381a2c3df7a48e46, type: 3}
   LeftOpen: {fileID: 21300000, guid: 56830925d472baf46b7b0ba5c738df08, type: 3}
-  DoorPower: 10
+  DoorPower: 12.5
   DoorCooldown: 1
-  ErrorCooldown: 1000
+  ErrorCooldown: 30
   Error: 0
   HackTime: 15
   frontSprite: {fileID: 21300000, guid: 6f7b126eee0681b44b83f843fe975c3d, type: 3}

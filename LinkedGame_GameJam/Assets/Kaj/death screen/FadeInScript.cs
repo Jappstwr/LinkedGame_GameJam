@@ -12,7 +12,6 @@ public class FadeInScript : MonoBehaviour
     void Start()
     {
         canvas = GetComponent<CanvasGroup>();
-
     }
 
     // Update is called once per frame

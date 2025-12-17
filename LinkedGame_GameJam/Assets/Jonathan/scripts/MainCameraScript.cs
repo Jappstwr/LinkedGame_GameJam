@@ -27,14 +27,10 @@ public class MainCameraScript : MonoBehaviour
                 cam.SetActive(false);
         }
 
-        // Activate the starting camera visually using startingCameraIndex
-        if (Cameras != null && startingCameraIndex >= 0 && startingCameraIndex < Cameras.Length)
-        {
-            Cameras[startingCameraIndex].SetActive(true);
-            activeCamera = startingCameraIndex; // So the script knows which camera is "active"
-        }
+        // Just assign starting camera index internally; don't activate it
+        activeCamera = startingCameraIndex;
 
-        // Update all animatronics visibility at start
+        // Update animatronics so they know the "current room" camera index
         UpdateAllAnimatronicVisibility();
 
 

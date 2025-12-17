@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 859f0a5b169f4fd4dad75fc743ac0fdf
+guid: 6a4bbf28376e8c145b5fa1b8441fd0f4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1835716441110407081
-    second: OfficePlaceholder_0
+      213: 4104774164220784309
+    second: FoxyJumpscare_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: OfficePlaceholder_0
+      name: FoxyJumpscare_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 192
-        height: 108
+        x: 45
+        y: 8
+        width: 94
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75815437f993686e0800000000000000
-      internalID: -1835716441110407081
+      spriteID: 5bea495ba5617f830800000000000000
+      internalID: 4104774164220784309
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      OfficePlaceholder_0: -1835716441110407081
+      FoxyJumpscare_0: 4104774164220784309
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

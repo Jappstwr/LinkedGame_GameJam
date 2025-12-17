@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d73b62bfd0ec6184a843336b297cb7ac
+guid: 56830925d472baf46b7b0ba5c738df08
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7773315527030916471
-    second: LeftOpen_0
+      213: 570698381483946266
+    second: LeftDoor_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LeftOpen_0
+      name: LeftDoor_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 775c4bb794d50eb60800000000000000
-      internalID: 7773315527030916471
+      spriteID: a11bd3e77278be700800000000000000
+      internalID: 570698381483946266
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      LeftOpen_0: 7773315527030916471
+      LeftDoor_0: 570698381483946266
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

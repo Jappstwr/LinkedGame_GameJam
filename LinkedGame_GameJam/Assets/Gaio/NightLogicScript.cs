@@ -5,7 +5,7 @@ public class NightLogicScript : MonoBehaviour
 {
     public bool Alive = true;
 
-    public SpriteRenderer LeftSR, RightSR;
+    public SpriteRenderer LeftSR, RightSR, FrontSR;
     public GameObject[] OfficeParts;
     private GameObject currentPart;
     private int index = 0;
@@ -20,20 +20,28 @@ public class NightLogicScript : MonoBehaviour
     public Sprite RightClosed, RightOpen, LeftClosed, LeftOpen;
     private bool LeftisClosed = false;
     private bool RightisClosed = false;
+    public float DoorPower;
+    private float LeftPower, RightPower;
     public float DoorCooldown;
     private float LeftCooldown, RightCooldown;
+    public float ErrorCooldown;
+    private float ErrorTimer;
+    public bool Error;
 
     public float HackTime;
     private float HackTimer;
-    public Sprite computerSprite, hackingSprite1, hackingSprite2, hackingSprite3, hackingSprite4, hackingSprite5, doneSprite;
+    public Sprite frontSprite, errorSprite, computerSprite, hackingSprite1, hackingSprite2, hackingSprite3, hackingSprite4, hackingSprite5, doneSprite;
 
-    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound;
+    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentPart = OfficeParts[index];
         LeftCooldown = DoorCooldown;
         RightCooldown = DoorCooldown;
+        LeftPower = DoorPower;
+        RightPower = DoorPower;
+        ErrorTimer = ErrorCooldown;
     }
 
     // Update is called once per frame
@@ -84,6 +92,49 @@ public class NightLogicScript : MonoBehaviour
                 HackTimer -= UnityEngine.Time.deltaTime;
                 UpdateHacking();
             }
+
+            if (RightisClosed)
+            {
+                RightPower -= UnityEngine.Time.deltaTime;
+                if (RightPower <= 0)
+                {
+                    RightisClosed = false;
+                    RightSR.sprite = RightOpen;
+                }
+            }
+            else
+            {
+                RightPower += UnityEngine.Time.deltaTime / 2;
+            }
+
+            if (LeftisClosed)
+            {
+                LeftPower -= UnityEngine.Time.deltaTime;
+                if (LeftPower <= 0)
+                {
+                    LeftisClosed = false;
+                    LeftSR.sprite = LeftOpen;
+                }
+            }
+            else
+            {
+                LeftPower += UnityEngine.Time.deltaTime / 2;
+            }
+
+            if (CameraisOpen)
+            {
+                ErrorTimer -= UnityEngine.Time.deltaTime;
+            }
+            if (ErrorTimer <= 0)
+            {
+                Error = true;
+                FrontSR.sprite = errorSprite;
+            }
+
+            if (CameraisOpen && ErrorTimer <= 0)
+            {
+                CameraToggle();
+            }
         }        
     }
     public void UpdateHacking()
@@ -111,7 +162,10 @@ public class NightLogicScript : MonoBehaviour
         else
         {
             Computer.GetComponent<SpriteRenderer>().sprite = doneSprite;
+            FrontSR.sprite = frontSprite;
             isHacking = false;
+            Error = false;
+            ErrorTimer = ErrorCooldown;
         }
     }
     public void Right()
@@ -125,7 +179,7 @@ public class NightLogicScript : MonoBehaviour
             index++;
         }
         SoundEffectsScript.instance.PlaySoundEffect(turnSound, 0.5f);
-        
+        SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
     }
     public void Left()
     {
@@ -138,41 +192,40 @@ public class NightLogicScript : MonoBehaviour
             index--;
         }
         SoundEffectsScript.instance.PlaySoundEffect(turnSound, 0.5f);
-        
+        SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
     }
     public void CameraToggle()
     {
-        if (CameraisOpen == true)
-        {
-            CameraisOpen = false;
-        }
-        else
+        if (CameraisOpen == false && Error == false)
         {
             CameraisOpen = true;
+            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
+            ErrorTimer -= 3;
+        }
+        else if (CameraisOpen == true)
+        {
+            CameraisOpen = false;
+            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
         }
     }
 
     public void VentToggle()
     {
-        if (VentisOpen == true)
-        {
-            VentisOpen = false;
-        }
-        else
-        {
-            VentisOpen = true;
-        }
+        VentisOpen = !VentisOpen;
+        SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
     }
     public void ComputerToggle()
     {
         if (ComputerisOpen == true && isHacking == false)
         {
             ComputerisOpen = false;
+            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
         }
-        else
+        else if (ComputerisOpen == false && Error == true)
         {
             ComputerisOpen = true;
             Computer.GetComponent<SpriteRenderer>().sprite = computerSprite;
+            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 1f);
         }
     }
 
@@ -182,11 +235,8 @@ public class NightLogicScript : MonoBehaviour
         {
             isHacking = true;
             HackTimer = HackTime;
+            SoundEffectsScript.instance.PlaySoundEffect(clickSound, 1f);
             SoundEffectsScript.instance.PlaySoundEffect(hackSound, 1f);
-        }
-        else
-        {
-
         }
     }
     public void LeftDoorToggle()
@@ -198,7 +248,7 @@ public class NightLogicScript : MonoBehaviour
                 LeftisClosed = false;
                 LeftSR.sprite = LeftOpen;
             }
-            else
+            else if (LeftPower >= 5)
             {
                 LeftisClosed = true;
                 LeftSR.sprite = LeftClosed;
@@ -218,7 +268,7 @@ public class NightLogicScript : MonoBehaviour
                 RightisClosed = false;
                 RightSR.sprite = RightOpen;
             }
-            else
+            else if(RightPower >= 5)
             {
                 RightisClosed = true;
                 RightSR.sprite = RightClosed;

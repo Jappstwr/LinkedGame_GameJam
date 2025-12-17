@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 99e678f1e43bb3242b7869298082e282
+guid: 1aa35af815efa9645b4e535bf8f5cb14
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1398121694958639680
-    second: LeftClosed_0
+      213: -4296230504284310570
+    second: FreddyJumpscare_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,12 +100,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LeftClosed_0
+      name: FreddyJumpscare_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 25
         y: 0
-        width: 192
+        width: 142
         height: 108
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0c5293bd9bfd89ce0800000000000000
-      internalID: -1398121694958639680
+      spriteID: 6d3bfe66e19b064c0800000000000000
+      internalID: -4296230504284310570
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      LeftClosed_0: -1398121694958639680
+      FreddyJumpscare_0: -4296230504284310570
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

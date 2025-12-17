@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c430613fb66721341a8b27ad860dd566
+guid: 6f7b126eee0681b44b83f843fe975c3d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -989121042551487616
-    second: CameraPlaceholder_0
+      213: 9040879190431018056
+    second: Front_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CameraPlaceholder_0
+      name: Front_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 083cad207afe542f0800000000000000
-      internalID: -989121042551487616
+      spriteID: 84cacda19b7a77d70800000000000000
+      internalID: 9040879190431018056
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CameraPlaceholder_0: -989121042551487616
+      Front_0: 9040879190431018056
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

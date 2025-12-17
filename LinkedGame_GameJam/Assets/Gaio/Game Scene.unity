@@ -1388,6 +1388,51 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &546881194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 546881196}
+  - component: {fileID: 546881195}
+  m_Layer: 0
+  m_Name: JumpscareManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &546881195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546881194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6308339047ed9345a99b7835c958f27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Time: 1
+--- !u!4 &546881196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546881194}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &582897790
 GameObject:
   m_ObjectHideFlags: 0
@@ -2989,8 +3034,8 @@ MonoBehaviour:
   - {fileID: 758933106}
   - {fileID: 1116321428}
   minMoveDelay: 5
-  maxMoveDelay: 30
-  baseDoorChance: 10
+  maxMoveDelay: 20
+  baseDoorChance: 0
   doorChanceIncrease: 5
   baseIgnoreCameraChance: 0
   ignoreCameraIncreasePerMinute: 3
@@ -3965,8 +4010,8 @@ MonoBehaviour:
   - {fileID: 1463305185}
   - {fileID: 672352079}
   minMoveDelay: 6
-  maxMoveDelay: 30
-  baseDoorChance: 10
+  maxMoveDelay: 20
+  baseDoorChance: 0
   doorChanceIncrease: 5
   baseIgnoreCameraChance: 0
   ignoreCameraIncreasePerMinute: 3
@@ -5476,6 +5521,7 @@ MonoBehaviour:
   Office: {fileID: 752582449}
   Computer: {fileID: 642618336}
   Ventilation: {fileID: 1873642045}
+  Jumpscare: {fileID: 546881194}
   CameraisOpen: 0
   ComputerisOpen: 0
   VentisOpen: 0
@@ -5504,6 +5550,7 @@ MonoBehaviour:
   clickSound: {fileID: 8300000, guid: 68c93f16f8488554c8641d2140c8d9d2, type: 3}
   pressSound: {fileID: 8300000, guid: e7500ff5b8bc26847a751e4e2613852d, type: 3}
   jumpscareSound: {fileID: 8300000, guid: 4e2376a10953ac14795fd492a8618de2, type: 3}
+  phoneMessageSound: {fileID: 8300000, guid: a591a6efd77a2e8428c4c89b6ae99eda, type: 3}
 --- !u!4 &1408098771
 Transform:
   m_ObjectHideFlags: 0
@@ -6308,9 +6355,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NLS: {fileID: 1408098770}
   Jumpscare: {fileID: 597756381}
-  AiLevel: 1
+  AiLevel: 0
   currentPosition: 0
-  OpportunityTime: 5.2
+  OpportunityTime: 5.5
   advanceSound: {fileID: 8300000, guid: dcfa4776472ee45409a3ad8513ed5b0a, type: 3}
   retreatSound: {fileID: 8300000, guid: a7a7e18e96f0c1e4b96fd975dca542e3, type: 3}
 --- !u!4 &1805268188
@@ -6799,6 +6846,8 @@ MonoBehaviour:
   - {fileID: 1794854904}
   startingCameraIndex: 1
   camerasOpen: 0
+  cameraTwitchSound: {fileID: 8300000, guid: 0b71310f3fb82e546808f10a82b6105f, type: 3}
+  clickSound: {fileID: 8300000, guid: 68c93f16f8488554c8641d2140c8d9d2, type: 3}
 --- !u!1 &2026594550
 GameObject:
   m_ObjectHideFlags: 0
@@ -7222,3 +7271,4 @@ SceneRoots:
   - {fileID: 1001471049}
   - {fileID: 901769554}
   - {fileID: 616213233}
+  - {fileID: 546881196}

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 859f0a5b169f4fd4dad75fc743ac0fdf
+guid: 67ea70955eb846b47be5fddaf3f91501
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1835716441110407081
-    second: OfficePlaceholder_0
+      213: 6498475498971762476
+    second: Cam1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: OfficePlaceholder_0
+      name: Cam1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75815437f993686e0800000000000000
-      internalID: -1835716441110407081
+      spriteID: c2f8ac139093f2a50800000000000000
+      internalID: 6498475498971762476
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      OfficePlaceholder_0: -1835716441110407081
+      Cam1_0: 6498475498971762476
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

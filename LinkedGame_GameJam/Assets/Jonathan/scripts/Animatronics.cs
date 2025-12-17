@@ -1,14 +1,31 @@
-using UnityEngine;
+﻿using System.Buffers.Text;
 using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using UnityEngine;
 
 public class Animatronics : MonoBehaviour
 {
+
+    [HideInInspector] public bool isAtDoor = false;
+
     [Header("Waypoints")]
     public RoomWaypoint[] waypoints;      // All waypoints for this animatronic
 
     [Header("Movement Timing")]
     public float minMoveDelay = 5f;
     public float maxMoveDelay = 15f;
+
+    [Header("Door Chance")]
+    [Range(0f, 100f)] public float baseDoorChance = 10f;
+    public float doorChanceIncrease = 5f;
+
+    private float hallway1DoorChance;
+    private float hallway2DoorChance;
+
+    [Header("Ignore Camera")]
+    [Range(0f, 100f)] public float baseIgnoreCameraChance = 0f; // early night
+    public float ignoreCameraIncreasePerMinute = 3f;           // ramps up
 
     [HideInInspector] public int currentRoom = 0;
     [HideInInspector] public bool isBeingWatched = false;
@@ -21,65 +38,193 @@ public class Animatronics : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         cameraManager = Object.FindFirstObjectByType<MainCameraScript>();
 
+        hallway1DoorChance = baseDoorChance;
+        hallway2DoorChance = baseDoorChance;
+
         // Start at first waypoint
         if (waypoints.Length > 0)
         {
             MoveToWaypoint(0);
         }
-           
 
-        // Begin automatic movement
-        Invoke(nameof(MoveRandom), Random.Range(minMoveDelay, maxMoveDelay));
+        ScheduleNextMove();
     }
 
+    void ScheduleNextMove()
+    {
+        float difficulty = GetDifficultyMultiplier();
+
+        float min = minMoveDelay / difficulty;
+        float max = maxMoveDelay / difficulty;
+
+        Invoke(nameof(MoveRandom), Random.Range(min, max));
+    }
+    bool ShouldIgnoreCamera()
+    {
+        int minute = Mathf.Min(NightsDifficulty.CurrentMinute, 20);
+        float ignoreChance = baseIgnoreCameraChance + (minute * ignoreCameraIncreasePerMinute);
+        ignoreChance = Mathf.Clamp(ignoreChance, 0f, 50f); // never too extreme
+
+        float roll = Random.Range(0f, 100f);
+        Debug.Log($"{name} ignore camera roll: {roll} / {ignoreChance}");
+
+        return roll < ignoreChance;
+    }
     void MoveRandom()
     {
         if (waypoints.Length == 0) return;
 
-        int nextIndex;
-        do
+        Debug.Log($"{name} attempting move. Room: {currentRoom}, isBeingWatched={isBeingWatched}");
+
+        // Camera freeze check
+        if (isBeingWatched && !ShouldIgnoreCamera())
         {
-            nextIndex = Random.Range(0, waypoints.Length);
-        } while (nextIndex == GetCurrentWaypointIndex());
+            Debug.Log($"{name} frozen by camera");
+            ScheduleNextMove();
+            return;
+        }
+        else if (isBeingWatched)
+        {
+            Debug.Log($"{name} IGNORED camera");
+        }
 
-        MoveToWaypoint(nextIndex);
+        // Hallway / Door logic
+        bool moved = false;
+        if (currentRoom == 1) moved = TryMoveToDoor(ref hallway1DoorChance);
+        else if (currentRoom == 2) moved = TryMoveToDoor(ref hallway2DoorChance);
 
-        // Schedule next move
-        Invoke(nameof(MoveRandom), Random.Range(minMoveDelay, maxMoveDelay));
+        // Difficulty affects likelihood of moving toward hallways/doors
+        float stagePenalty = 0f;
+        if (!moved && currentRoom == 0) // On stage
+        {
+            float difficulty = GetMinuteDifficultyMultiplier();
+            stagePenalty = Random.value < difficulty * 0.3f ? 1f : 0f; // Higher difficulty → more likely to leave stage
+        }
+
+        if (!moved && stagePenalty > 0f)
+        {
+            MoveToRandomNonDoorWaypointAnywhere();
+            moved = true;
+        }
+
+        // Normal random movement if no door/hallway movement
+        if (!moved)
+        {
+            MoveToRandomNonDoorWaypointAnywhere();
+        }
+
+        ScheduleNextMove();
     }
 
+    bool TryMoveToDoor(ref float doorChance)
+    {
+        float effectiveChance = doorChance * GetMinuteDifficultyMultiplier();
+
+        // Make door movement slightly more likely as night progresses
+        if (currentRoom == 0) // stage → hallway
+            effectiveChance *= 1.5f;
+
+        float roll = Random.Range(0f, 100f);
+        Debug.Log($"{name} door roll: {roll} / {effectiveChance}");
+
+        if (roll <= effectiveChance)
+        {
+            RoomWaypoint door = GetDoorWaypointForCurrentRoom();
+            if (door != null)
+            {
+                Debug.Log($"{name} SUCCESS → moving to DOOR");
+                doorChance = baseDoorChance;
+                MoveToWaypoint(System.Array.IndexOf(waypoints, door));
+                return true;
+            }
+        }
+
+        doorChance += doorChanceIncrease;
+        return false;
+    }
+
+    RoomWaypoint GetDoorWaypointForCurrentRoom()
+    {
+        foreach (var wp in waypoints)
+        {
+            if (wp != null && wp.roomIndex == currentRoom && wp.isDoorWaypoint)
+                return wp;
+        }
+        return null;
+    }
+    void MoveToRandomNonDoorWaypointAnywhere()
+    {
+        var valid = new List<int>();
+        int currentIndex = GetCurrentWaypointIndex();
+
+        for (int i = 0; i < waypoints.Length; i++)
+        {
+            if (waypoints[i] != null &&
+                !waypoints[i].isDoorWaypoint &&
+                i != currentIndex) // exclude current waypoint
+            {
+                valid.Add(i);
+            }
+        }
+
+        if (valid.Count == 0)
+        {
+            Debug.Log($"{name} has no other non-door waypoint to move to");
+            return;
+        }
+
+        int choice = valid[Random.Range(0, valid.Count)];
+        MoveToWaypoint(choice);
+    }
     void MoveToWaypoint(int index)
     {
         if (index < 0 || index >= waypoints.Length) return;
-
         RoomWaypoint wp = waypoints[index];
-        if (wp == null)
-        {
-            return;
-        }
+        if (wp == null) return;
 
-        Debug.Log($"{name} isBeingWatched = {isBeingWatched}");
+        if (isBeingWatched) return;
 
-        // Only move if not being watched
-        if (isBeingWatched)
-        {
-            return;
-        }
-
-        // Move to waypoint position
         transform.position = wp.transform.position;
-
-        // Update currentRoom for camera visibility
         currentRoom = wp.roomIndex;
 
-        // Update camera visibility (no need to change layers)
+        // Update camera visibility
         if (cameraManager != null)
-        {
             cameraManager.UpdateAnimatronicVisibility(this);
+
+        // Check if animatronic is at a door
+        if (wp.isDoorWaypoint)
+        {
+            isAtDoor = true;
+            StartCoroutine(DoorCountdown());
+        }
+        else
+        {
+            isAtDoor = false;
+        }
+    }
+    private IEnumerator DoorCountdown()
+    {
+        float doorTime = 10f; // Player has 10 seconds to close
+        float timer = 0f;
+
+        while (timer < doorTime)
+        {
+            if (!isAtDoor) yield break; // Door closed or animatronic moved away
+            timer += Time.deltaTime;
+            yield return null;
         }
 
-
-        Debug.Log($"{name} moved to waypoint {index} at position {wp.transform.position} in room {currentRoom}");
+        // Time ran out → jumpscare
+        TriggerJumpscare();
+    }
+    public void CloseDoorForAnimatronic(Animatronics anim)
+    {
+        anim.isAtDoor = false;
+    }
+    void TriggerJumpscare()
+    {
+        Debug.Log($"{name} jumpscared the player!");
+        // Play sound, animation, trigger game over, etc.
     }
 
     int GetCurrentWaypointIndex()
@@ -96,91 +241,19 @@ public class Animatronics : MonoBehaviour
         return -1;
     }
 
+    float GetMinuteDifficultyMultiplier()
+    {
+        int minute = NightsDifficulty.CurrentMinute;
+        return 1f + (minute * 0.15f); // scales door chance and movement
+    }
 
-    //[Header("Rooms")]
-    //public Transform[] roomPositions;        // One position per camera room
-    //public string[] roomSortingLayers;       // Sorting layer per room
+    float GetDifficultyMultiplier()
+    {
+        // Cap at 20 minutes
+        int minute = Mathf.Min(NightsDifficulty.CurrentMinute, 20);
 
-    //[Header("Movement Timing")]
-    //public float minMoveDelay = 5f;
-    //public float maxMoveDelay = 15f;
-
-    //[HideInInspector] public int currentRoom = 0;
-    //[HideInInspector] public bool isBeingWatched = false;
-
-    //private SpriteRenderer sr;
-    //private MainCameraScript cameraManager;
-
-    //void Start()
-    //{
-    //    sr = GetComponent<SpriteRenderer>();
-    //    cameraManager = Object.FindFirstObjectByType<MainCameraScript>();
-
-    //    // Start on Stage
-    //    currentRoom = 0;
-    //    ApplyRoomState();
-
-    //    StartCoroutine(MoveLoop());
-    //}
-
-    //IEnumerator MoveLoop()
-    //{
-    //    while (true)
-    //    {
-    //        float waitTime = Random.Range(minMoveDelay, maxMoveDelay);
-    //        yield return new WaitForSeconds(waitTime);
-
-    //        Debug.Log("Trying to move. isBeingWatched = " + isBeingWatched);
-
-    //        // If being watched, skip this move attempt
-    //        if (isBeingWatched)
-    //        {
-    //            continue;
-    //        }
-
-
-
-
-    //        MoveToRandomRoom();
-    //    }
-    //}
-
-    //void MoveToRandomRoom()
-    //{
-    //    if (roomPositions.Length < 2)
-    //    {
-    //        return;
-    //    }
-
-
-    //    int nextRoom;
-    //    do
-    //    {
-    //        nextRoom = Random.Range(0, roomPositions.Length);
-    //    }
-    //    while (nextRoom == currentRoom);
-
-    //    currentRoom = nextRoom;
-    //    ApplyRoomState();
-    //}
-
-    //void ApplyRoomState()
-    //{
-    //    // Instantly move to room position
-    //    transform.position = roomPositions[currentRoom].position;
-
-    //    // Apply sorting layer
-    //    if (sr != null && currentRoom < roomSortingLayers.Length)
-    //    {
-    //        sr.sortingLayerName = roomSortingLayers[currentRoom];
-    //    }
-
-
-    //    // Update camera visibility + watched state
-    //    if (cameraManager != null)
-    //    {
-    //        cameraManager.UpdateAnimatronicVisibility(this);
-    //    }
-
-    //}
+        // Difficulty ramps up 0 → 20
+        // 1.0 = calm, 4.0 = extreme late night
+        return 1f + (minute * 0.15f);
+    }
 }

@@ -13,6 +13,7 @@ public class NightLogicScript : MonoBehaviour
     public GameObject Office;
     public GameObject Computer;
     public GameObject Ventilation;
+    public GameObject Jumpscare;
     public bool CameraisOpen = false;
     public bool ComputerisOpen = false;
     public bool VentisOpen = false;
@@ -40,7 +41,7 @@ public class NightLogicScript : MonoBehaviour
     private float HackTimer;
     public Sprite frontSprite, errorSprite, computerSprite, hackingSprite1, hackingSprite2, hackingSprite3, hackingSprite4, hackingSprite5, doneSprite;
 
-    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound, jumpscareSound;
+    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound, jumpscareSound, phoneMessageSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -50,6 +51,8 @@ public class NightLogicScript : MonoBehaviour
         LeftPower = DoorPower;
         RightPower = DoorPower;
         ErrorTimer = ErrorCooldown;
+
+        SoundEffectsScript.instance.PlaySoundEffect(phoneMessageSound, 0.5f);
     }
 
     // Update is called once per frame

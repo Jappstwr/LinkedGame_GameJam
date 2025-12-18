@@ -15,6 +15,7 @@ public class MainCameraScript : MonoBehaviour
     private int activeCamera = 0;
 
     public bool camerasOpen = false;
+    public AudioClip cameraTwitchSound, clickSound;
 
     void Start()
     {
@@ -64,6 +65,8 @@ public class MainCameraScript : MonoBehaviour
         }
 
         UpdateAllAnimatronicVisibility();
+
+        SoundEffectsScript.instance.PlaySoundEffect(cameraTwitchSound, 0.5f);
     }
 
     public void CloseCameras()

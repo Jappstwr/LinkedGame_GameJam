@@ -148,12 +148,22 @@ public class NightLogicScript : MonoBehaviour
 
             if (CameraisOpen && ErrorTimer <= 0)
             {
-                CameraToggle();
+                // Switch camera to starting index if open and error triggered
+                if (mainCameraScript != null)
+                {
+                    mainCameraScript.SwitchCamera(mainCameraScript.StartingCameraIndex);
+                }
+                    
             }
+
             if (Error && CameraisOpen)
             {
                 ForceCloseCamera();
-                mainCameraScript.CloseCameras();
+                if (mainCameraScript != null)
+                {
+                    mainCameraScript.CloseCameras();
+                }
+                   
             }
 
             callTimer -= UnityEngine.Time.deltaTime;
@@ -242,20 +252,25 @@ public class NightLogicScript : MonoBehaviour
         if (!CameraisOpen && !Error)
         {
             CameraisOpen = true;
-            Debug.Log(mainCameraScript.StartingCameraIndex);
-            mainCameraScript.SwitchCamera(mainCameraScript.StartingCameraIndex);
-            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
-            ErrorTimer -= 3f;
+            if (mainCameraScript != null)
+            {
+                mainCameraScript.SwitchCamera(mainCameraScript.StartingCameraIndex);
+                SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
+                ErrorTimer -= 3f;
+            }
+               
         }
         else if (CameraisOpen)
         {
-            CameraisOpen = false;             
-            mainCameraScript.CloseCameras();    
-            ForceCloseCamera();                
-            SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
+            CameraisOpen = false;
+            if (mainCameraScript != null)
+            {
+                mainCameraScript.CloseCameras();
+                ForceCloseCamera();
+                SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
+            }
+               
         }
-
-
 
         //if (CameraisOpen == false && Error == false)
         //{

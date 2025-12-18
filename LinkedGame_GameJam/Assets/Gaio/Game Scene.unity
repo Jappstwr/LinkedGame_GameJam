@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5436451849610764292, guid: b8b1e5703617cbc4894c3bfa5cd73c4d, type: 3}
+  m_Sprite: {fileID: -7330614980137555812, guid: 5f072334380fca944ac5e49fe619210f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -333,93 +333,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5752399}
   m_CullTransparentMesh: 1
---- !u!1 &57494606
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 57494607}
-  - component: {fileID: 57494608}
-  m_Layer: 9
-  m_Name: Background_FredrikRoom
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &57494607
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 57494606}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -552.7993, y: -399.0743, z: 2.142144}
-  m_LocalScale: {x: 0.92954934, y: 0.9347411, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 637456760}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &57494608
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 57494606}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -757716013608044885, guid: 0a3bcacc3a560cb49891b43baef72564, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &107412782
 GameObject:
   m_ObjectHideFlags: 0
@@ -2128,6 +2041,7 @@ Transform:
   m_Children:
   - {fileID: 807826985}
   - {fileID: 630457914}
+  - {fileID: 2004364507}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &620421644
@@ -2249,38 +2163,6 @@ Transform:
   m_Children:
   - {fileID: 1049614470}
   m_Father: {fileID: 616213233}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &637456759
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 637456760}
-  m_Layer: 0
-  m_Name: FredriksRoom
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &637456760
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 637456759}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 59.762962, y: 43.14157, z: -1.785989}
-  m_LocalScale: {x: 0.10810811, y: 0.10810811, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 57494607}
-  m_Father: {fileID: 1809443371}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &642618336
 GameObject:
@@ -3401,6 +3283,13 @@ MonoBehaviour:
   NLS: {fileID: 1408098770}
   Jumpscare: {fileID: 901769552}
   IsFredrik: 1
+  isGoldenFredrik: 0
+  goldenAttackCooldown: 360
+  goldenKillDelay: 5
+  goldenCheckIntervalMin: 360
+  goldenCheckIntervalMax: 600
+  goldenBaseAttackChance: 15
+  goldenChanceIncreasePerMinute: 3
   isAtDoor: 0
   waypoints:
   - {fileID: 721988653}
@@ -4377,6 +4266,13 @@ MonoBehaviour:
   NLS: {fileID: 1408098770}
   Jumpscare: {fileID: 1001471047}
   IsFredrik: 0
+  isGoldenFredrik: 0
+  goldenAttackCooldown: 360
+  goldenKillDelay: 5
+  goldenCheckIntervalMin: 360
+  goldenCheckIntervalMax: 600
+  goldenBaseAttackChance: 15
+  goldenChanceIncreasePerMinute: 3
   isAtDoor: 0
   waypoints:
   - {fileID: 386865826}
@@ -6968,7 +6864,6 @@ Transform:
   - {fileID: 1602306085}
   - {fileID: 1031106685}
   - {fileID: 586026903}
-  - {fileID: 637456760}
   - {fileID: 1561044718}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7402,11 +7297,41 @@ MonoBehaviour:
   - {fileID: 222395557}
   - {fileID: 1281994283}
   - {fileID: 1794854904}
-  - {fileID: 57494606}
-  startingCameraIndex: 0
+  startingCameraIndex: 3
   camerasOpen: 0
   cameraTwitchSound: {fileID: 8300000, guid: 0b71310f3fb82e546808f10a82b6105f, type: 3}
   clickSound: {fileID: 8300000, guid: 68c93f16f8488554c8641d2140c8d9d2, type: 3}
+--- !u!1 &2004364506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2004364507}
+  m_Layer: 0
+  m_Name: GuldigaFredrikSprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2004364507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004364506}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.790039, y: -0.59002686, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 616213233}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2026594550
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ public class MainCameraScript : MonoBehaviour
 
     void Start()
     {
-        camerasOpen = false; 
+        camerasOpen = false;
 
         // Deactivate all cameras first
         foreach (var cam in Cameras)
@@ -40,12 +40,10 @@ public class MainCameraScript : MonoBehaviour
         UpdateAllAnimatronicVisibility();
 
         //camerasOpen = false;
-
         //foreach (var cam in Cameras)
         //{
         //    cam.SetActive(false);
         //}
-
     }
 
     void Awake()
@@ -78,7 +76,6 @@ public class MainCameraScript : MonoBehaviour
         {
             cam.SetActive(false);
         }
-           
 
         UpdateAllAnimatronicVisibility();
     }
@@ -87,16 +84,13 @@ public class MainCameraScript : MonoBehaviour
     {
         // Freeze ONLY if cameras are open AND player is watching his room
         anim.isBeingWatched = camerasOpen && anim.currentRoom == activeCamera;
-        
-            // Hide/show visually WITHOUT disabling the GameObject
-            SpriteRenderer sr = anim.GetComponent<SpriteRenderer>();
-            if (sr != null)
-            {
-                sr.enabled = (anim.currentRoom == activeCamera);
-            }
-        
 
-        
+        // Hide/show visually WITHOUT disabling the GameObject
+        SpriteRenderer sr = anim.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.enabled = (anim.currentRoom == activeCamera);
+        }
     }
 
     private void UpdateAllAnimatronicVisibility()
@@ -107,11 +101,8 @@ public class MainCameraScript : MonoBehaviour
             {
                 UpdateAnimatronicVisibility(anim);
             }
-            
         }
     }
-
-
 
     //[Header("Camera Setup")]
     //[SerializeField] private GameObject[] Cameras;      // Assign camera GameObjects in inspector

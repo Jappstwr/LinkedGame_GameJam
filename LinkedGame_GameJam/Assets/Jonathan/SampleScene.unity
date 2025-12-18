@@ -1512,14 +1512,20 @@ MonoBehaviour:
   NLS: {fileID: 0}
   Jumpscare: {fileID: 0}
   IsFredrik: 0
+  isGoldenFredrik: 1
+  goldenAttackCooldown: 5
+  goldenKillDelay: 5
+  goldenCheckIntervalMin: 360
+  goldenCheckIntervalMax: 600
+  goldenBaseAttackChance: 15
+  goldenChanceIncreasePerMinute: 3
   isAtDoor: 0
   waypoints:
   - {fileID: 2091825104}
   - {fileID: 1678366155}
-  - {fileID: 1582098855}
-  minMoveDelay: 160
-  maxMoveDelay: 200
-  baseDoorChance: 20
+  minMoveDelay: 360
+  maxMoveDelay: 360
+  baseDoorChance: 100
   doorChanceIncrease: 1
   baseIgnoreCameraChance: 0
   ignoreCameraIncreasePerMinute: 3
@@ -2286,6 +2292,13 @@ MonoBehaviour:
   NLS: {fileID: 0}
   Jumpscare: {fileID: 0}
   IsFredrik: 0
+  isGoldenFredrik: 0
+  goldenAttackCooldown: 360
+  goldenKillDelay: 5
+  goldenCheckIntervalMin: 360
+  goldenCheckIntervalMax: 600
+  goldenBaseAttackChance: 15
+  goldenChanceIncreasePerMinute: 3
   isAtDoor: 0
   waypoints:
   - {fileID: 770270795}
@@ -2530,6 +2543,13 @@ MonoBehaviour:
   NLS: {fileID: 0}
   Jumpscare: {fileID: 0}
   IsFredrik: 0
+  isGoldenFredrik: 0
+  goldenAttackCooldown: 360
+  goldenKillDelay: 5
+  goldenCheckIntervalMin: 360
+  goldenCheckIntervalMax: 600
+  goldenBaseAttackChance: 15
+  goldenChanceIncreasePerMinute: 3
   isAtDoor: 0
   waypoints:
   - {fileID: 162943965}

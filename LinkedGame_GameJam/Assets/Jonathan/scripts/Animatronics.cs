@@ -11,6 +11,23 @@ public class Animatronics : MonoBehaviour
     public GameObject Jumpscare;
     public bool IsFredrik;
 
+    [Header("Golden Fredrik")]
+    public bool isGoldenFredrik;
+    public float goldenAttackCooldown = 360f; // 6 minutes
+    public float goldenKillDelay = 5f;
+  
+    [Header("Golden Fredrik – Attack Control")]
+    public float goldenCheckIntervalMin = 360f; // 6 min
+    public float goldenCheckIntervalMax = 600f; // 10 min
+
+    [Range(0f, 100f)] public float goldenBaseAttackChance = 15f;
+    public float goldenChanceIncreasePerMinute = 3f;
+
+    //private bool goldenAttackScheduled = false;
+
+    private bool goldenIsAttacking = false;
+
+
     [HideInInspector] public bool isAtDoor = false;
 
     [Header("Waypoints")]
@@ -51,7 +68,22 @@ public class Animatronics : MonoBehaviour
             MoveToWaypoint(0);
         }
 
-        ScheduleNextMove();
+        if (isGoldenFredrik)
+        {
+            InvokeRepeating(nameof(GoldenAttack), goldenAttackCooldown, goldenAttackCooldown);
+        }
+        else
+        {
+            ScheduleNextMove();
+        }
+        if (isGoldenFredrik)
+        {
+            ScheduleGoldenCheck();
+        }
+        else
+        {
+            ScheduleNextMove();
+        }
     }
 
     void ScheduleNextMove()
@@ -60,6 +92,11 @@ public class Animatronics : MonoBehaviour
         float min = minMoveDelay / difficulty;
         float max = maxMoveDelay / difficulty;
         Invoke(nameof(MoveRandom), Random.Range(min, max));
+    }
+    void ScheduleGoldenCheck()
+    {
+        float delay = Random.Range(goldenCheckIntervalMin, goldenCheckIntervalMax);
+        Invoke(nameof(GoldenAttackCheck), delay);
     }
 
     bool ShouldIgnoreCamera()
@@ -76,7 +113,16 @@ public class Animatronics : MonoBehaviour
 
     void MoveRandom()
     {
-        if (waypoints.Length == 0) return;
+        if (waypoints.Length == 0)
+        {
+            return;
+        }
+
+        if (isGoldenFredrik)
+        {
+            return;
+        }
+          
 
         Debug.Log($"{name} attempting move. Room: {currentRoom}, isBeingWatched={isBeingWatched}");
 
@@ -270,7 +316,87 @@ public class Animatronics : MonoBehaviour
         }
         return -1;
     }
+    void GoldenAttack()
+    {
+        if (goldenIsAttacking || !NLS.Alive)
+            return;
 
+        Debug.Log("Golden Fredrik attacks!");
+
+        goldenIsAttacking = true;
+
+        // Move DIRECTLY to door (no hallway)
+        RoomWaypoint door = GetAnyDoorWaypoint();
+        if (door == null)
+        {
+            Debug.LogError("Golden Fredrik has no door waypoint!");
+            return;
+        }
+
+        transform.position = door.transform.position;
+        currentRoom = door.roomIndex;
+        isAtDoor = true;
+
+        StartCoroutine(GoldenDoorCountdown());
+    }
+    void GoldenAttackCheck()
+    {
+        if (!NLS.Alive || goldenIsAttacking)
+        {
+            ScheduleGoldenCheck();
+            return;
+        }
+
+        int minute = NightsDifficulty.CurrentMinute;
+        float chance = goldenBaseAttackChance + (minute * goldenChanceIncreasePerMinute);
+        chance = Mathf.Clamp(chance, 5f, 85f);
+
+        float roll = Random.Range(0f, 100f);
+        Debug.Log($"Golden Fredrik roll: {roll} / {chance}");
+
+        if (roll <= chance)
+        {
+            GoldenAttack();
+        }
+
+        ScheduleGoldenCheck();
+    }
+    IEnumerator GoldenDoorCountdown()
+    {
+        float timer = 0f;
+
+        while (timer < goldenKillDelay)
+        {
+            if (NLS.IsRightClosed) // Golden Fredrik always right door
+            {
+                Debug.Log("Golden Fredrik blocked!");
+                ResetGoldenFredrik();
+                yield break;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        TriggerJumpscare();
+    }
+    RoomWaypoint GetAnyDoorWaypoint()
+    {
+        foreach (var wp in waypoints)
+        {
+            if (wp != null && wp.isDoorWaypoint)
+                return wp;
+        }
+        return null;
+    }
+    void ResetGoldenFredrik()
+    {
+        goldenIsAttacking = false;
+        isAtDoor = false;
+
+        // Move back to his room (Cam 4)
+        MoveToWaypoint(0); // make waypoint 0 his room
+    }
     float GetMinuteDifficultyMultiplier()
     {
         int minute = NightsDifficulty.CurrentMinute;

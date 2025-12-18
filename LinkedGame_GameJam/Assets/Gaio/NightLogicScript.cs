@@ -14,6 +14,7 @@ public class NightLogicScript : MonoBehaviour
     public GameObject Computer;
     public GameObject Ventilation;
     public GameObject Jumpscare;
+    public GameObject CallButton;
     public bool CameraisOpen = false;
     public bool ComputerisOpen = false;
     public bool VentisOpen = false;
@@ -158,14 +159,20 @@ public class NightLogicScript : MonoBehaviour
             callTimer -= UnityEngine.Time.deltaTime;
             callCooldown -= UnityEngine.Time.deltaTime;
 
-            if (PickedUp)
+            if (PickedUp && callTimer < 0)
             {
-                SoundEffectsScript.instance.PlaySoundEffect(phoneMessageSound, 0.5f);
+                SoundEffectsScript.instance.PlaySoundEffect(phoneMessageSound, 1f);
+                PickedUp = false;
             }
             else if(callTimer > 0 && callCooldown <= 0)
             {
-                SoundEffectsScript.instance.PlaySoundEffect(callSound, 0.5f);
+                SoundEffectsScript.instance.PlaySoundEffect(callSound, 0.2f);
                 callCooldown = 2;
+            }
+
+            if (callTimer < 0)
+            {
+                CallButton.SetActive(false);
             }
         }        
         else
@@ -346,5 +353,6 @@ public class NightLogicScript : MonoBehaviour
     public void PickUp()
     {
         PickedUp = true;
+        CallButton.SetActive(false);
     }
 }

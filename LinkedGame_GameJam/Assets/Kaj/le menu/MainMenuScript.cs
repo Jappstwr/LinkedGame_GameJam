@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -16,8 +17,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void PlayGame()
     {
-        Debug.Log("omg you are now in the game");
-        // TODO
+        SceneManager.LoadScene(1);
     }
 
     public void ExitGame()

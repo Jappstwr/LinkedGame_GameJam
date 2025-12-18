@@ -154,6 +154,10 @@ public class NightLogicScript : MonoBehaviour
                 mainCameraScript.CloseCameras();
             }
         }        
+        else
+        {
+            Jumpscare.SetActive(true);
+        }
     }
     public void UpdateHacking()
     {

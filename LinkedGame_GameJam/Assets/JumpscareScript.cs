@@ -13,5 +13,10 @@ public class JumpscareScript : MonoBehaviour
     void Update()
     {
         Time -= UnityEngine.Time.deltaTime;
+
+        if (Time <= 0)
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 }

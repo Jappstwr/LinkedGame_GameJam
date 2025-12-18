@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DeathScreenScript : MonoBehaviour
 {
     public void GoToMainMenu()
     {
-        Debug.Log("go to main menu");
+        SceneManager.LoadScene(0); 
     }
 
 

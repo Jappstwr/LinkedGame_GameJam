@@ -148,6 +148,11 @@ public class NightLogicScript : MonoBehaviour
             {
                 CameraToggle();
             }
+            if (Error && CameraisOpen)
+            {
+                ForceCloseCamera();
+                mainCameraScript.CloseCameras();
+            }
         }        
     }
     public void UpdateHacking()
@@ -214,12 +219,13 @@ public class NightLogicScript : MonoBehaviour
             CameraisOpen = true;
             mainCameraScript.SwitchCamera(mainCameraScript.StartingCameraIndex);
             SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
-            ErrorTimer -= 3;
+            ErrorTimer -= 3f;
         }
         else if (CameraisOpen)
         {
-            CameraisOpen = false;
-            mainCameraScript.CloseCameras(); // 🔑 THIS WAS MISSING
+            CameraisOpen = false;             
+            mainCameraScript.CloseCameras();    
+            ForceCloseCamera();                
             SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
         }
 
@@ -236,6 +242,12 @@ public class NightLogicScript : MonoBehaviour
         //    CameraisOpen = false;
         //    SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
         //}
+    }
+    public void ForceCloseCamera()
+    {
+        CameraisOpen = false;
+        Camera.SetActive(false);
+        Office.SetActive(true);
     }
 
     public void VentToggle()

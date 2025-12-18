@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7330614980137555812, guid: 5f072334380fca944ac5e49fe619210f, type: 3}
+  m_Sprite: {fileID: -5436451849610764292, guid: b8b1e5703617cbc4894c3bfa5cd73c4d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7297,7 +7297,7 @@ MonoBehaviour:
   - {fileID: 222395557}
   - {fileID: 1281994283}
   - {fileID: 1794854904}
-  startingCameraIndex: 3
+  startingCameraIndex: 0
   camerasOpen: 0
   cameraTwitchSound: {fileID: 8300000, guid: 0b71310f3fb82e546808f10a82b6105f, type: 3}
   clickSound: {fileID: 8300000, guid: 68c93f16f8488554c8641d2140c8d9d2, type: 3}

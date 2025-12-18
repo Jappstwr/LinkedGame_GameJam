@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class MainCameraScript : MonoBehaviour
     [SerializeField] private int startingCameraIndex = 1;
     public int StartingCameraIndex => startingCameraIndex;
 
-    private List<Animatronics> animatronics;
+    private List<Animatronics> animatronics = new List<Animatronics>();
     private int activeCamera = 0;
 
     public bool camerasOpen = false;
@@ -51,7 +52,7 @@ public class MainCameraScript : MonoBehaviour
     {
         // Automatically find all animatronics in the scene
         Animatronics[] foundAnims = Object.FindObjectsByType<Animatronics>(FindObjectsSortMode.None);
-        animatronics = new List<Animatronics>(foundAnims);
+        animatronics = foundAnims.ToList();
     }
 
     public void SwitchCamera(int camera)
@@ -86,20 +87,27 @@ public class MainCameraScript : MonoBehaviour
     {
         // Freeze ONLY if cameras are open AND player is watching his room
         anim.isBeingWatched = camerasOpen && anim.currentRoom == activeCamera;
+        
+            // Hide/show visually WITHOUT disabling the GameObject
+            SpriteRenderer sr = anim.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.enabled = (anim.currentRoom == activeCamera);
+            }
+        
 
-        // Hide/show visually WITHOUT disabling the GameObject
-        SpriteRenderer sr = anim.GetComponent<SpriteRenderer>();
-        if (sr != null)
-        {
-            sr.enabled = (anim.currentRoom == activeCamera);
-        }
+        
     }
 
     private void UpdateAllAnimatronicVisibility()
     {
-        foreach (var anim in animatronics)
+        foreach (Animatronics anim in animatronics)
         {
-            UpdateAnimatronicVisibility(anim);
+            if (anim)
+            {
+                UpdateAnimatronicVisibility(anim);
+            }
+            
         }
     }
 

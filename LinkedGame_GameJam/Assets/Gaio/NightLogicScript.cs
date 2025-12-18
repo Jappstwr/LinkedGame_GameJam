@@ -217,6 +217,7 @@ public class NightLogicScript : MonoBehaviour
         if (!CameraisOpen && !Error)
         {
             CameraisOpen = true;
+            Debug.Log(mainCameraScript.StartingCameraIndex);
             mainCameraScript.SwitchCamera(mainCameraScript.StartingCameraIndex);
             SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
             ErrorTimer -= 3f;

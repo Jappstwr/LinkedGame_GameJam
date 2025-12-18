@@ -5529,6 +5529,7 @@ MonoBehaviour:
   RightOpen: {fileID: 21300000, guid: 7e625a27df087504bb5fbd900b68bb6d, type: 3}
   LeftClosed: {fileID: 21300000, guid: 989575a608204564381a2c3df7a48e46, type: 3}
   LeftOpen: {fileID: 21300000, guid: 56830925d472baf46b7b0ba5c738df08, type: 3}
+  mainCameraScript: {fileID: 1961905409}
   DoorPower: 12.5
   DoorCooldown: 1
   ErrorCooldown: 30
@@ -6844,7 +6845,7 @@ MonoBehaviour:
   - {fileID: 222395557}
   - {fileID: 1281994283}
   - {fileID: 1794854904}
-  startingCameraIndex: 1
+  startingCameraIndex: 0
   camerasOpen: 0
   cameraTwitchSound: {fileID: 8300000, guid: 0b71310f3fb82e546808f10a82b6105f, type: 3}
   clickSound: {fileID: 8300000, guid: 68c93f16f8488554c8641d2140c8d9d2, type: 3}

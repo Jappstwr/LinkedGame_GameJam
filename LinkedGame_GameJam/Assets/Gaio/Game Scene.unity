@@ -6356,7 +6356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NLS: {fileID: 1408098770}
   Jumpscare: {fileID: 597756381}
-  AiLevel: 20
+  AiLevel: 0
   currentPosition: 0
   OpportunityTime: 5.5
   advanceSound: {fileID: 8300000, guid: dcfa4776472ee45409a3ad8513ed5b0a, type: 3}

@@ -33,7 +33,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
             var minutes = (seconds % 60) < 10 ? $"0{seconds % 60}" : (seconds % 60).ToString();
 
-            textDisplay.text = $"{hours}:{minutes}";
+            textDisplay.text = $"{(hours < 10 ? $"0{hours}" : hours)}:{minutes}";
         }
         else
         {

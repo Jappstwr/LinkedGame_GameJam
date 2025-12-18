@@ -54,6 +54,8 @@ public class Animatronics : MonoBehaviour
     private SpriteRenderer sr;
     private MainCameraScript cameraManager;
 
+    public AudioClip stepSound;
+
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -272,6 +274,8 @@ public class Animatronics : MonoBehaviour
                 // Door is closed → move animatronic away from door
                 Debug.Log($"{name} door is closed, leaving the door.");
                 isAtDoor = false;
+
+                SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
 
                 // Move to a random non-door waypoint in the same room
                 MoveToRandomNonDoorWaypointAnywhere();

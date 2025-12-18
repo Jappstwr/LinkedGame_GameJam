@@ -3304,6 +3304,7 @@ MonoBehaviour:
   ignoreCameraIncreasePerMinute: 3
   currentRoom: 0
   isBeingWatched: 0
+  stepSound: {fileID: 8300000, guid: 335c477e372ef9145ab96fa97bcb1ff7, type: 3}
 --- !u!114 &807826987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4287,6 +4288,7 @@ MonoBehaviour:
   ignoreCameraIncreasePerMinute: 3
   currentRoom: 0
   isBeingWatched: 0
+  stepSound: {fileID: 8300000, guid: 335c477e372ef9145ab96fa97bcb1ff7, type: 3}
 --- !u!114 &1049614472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5378,6 +5380,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1283592028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1283592030}
+  - component: {fileID: 1283592029}
+  m_Layer: 0
+  m_Name: HourManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1283592029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283592028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f49beeb83cf4d04c9e02c47e8c80dd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HoursSurvived: 0
+--- !u!4 &1283592030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283592028}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 926.66797, y: 497.33267, z: 0.8216884}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1301634562
 GameObject:
   m_ObjectHideFlags: 0
@@ -5801,11 +5848,12 @@ MonoBehaviour:
   LeftClosed: {fileID: 21300000, guid: 989575a608204564381a2c3df7a48e46, type: 3}
   LeftOpen: {fileID: 21300000, guid: 56830925d472baf46b7b0ba5c738df08, type: 3}
   mainCameraScript: {fileID: 1961905409}
-  DoorPower: 12.5
+  DoorPower: 15
   DoorCooldown: 1
   ErrorCooldown: 30
   Error: 0
   HackTime: 15
+  Hours: 0
   frontSprite: {fileID: 21300000, guid: 6f7b126eee0681b44b83f843fe975c3d, type: 3}
   errorSprite: {fileID: 21300000, guid: aee3f88f7b1bb62478888f323a9fe19e, type: 3}
   computerSprite: {fileID: 21300000, guid: 384a76034a205ea4cb604524c4e35d24, type: 3}
@@ -5823,6 +5871,7 @@ MonoBehaviour:
   pressSound: {fileID: 8300000, guid: e7500ff5b8bc26847a751e4e2613852d, type: 3}
   jumpscareSound: {fileID: 8300000, guid: 4e2376a10953ac14795fd492a8618de2, type: 3}
   phoneMessageSound: {fileID: 8300000, guid: a591a6efd77a2e8428c4c89b6ae99eda, type: 3}
+  phoneMessageSound2: {fileID: 8300000, guid: 4b92ab0a1aefa8843aa23ad4a6f984e0, type: 3}
   callSound: {fileID: 8300000, guid: 6d4f86409813f304aa941bbaf1196f94, type: 3}
 --- !u!4 &1408098771
 Transform:
@@ -7961,3 +8010,4 @@ SceneRoots:
   - {fileID: 901769554}
   - {fileID: 616213233}
   - {fileID: 546881196}
+  - {fileID: 1283592030}

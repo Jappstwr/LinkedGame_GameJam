@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class NightLogicScript : MonoBehaviour
@@ -21,6 +22,7 @@ public class NightLogicScript : MonoBehaviour
     private bool isHacking = false;
     public Sprite RightClosed, RightOpen, LeftClosed, LeftOpen;
     private bool PickedUp = false;
+    private bool PickedUp2 = false;
     private float callTimer = 8;
     private float callCooldown = 0;
 
@@ -43,9 +45,13 @@ public class NightLogicScript : MonoBehaviour
 
     public float HackTime;
     private float HackTimer;
+
+    private float Counter;
+    public int Hours;
+
     public Sprite frontSprite, errorSprite, computerSprite, hackingSprite1, hackingSprite2, hackingSprite3, hackingSprite4, hackingSprite5, doneSprite;
 
-    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound, jumpscareSound, phoneMessageSound, callSound;
+    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound, jumpscareSound, phoneMessageSound, phoneMessageSound2, callSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -62,6 +68,11 @@ public class NightLogicScript : MonoBehaviour
     {
         if (Alive)
         {
+            Counter += UnityEngine.Time.deltaTime;
+            Hours = Mathf.FloorToInt(Counter / 60);
+
+            HourLogicScript.Instance.HoursSurvived = Hours;
+
             currentPart = OfficeParts[index];
             for (int i = 0; i < OfficeParts.Length; i++)
             {
@@ -119,6 +130,10 @@ public class NightLogicScript : MonoBehaviour
             else
             {
                 RightPower += UnityEngine.Time.deltaTime / 2;
+                if (RightPower > DoorPower)
+                {
+                    RightPower = DoorPower;
+                }
             }
 
             if (LeftisClosed)
@@ -134,6 +149,10 @@ public class NightLogicScript : MonoBehaviour
             else
             {
                 LeftPower += UnityEngine.Time.deltaTime / 2;
+                if (LeftPower > DoorPower)
+                {
+                    LeftPower = DoorPower;
+                }
             }
 
             if (CameraisOpen)
@@ -183,6 +202,12 @@ public class NightLogicScript : MonoBehaviour
             if (callTimer < 0)
             {
                 CallButton.SetActive(false);
+            }
+
+            if (Counter >= 360 && PickedUp2 == false)
+            {
+                SoundEffectsScript.instance.PlaySoundEffect(phoneMessageSound2, 1f);
+                PickedUp2 = true;
             }
         }        
         else
@@ -331,7 +356,7 @@ public class NightLogicScript : MonoBehaviour
                 LeftSR.sprite = LeftOpen;
                 SoundEffectsScript.instance.PlaySoundEffect(doorSound, 0.2f);
             }
-            else if (LeftPower >= 5)
+            else if (LeftPower >= 3)
             {
                 LeftisClosed = true;
                 LeftSR.sprite = LeftClosed;
@@ -353,7 +378,7 @@ public class NightLogicScript : MonoBehaviour
                 RightSR.sprite = RightOpen;
                 SoundEffectsScript.instance.PlaySoundEffect(doorSound, 1f);
             }
-            else if (RightPower >= 5)
+            else if (RightPower >= 3)
             {
                 RightisClosed = true;
                 RightSR.sprite = RightClosed;

@@ -19,6 +19,9 @@ public class NightLogicScript : MonoBehaviour
     public bool VentisOpen = false;
     private bool isHacking = false;
     public Sprite RightClosed, RightOpen, LeftClosed, LeftOpen;
+    private bool PickedUp = false;
+    private float callTimer = 8;
+    private float callCooldown = 0;
 
     private bool LeftisClosed = false;
     private bool RightisClosed = false;
@@ -41,7 +44,7 @@ public class NightLogicScript : MonoBehaviour
     private float HackTimer;
     public Sprite frontSprite, errorSprite, computerSprite, hackingSprite1, hackingSprite2, hackingSprite3, hackingSprite4, hackingSprite5, doneSprite;
 
-    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound, jumpscareSound, phoneMessageSound;
+    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound, jumpscareSound, phoneMessageSound, callSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -51,8 +54,6 @@ public class NightLogicScript : MonoBehaviour
         LeftPower = DoorPower;
         RightPower = DoorPower;
         ErrorTimer = ErrorCooldown;
-
-        SoundEffectsScript.instance.PlaySoundEffect(phoneMessageSound, 0.5f);
     }
 
     // Update is called once per frame
@@ -152,6 +153,19 @@ public class NightLogicScript : MonoBehaviour
             {
                 ForceCloseCamera();
                 mainCameraScript.CloseCameras();
+            }
+
+            callTimer -= UnityEngine.Time.deltaTime;
+            callCooldown -= UnityEngine.Time.deltaTime;
+
+            if (PickedUp)
+            {
+                SoundEffectsScript.instance.PlaySoundEffect(phoneMessageSound, 0.5f);
+            }
+            else if(callTimer > 0 && callCooldown <= 0)
+            {
+                SoundEffectsScript.instance.PlaySoundEffect(callSound, 0.5f);
+                callCooldown = 2;
             }
         }        
         else
@@ -327,5 +341,10 @@ public class NightLogicScript : MonoBehaviour
             SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
             RightCooldown = DoorCooldown;
         }
+    }
+
+    public void PickUp()
+    {
+        PickedUp = true;
     }
 }

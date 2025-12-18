@@ -67,7 +67,7 @@ public class MainCameraScript : MonoBehaviour
 
         UpdateAllAnimatronicVisibility();
 
-        SoundEffectsScript.instance.PlaySoundEffect(cameraTwitchSound, 0.5f);
+        SoundEffectsScript.instance.PlaySoundEffect(cameraTwitchSound, 0.2f);
     }
 
     public void CloseCameras()

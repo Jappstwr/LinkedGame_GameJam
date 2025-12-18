@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class NightLogicScript : MonoBehaviour
@@ -25,6 +25,8 @@ public class NightLogicScript : MonoBehaviour
     // Public getters to expose them
     public bool IsLeftClosed => LeftisClosed;
     public bool IsRightClosed => RightisClosed;
+
+    public MainCameraScript mainCameraScript;
 
     public float DoorPower;
     private float LeftPower, RightPower;
@@ -204,17 +206,33 @@ public class NightLogicScript : MonoBehaviour
     }
     public void CameraToggle()
     {
-        if (CameraisOpen == false && Error == false)
+        if (!CameraisOpen && !Error)
         {
             CameraisOpen = true;
+            mainCameraScript.SwitchCamera(mainCameraScript.StartingCameraIndex);
             SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
             ErrorTimer -= 3;
         }
-        else if (CameraisOpen == true)
+        else if (CameraisOpen)
         {
             CameraisOpen = false;
+            mainCameraScript.CloseCameras(); // 🔑 THIS WAS MISSING
             SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
         }
+
+
+
+        //if (CameraisOpen == false && Error == false)
+        //{
+        //    CameraisOpen = true;
+        //    SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
+        //    ErrorTimer -= 3;
+        //}
+        //else if (CameraisOpen == true)
+        //{
+        //    CameraisOpen = false;
+        //    SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
+        //}
     }
 
     public void VentToggle()

@@ -6,9 +6,10 @@ using UnityEngine;
 public class MainCameraScript : MonoBehaviour
 {
     [Header("Camera Setup")]
-    [SerializeField] private GameObject[] Cameras; // Assign camera GameObjects in Inspector
+    [SerializeField] private GameObject[] Cameras;
 
-    [SerializeField] private int startingCameraIndex = 1; // Camera 1 (index 1)
+    [SerializeField] private int startingCameraIndex = 1;
+    public int StartingCameraIndex => startingCameraIndex;
 
     private List<Animatronics> animatronics;
     private int activeCamera = 0;
@@ -17,8 +18,7 @@ public class MainCameraScript : MonoBehaviour
 
     void Start()
     {
-
-        camerasOpen = false; // Animatronics won't freeze
+        camerasOpen = false; 
 
         // Deactivate all cameras first
         foreach (var cam in Cameras)
@@ -27,12 +27,15 @@ public class MainCameraScript : MonoBehaviour
                 cam.SetActive(false);
         }
 
-        // Just assign starting camera index internally; don't activate it
-        activeCamera = startingCameraIndex;
+        // Activate starting camera visually, but keep camerasOpen false
+        if (Cameras != null && startingCameraIndex >= 0 && startingCameraIndex < Cameras.Length)
+        {
+            Cameras[startingCameraIndex].SetActive(true);
+            activeCamera = startingCameraIndex;
+        }
 
         // Update animatronics so they know the "current room" camera index
         UpdateAllAnimatronicVisibility();
-
 
         //camerasOpen = false;
 

@@ -14,7 +14,7 @@ public class Animatronics : MonoBehaviour
     [HideInInspector] public bool isAtDoor = false;
 
     [Header("Waypoints")]
-    public RoomWaypoint[] waypoints;      // All waypoints for this animatronic
+    public RoomWaypoint[] waypoints;      
 
     [Header("Movement Timing")]
     public float minMoveDelay = 5f;
@@ -28,8 +28,8 @@ public class Animatronics : MonoBehaviour
     private float hallway2DoorChance;
 
     [Header("Ignore Camera")]
-    [Range(0f, 100f)] public float baseIgnoreCameraChance = 0f; // early night
-    public float ignoreCameraIncreasePerMinute = 3f;           // ramps up
+    [Range(0f, 100f)] public float baseIgnoreCameraChance = 0f; 
+    public float ignoreCameraIncreasePerMinute = 3f;           
 
     [HideInInspector] public int currentRoom = 0;
     [HideInInspector] public bool isBeingWatched = false;

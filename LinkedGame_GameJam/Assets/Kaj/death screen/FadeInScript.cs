@@ -6,12 +6,13 @@ public class FadeInScript : MonoBehaviour
     CanvasGroup canvas;
     float alpha = 0;
     float timeElapsed;
-
+    public AudioClip YamsSound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         canvas = GetComponent<CanvasGroup>();
+        SoundEffectsScript.instance.PlaySoundEffect(YamsSound, 1f);
     }
 
     // Update is called once per frame

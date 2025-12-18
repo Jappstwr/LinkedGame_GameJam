@@ -809,6 +809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61b6bd7ca67ce453ab3e6def2de02bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  YamsSound: {fileID: 8300000, guid: 305d9929b5dddf249b39663da4c0f722, type: 3}
 --- !u!1 &1392073149
 GameObject:
   m_ObjectHideFlags: 0

@@ -3471,7 +3471,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7983737142074532639, guid: 61456ea7c50a484448fd117541152fa0, type: 3}
+  m_Sprite: {fileID: 3829927809763154386, guid: b90a794a736574346ac156fc442c1444, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6569,7 +6569,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6912,7 +6912,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NLS: {fileID: 1408098770}
   Jumpscare: {fileID: 597756381}
-  AiLevel: 0
+  AiLevel: 20
   currentPosition: 0
   OpportunityTime: 5.5
   advanceSound: {fileID: 8300000, guid: dcfa4776472ee45409a3ad8513ed5b0a, type: 3}

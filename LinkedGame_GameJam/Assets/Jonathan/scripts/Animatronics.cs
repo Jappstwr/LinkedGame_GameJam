@@ -92,6 +92,12 @@ public class Animatronics : MonoBehaviour
 
     void ScheduleNextMove()
     {
+        if (NightsDifficulty.CurrentMinute == 0)
+        {
+            Invoke(nameof(ScheduleNextMove), 1f);
+            return;
+        }
+
         float difficulty = GetDifficultyMultiplier();
         float min = minMoveDelay / difficulty;
         float max = maxMoveDelay / difficulty;
@@ -99,6 +105,12 @@ public class Animatronics : MonoBehaviour
     }
     void ScheduleGoldenCheck()
     {
+        if (NightsDifficulty.CurrentMinute == 0)
+        {
+            Invoke(nameof(ScheduleGoldenCheck), 1f);
+            return;
+        }
+
         float delay = Random.Range(goldenCheckIntervalMin, goldenCheckIntervalMax);
         Invoke(nameof(GoldenAttackCheck), delay);
     }
@@ -117,20 +129,18 @@ public class Animatronics : MonoBehaviour
 
     void MoveRandom()
     {
-        if (waypoints.Length == 0)
+        if (waypoints.Length == 0 || isGoldenFredrik)
         {
             return;
         }
+           
 
-        if (isGoldenFredrik)
+        // Only prevent movement if frozen at door
+        if (isFrozenAtDoor)
         {
             return;
         }
-        if (isAtDoor)
-        {
-            return;
-        }
-            
+           
 
         Debug.Log($"{name} attempting move. Room: {currentRoom}, isBeingWatched={isBeingWatched}");
 
@@ -148,8 +158,14 @@ public class Animatronics : MonoBehaviour
 
         // Hallway / Door logic
         bool moved = false;
-        if (currentRoom == 1) moved = TryMoveToDoor(ref hallway1DoorChance);
-        else if (currentRoom == 2) moved = TryMoveToDoor(ref hallway2DoorChance);
+        if (currentRoom == 1)
+        {
+            moved = TryMoveToDoor(ref hallway1DoorChance);
+        }
+        else if (currentRoom == 2)
+        {
+            moved = TryMoveToDoor(ref hallway2DoorChance);
+        }
 
         // Stage logic: more likely to leave as difficulty ramps up
         if (!moved && currentRoom == 0)

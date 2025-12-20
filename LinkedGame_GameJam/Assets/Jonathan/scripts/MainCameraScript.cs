@@ -103,6 +103,10 @@ public class MainCameraScript : MonoBehaviour
             }
         }
     }
+    public void RefreshAllAnimatronics()
+    {
+        UpdateAllAnimatronicVisibility();
+    }
 
     //[Header("Camera Setup")]
     //[SerializeField] private GameObject[] Cameras;      // Assign camera GameObjects in inspector

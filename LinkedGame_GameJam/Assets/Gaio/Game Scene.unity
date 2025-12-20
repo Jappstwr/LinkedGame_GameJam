@@ -2836,11 +2836,12 @@ MonoBehaviour:
   IsFredrik: 1
   isGoldenFredrik: 1
   goldenAttackCooldown: 360
-  goldenKillDelay: 5
+  goldenKillDelay: 7
   goldenCheckIntervalMin: 360
   goldenCheckIntervalMax: 600
   goldenBaseAttackChance: 10
   goldenChanceIncreasePerMinute: 3
+  isFrozenAtDoor: 0
   isAtDoor: 0
   waypoints:
   - {fileID: 1027553059}
@@ -3546,6 +3547,7 @@ MonoBehaviour:
   goldenCheckIntervalMax: 600
   goldenBaseAttackChance: 15
   goldenChanceIncreasePerMinute: 3
+  isFrozenAtDoor: 0
   isAtDoor: 0
   waypoints:
   - {fileID: 721988653}
@@ -4796,6 +4798,7 @@ MonoBehaviour:
   goldenCheckIntervalMax: 600
   goldenBaseAttackChance: 15
   goldenChanceIncreasePerMinute: 3
+  isFrozenAtDoor: 0
   isAtDoor: 0
   waypoints:
   - {fileID: 386865826}

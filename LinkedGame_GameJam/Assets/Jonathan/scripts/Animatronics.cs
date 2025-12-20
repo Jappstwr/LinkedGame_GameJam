@@ -27,6 +27,8 @@ public class Animatronics : MonoBehaviour
 
     private bool goldenIsAttacking = false;
 
+    [HideInInspector] public bool isFrozenAtDoor = false;
+
 
     [HideInInspector] public bool isAtDoor = false;
 
@@ -124,7 +126,11 @@ public class Animatronics : MonoBehaviour
         {
             return;
         }
-          
+        if (isAtDoor)
+        {
+            return;
+        }
+            
 
         Debug.Log($"{name} attempting move. Room: {currentRoom}, isBeingWatched={isBeingWatched}");
 
@@ -197,7 +203,10 @@ public class Animatronics : MonoBehaviour
         foreach (var wp in waypoints)
         {
             if (wp != null && wp.roomIndex == currentRoom && wp.isDoorWaypoint)
+            {
                 return wp;
+            }
+               
         }
         return null;
     }
@@ -229,23 +238,50 @@ public class Animatronics : MonoBehaviour
 
     void MoveToWaypoint(int index)
     {
-        if (index < 0 || index >= waypoints.Length) return;
+        if (index < 0 || index >= waypoints.Length)
+        {
+            return;
+        }
+          
+
         RoomWaypoint wp = waypoints[index];
-        if (wp == null) return;
+        if (wp == null)
+        {
+            return;
+        }
+         
 
-        if (isBeingWatched) return;
+          
 
+        // Move to the waypoint
         transform.position = wp.transform.position;
         currentRoom = wp.roomIndex;
 
-        if (cameraManager != null)
-            cameraManager.UpdateAnimatronicVisibility(this);
+        // Update Unity layer
+        if (!string.IsNullOrEmpty(wp.roomLayer))
+        {
+            int layer = LayerMask.NameToLayer(wp.roomLayer);
+            if (layer != -1)
+            {
+                gameObject.layer = layer;
+            }
+              
+        }
 
-        // Handle door logic
+        
+        if (cameraManager != null)
+        {
+            cameraManager.RefreshAllAnimatronics();
+        }
+            
+
+        
         if (wp.isDoorWaypoint)
         {
             isAtDoor = true;
-            StartCoroutine(DoorCountdown());
+
+            
+            StartCoroutine(DoorCountdownUnified(false)); 
         }
         else
         {
@@ -253,32 +289,28 @@ public class Animatronics : MonoBehaviour
         }
     }
 
-    private IEnumerator DoorCountdown()
+    private IEnumerator DoorCountdownUnified(bool isGolden)
     {
-        if (NLS == null)
-        {
-            Debug.LogError($"{name} has no NightLogicScript assigned!");
-            yield break;
-        }
+        if (NLS == null) yield break;
 
-        float doorTime = 10f; // Player has 10 seconds to react
+        float countdownTime = isGolden ? goldenKillDelay : 10f;
         float timer = 0f;
 
-        while (timer < doorTime)
+        isAtDoor = true;
+
+        while (timer < countdownTime)
         {
-            // Check if door is closed
             bool doorClosed = IsFredrik ? NLS.IsRightClosed : NLS.IsLeftClosed;
 
             if (doorClosed)
             {
-                // Door is closed → move animatronic away from door
-                Debug.Log($"{name} door is closed, leaving the door.");
                 isAtDoor = false;
 
                 SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
 
-                // Move to a random non-door waypoint in the same room
-                MoveToRandomNonDoorWaypointAnywhere();
+                if (!isGolden)
+                    MoveToRandomNonDoorWaypointAnywhere();
+
                 yield break;
             }
 
@@ -286,11 +318,9 @@ public class Animatronics : MonoBehaviour
             yield return null;
         }
 
-        // Time ran out → door was not closed → jumpscare
-        Debug.Log($"{name} reached the door! Player failed to close it.");
+        isAtDoor = false; 
         TriggerJumpscare();
     }
-
     public void CloseDoorForAnimatronic()
     {
         isAtDoor = false;
@@ -323,7 +353,10 @@ public class Animatronics : MonoBehaviour
     void GoldenAttack()
     {
         if (goldenIsAttacking || !NLS.Alive)
+        {
             return;
+        }
+           
 
         Debug.Log("Golden Fredrik attacks!");
 
@@ -341,7 +374,7 @@ public class Animatronics : MonoBehaviour
         currentRoom = door.roomIndex;
         isAtDoor = true;
 
-        StartCoroutine(GoldenDoorCountdown());
+        StartCoroutine(DoorCountdownUnified(true));
     }
     void GoldenAttackCheck()
     {
@@ -365,31 +398,34 @@ public class Animatronics : MonoBehaviour
 
         ScheduleGoldenCheck();
     }
-    IEnumerator GoldenDoorCountdown()
-    {
-        float timer = 0f;
+    //IEnumerator GoldenDoorCountdown()
+    //{
+    //    float timer = 0f;
 
-        while (timer < goldenKillDelay)
-        {
-            if (NLS.IsRightClosed) // Golden Fredrik always right door
-            {
-                Debug.Log("Golden Fredrik blocked!");
-                ResetGoldenFredrik();
-                yield break;
-            }
+    //    while (timer < goldenKillDelay)
+    //    {
+    //        if (NLS.IsRightClosed) // Golden Fredrik always right door
+    //        {
+    //            Debug.Log("Golden Fredrik blocked!");
+    //            ResetGoldenFredrik();
+    //            yield break;
+    //        }
 
-            timer += Time.deltaTime;
-            yield return null;
-        }
+    //        timer += Time.deltaTime;
+    //        yield return null;
+    //    }
 
-        TriggerJumpscare();
-    }
+    //    TriggerJumpscare();
+    //}
     RoomWaypoint GetAnyDoorWaypoint()
     {
         foreach (var wp in waypoints)
         {
             if (wp != null && wp.isDoorWaypoint)
+            {
                 return wp;
+            }
+               
         }
         return null;
     }

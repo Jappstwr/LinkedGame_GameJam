@@ -94,7 +94,7 @@ public class Animatronics : MonoBehaviour
     {
         if (NightsDifficulty.CurrentMinute == 0)
         {
-            Invoke(nameof(ScheduleNextMove), 1f);
+            Invoke(nameof(ScheduleNextMove), 60f);
             return;
         }
 
@@ -107,7 +107,7 @@ public class Animatronics : MonoBehaviour
     {
         if (NightsDifficulty.CurrentMinute == 0)
         {
-            Invoke(nameof(ScheduleGoldenCheck), 1f);
+            Invoke(nameof(ScheduleGoldenCheck), 60f);
             return;
         }
 

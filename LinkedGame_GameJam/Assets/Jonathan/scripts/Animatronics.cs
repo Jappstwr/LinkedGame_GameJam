@@ -13,15 +13,15 @@ public class Animatronics : MonoBehaviour
 
     [Header("Golden Fredrik")]
     public bool isGoldenFredrik;
-    public float goldenAttackCooldown = 360f; // 6 minutes
+    public float goldenAttackCooldown = 360f;
     public float goldenKillDelay = 5f;
 
     [Header("Golden Fredrik – Attack Control")]
-    public float goldenCheckIntervalMin = 360f; // 6 min
-    public float goldenCheckIntervalMax = 600f; // 10 min
+    public float goldenCheckIntervalMin = 360f; 
+    public float goldenCheckIntervalMax = 600f; 
     [Range(0f, 100f)] public float goldenBaseAttackChance = 15f;
     public float goldenChanceIncreasePerMinute = 3f;
-    private float goldenRetreatCooldown = 360f; // seconds before he can attack again
+    private float goldenRetreatCooldown = 360f; 
     private bool canGoldenAttack = true;
 
     //private bool goldenAttackScheduled = false;

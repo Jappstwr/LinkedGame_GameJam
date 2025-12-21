@@ -51,7 +51,7 @@ public class NightLogicScript : MonoBehaviour
 
     public Sprite frontSprite, errorSprite, computerSprite, hackingSprite1, hackingSprite2, hackingSprite3, hackingSprite4, hackingSprite5, doneSprite;
 
-    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound, jumpscareSound, phoneMessageSound, phoneMessageSound2, callSound;
+    public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound, jumpscareSound, phoneMessageSound, phoneMessageSound2, callSound, fredrikSqueakSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -314,6 +314,10 @@ public class NightLogicScript : MonoBehaviour
         CameraisOpen = false;
         Camera.SetActive(false);
         Office.SetActive(true);
+    }
+    public void FredrikSqueak()
+    {
+        SoundEffectsScript.instance.PlaySoundEffect(fredrikSqueakSound, 0.5f); 
     }
 
     public void VentToggle()

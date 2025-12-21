@@ -2839,7 +2839,7 @@ MonoBehaviour:
   goldenKillDelay: 7
   goldenCheckIntervalMin: 360
   goldenCheckIntervalMax: 600
-  goldenBaseAttackChance: 10
+  goldenBaseAttackChance: 1
   goldenChanceIncreasePerMinute: 3
   isFrozenAtDoor: 0
   isAtDoor: 0
@@ -2854,7 +2854,7 @@ MonoBehaviour:
   ignoreCameraIncreasePerMinute: 3
   currentRoom: 0
   isBeingWatched: 0
-  stepSound: {fileID: 0}
+  stepSound: {fileID: 8300000, guid: 335c477e372ef9145ab96fa97bcb1ff7, type: 3}
 --- !u!114 &749091363
 MonoBehaviour:
   m_ObjectHideFlags: 0

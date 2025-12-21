@@ -21,6 +21,8 @@ public class Animatronics : MonoBehaviour
     public float goldenCheckIntervalMax = 600f; // 10 min
     [Range(0f, 100f)] public float goldenBaseAttackChance = 15f;
     public float goldenChanceIncreasePerMinute = 3f;
+    private float goldenRetreatCooldown = 360f; // seconds before he can attack again
+    private bool canGoldenAttack = true;
 
     //private bool goldenAttackScheduled = false;
     private bool goldenIsAttacking = false;
@@ -248,6 +250,7 @@ public class Animatronics : MonoBehaviour
 
     void MoveToWaypoint(int index)
     {
+        // Safety check
         if (index < 0 || index >= waypoints.Length)
         {
             return;
@@ -259,11 +262,9 @@ public class Animatronics : MonoBehaviour
             return;
         }
 
-        // Move to the waypoint
         transform.position = wp.transform.position;
         currentRoom = wp.roomIndex;
 
-        // Update Unity layer
         if (!string.IsNullOrEmpty(wp.roomLayer))
         {
             int layer = LayerMask.NameToLayer(wp.roomLayer);
@@ -281,7 +282,11 @@ public class Animatronics : MonoBehaviour
         if (wp.isDoorWaypoint)
         {
             isAtDoor = true;
-            StartCoroutine(DoorCountdownUnified(false));
+
+            if (!isGoldenFredrik)
+            {
+                StartCoroutine(DoorCountdownUnified());
+            }
         }
         else
         {
@@ -289,11 +294,82 @@ public class Animatronics : MonoBehaviour
         }
     }
 
-    private IEnumerator DoorCountdownUnified(bool isGolden)
-    {
-        if (NLS == null) yield break;
+    //private IEnumerator DoorCountdownUnified(bool isGolden)
+    //{
+    //    if (NLS == null)
+    //    {
+    //        yield break;
+    //    }
 
-        float countdownTime = isGolden ? goldenKillDelay : 10f;
+    //    float countdownTime;
+    //    float timer = 0f;
+
+    //    if (isGolden)
+    //    {
+    //        countdownTime = goldenKillDelay;
+    //    }
+    //    else
+    //    {
+    //        countdownTime = 10f;
+    //    }
+
+    //    isAtDoor = true;
+
+    //    while (timer < countdownTime)
+    //    {
+    //        bool doorClosed;
+
+    //        if (IsFredrik)
+    //        {
+    //            doorClosed = NLS.IsRightClosed;
+    //        }
+    //        else
+    //        {
+    //            doorClosed = NLS.IsLeftClosed;
+    //        }
+
+    //        //if (doorClosed)
+    //        //{
+    //        //    isAtDoor = false;
+    //        //    SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
+    //        //    if (!isGolden)
+    //        //    {
+    //        //        MoveToRandomNonDoorWaypointAnywhere();
+    //        //    }
+
+    //        //    yield break;
+    //        //}
+    //        if (doorClosed)
+    //        {
+    //            SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
+
+    //            if (isGolden)
+    //            {
+    //                ResetGoldenFredrik();
+    //            }
+    //            else
+    //            {
+    //                isAtDoor = false;
+    //                MoveToRandomNonDoorWaypointAnywhere();
+    //            }
+
+    //            yield break;
+    //        }
+
+
+    //        timer += Time.deltaTime;
+    //        yield return null;
+    //    }
+
+    //    isAtDoor = false;
+    //    TriggerJumpscare();
+    //}
+    private IEnumerator DoorCountdownUnified()
+    {
+        if (NLS == null)
+            yield break;
+
+        float countdownTime = 10f; // normal animatronics
         float timer = 0f;
 
         isAtDoor = true;
@@ -304,10 +380,9 @@ public class Animatronics : MonoBehaviour
 
             if (doorClosed)
             {
-                isAtDoor = false;
                 SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
-                if (!isGolden)
-                    MoveToRandomNonDoorWaypointAnywhere();
+                isAtDoor = false;
+                MoveToRandomNonDoorWaypointAnywhere();
                 yield break;
             }
 
@@ -316,6 +391,39 @@ public class Animatronics : MonoBehaviour
         }
 
         isAtDoor = false;
+        TriggerJumpscare();
+    }
+    private IEnumerator GoldenDoorRoutine()
+    {
+        goldenIsAttacking = true;
+
+        // Move to door
+        RoomWaypoint door = GetAnyDoorWaypoint();
+        if (door == null) yield break;
+
+        transform.position = door.transform.position;
+        currentRoom = door.roomIndex;
+        isAtDoor = true;
+
+        float timer = 0f;
+
+        while (timer < goldenKillDelay)
+        {
+            bool doorClosed = NLS.IsRightClosed;
+
+            if (doorClosed)
+            {
+                // Player blocked him → retreat
+                SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
+                ResetGoldenFredrik();
+                yield break;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // If door never closed → jumpscare
         TriggerJumpscare();
     }
 
@@ -334,7 +442,7 @@ public class Animatronics : MonoBehaviour
         NLS.Alive = false;
         SoundEffectsScript.instance.PlaySoundEffect(NLS.jumpscareSound, 1f);
     }
-
+    
     int GetCurrentWaypointIndex()
     {
         for (int i = 0; i < waypoints.Length; i++)
@@ -355,28 +463,17 @@ public class Animatronics : MonoBehaviour
         {
             return;
         }
+            
 
         Debug.Log("Golden Fredrik attacks!");
-        goldenIsAttacking = true;
 
-        // Move DIRECTLY to door (no hallway)
-        RoomWaypoint door = GetAnyDoorWaypoint();
-        if (door == null)
-        {
-            Debug.LogError("Golden Fredrik has no door waypoint!");
-            return;
-        }
-
-        transform.position = door.transform.position;
-        currentRoom = door.roomIndex;
-        isAtDoor = true;
-
-        StartCoroutine(DoorCountdownUnified(true));
+        // Start golden-specific door routine
+        StartCoroutine(GoldenDoorRoutine());
     }
 
     void GoldenAttackCheck()
     {
-        if (!NLS.Alive || goldenIsAttacking)
+        if (!NLS.Alive || !canGoldenAttack || goldenIsAttacking)
         {
             ScheduleGoldenCheck();
             return;
@@ -430,10 +527,104 @@ public class Animatronics : MonoBehaviour
     {
         goldenIsAttacking = false;
         isAtDoor = false;
-        // Move back to his room (Cam 4)
-        MoveToWaypoint(0); // make waypoint 0 his room
-    }
 
+        // Find a safe non-door waypoint to move him to
+        RoomWaypoint safeWaypoint = null;
+        for (int i = 0; i < waypoints.Length; i++)
+        {
+            if (waypoints[i] != null && !waypoints[i].isDoorWaypoint)
+            {
+                safeWaypoint = waypoints[i];
+                break; // pick the first valid one
+            }
+        }
+
+        if (safeWaypoint != null)
+        {
+            transform.position = safeWaypoint.transform.position;
+            currentRoom = safeWaypoint.roomIndex;
+            isAtDoor = false;
+
+            // Refresh camera so movement is visible immediately
+            if (cameraManager != null)
+            {
+                cameraManager.RefreshAllAnimatronics();
+            }
+               
+        }
+
+        // Start normal movement, ignoring camera for first move
+        StartCoroutine(ResumeNormalMovementAfterRetreat());
+    }
+    private IEnumerator ResumeNormalMovementAfterRetreat()
+    {
+        yield return null; // wait one frame to ensure camera refresh
+
+        if (!goldenIsAttacking)
+        {
+            // Ignore camera check for the first movement
+            MoveRandomIgnoringCamera();
+            ScheduleNextMove();
+        }
+    }
+    void MoveRandomIgnoringCamera()
+    {
+        if (waypoints.Length == 0 || isGoldenFredrik)
+        {
+            return;
+        }
+        if (isFrozenAtDoor)
+        {
+            return;
+        }
+
+        bool moved = false;
+
+        if (currentRoom == 1)
+        {
+            moved = TryMoveToDoor(ref hallway1DoorChance);
+        }
+          
+        else if (currentRoom == 2)
+        {
+            moved = TryMoveToDoor(ref hallway2DoorChance);
+        }
+            
+
+        if (!moved && currentRoom == 0)
+        {
+            float difficulty = GetMinuteDifficultyMultiplier();
+            if (Random.value < difficulty * 0.3f)
+            {
+                MoveToRandomNonDoorWaypointAnywhere();
+                moved = true;
+            }
+        }
+
+        if (!moved)
+        {
+            MoveToRandomNonDoorWaypointAnywhere();
+        }
+           
+    }
+    void SetGoldenReady()
+    {
+        goldenIsAttacking = false;
+    }
+    void StartNormalMovement()
+    {
+        if (!goldenIsAttacking)
+        {
+            MoveRandom();
+            ScheduleNextMove();
+        }
+    }
+    private IEnumerator GoldenRetreatCooldownRoutine()
+    {
+        canGoldenAttack = false;
+        yield return new WaitForSeconds(goldenRetreatCooldown);
+        canGoldenAttack = true;
+    }
     float GetMinuteDifficultyMultiplier()
     {
         int minute = NightsDifficulty.CurrentMinute;

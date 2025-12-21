@@ -63,7 +63,6 @@ public class Animatronics : MonoBehaviour
         hallway1DoorChance = baseDoorChance;
         hallway2DoorChance = baseDoorChance;
 
-        // Start at first waypoint
         if (waypoints.Length > 0)
         {
             MoveToWaypoint(0);
@@ -72,14 +71,6 @@ public class Animatronics : MonoBehaviour
         if (isGoldenFredrik)
         {
             InvokeRepeating(nameof(GoldenAttack), goldenAttackCooldown, goldenAttackCooldown);
-        }
-        else
-        {
-            ScheduleNextMove();
-        }
-
-        if (isGoldenFredrik)
-        {
             ScheduleGoldenCheck();
         }
         else
@@ -95,10 +86,11 @@ public class Animatronics : MonoBehaviour
             Invoke(nameof(ScheduleNextMove), 60f);
             return;
         }
-
+        
         float difficulty = GetDifficultyMultiplier();
         float min = minMoveDelay / difficulty;
         float max = maxMoveDelay / difficulty;
+
         Invoke(nameof(MoveRandom), Random.Range(min, max));
     }
 

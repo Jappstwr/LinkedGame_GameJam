@@ -2,13 +2,14 @@
 
 public class NightsDifficulty : MonoBehaviour
 {
-   public static int CurrentMinute { get; private set; }
+    public static int CurrentMinute { get; private set; }
 
     public float minuteLength = 60f;
-    public float timer;
+    private float timer = 0f;
 
     void Update()
     {
+        // Always advance time
         timer += Time.deltaTime;
 
         if (timer >= minuteLength)

@@ -1519,6 +1519,7 @@ MonoBehaviour:
   goldenCheckIntervalMax: 600
   goldenBaseAttackChance: 15
   goldenChanceIncreasePerMinute: 3
+  isFrozenAtDoor: 0
   isAtDoor: 0
   waypoints:
   - {fileID: 2091825104}
@@ -1531,6 +1532,7 @@ MonoBehaviour:
   ignoreCameraIncreasePerMinute: 3
   currentRoom: 0
   isBeingWatched: 0
+  stepSound: {fileID: 0}
 --- !u!114 &890419298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2299,6 +2301,7 @@ MonoBehaviour:
   goldenCheckIntervalMax: 600
   goldenBaseAttackChance: 15
   goldenChanceIncreasePerMinute: 3
+  isFrozenAtDoor: 0
   isAtDoor: 0
   waypoints:
   - {fileID: 770270795}
@@ -2313,6 +2316,7 @@ MonoBehaviour:
   ignoreCameraIncreasePerMinute: 3
   currentRoom: 0
   isBeingWatched: 0
+  stepSound: {fileID: 0}
 --- !u!114 &1602274077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2550,6 +2554,7 @@ MonoBehaviour:
   goldenCheckIntervalMax: 600
   goldenBaseAttackChance: 15
   goldenChanceIncreasePerMinute: 3
+  isFrozenAtDoor: 0
   isAtDoor: 0
   waypoints:
   - {fileID: 162943965}
@@ -2564,6 +2569,7 @@ MonoBehaviour:
   ignoreCameraIncreasePerMinute: 3
   currentRoom: 0
   isBeingWatched: 0
+  stepSound: {fileID: 0}
 --- !u!1 &1712915389
 GameObject:
   m_ObjectHideFlags: 0

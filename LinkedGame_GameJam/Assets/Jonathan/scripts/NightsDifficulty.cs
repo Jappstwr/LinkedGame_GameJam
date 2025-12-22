@@ -16,7 +16,7 @@ public class NightsDifficulty : MonoBehaviour
         {
             timer -= minuteLength;
 
-            if (CurrentMinute < 20) // Cap at 20 minutes
+            if (CurrentMinute < 20) 
             {
                 CurrentMinute++;
                 Debug.Log($"Night minute advanced → {CurrentMinute}");

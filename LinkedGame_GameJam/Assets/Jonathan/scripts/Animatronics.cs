@@ -75,17 +75,28 @@ public class Animatronics : MonoBehaviour
         }
         else
         {
-            ScheduleNextMove();
+            StartCoroutine(WaitForNightStartThenMove());
         }
+    }
+    private IEnumerator WaitForNightStartThenMove()
+    {
+       
+        while (NightsDifficulty.CurrentMinute < 1)
+        {
+            yield return null;
+        }
+
+        
+        ScheduleNextMove();
     }
 
     void ScheduleNextMove()
     {
-        if (NightsDifficulty.CurrentMinute == 0)
-        {
-            Invoke(nameof(ScheduleNextMove), 60f);
-            return;
-        }
+        //if (NightsDifficulty.CurrentMinute == 0)
+        //{
+        //    Invoke(nameof(ScheduleNextMove), 60f);
+        //    return;
+        //}
         
         float difficulty = GetDifficultyMultiplier();
         float min = minMoveDelay / difficulty;

@@ -11,7 +11,7 @@ public class VentScript : MonoBehaviour
     private float MovementTimer;
     private int Immortality = 1;
     private bool killMode = false;
-    private float AiTimer = 60;
+    public float AiTimer = 60;
 
     //getter
     //public float AiTimerValue => AiTimer; 

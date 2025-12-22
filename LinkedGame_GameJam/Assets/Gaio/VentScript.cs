@@ -13,6 +13,16 @@ public class VentScript : MonoBehaviour
     private bool killMode = false;
     private float AiTimer = 60;
 
+    //getter
+    //public float AiTimerValue => AiTimer; 
+
+    //nvm, didnt work. we use dis instead :]
+    public float AiTimerValue
+    {
+        get => AiTimer;
+        set => AiTimer = value;
+    }
+
     public AudioClip advanceSound, retreatSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

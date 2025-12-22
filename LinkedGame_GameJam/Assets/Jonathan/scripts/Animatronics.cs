@@ -55,6 +55,9 @@ public class Animatronics : MonoBehaviour
 
     public AudioClip stepSound;
 
+    [Header("Custom AI")]
+    public int startingMinute = 0; 
+
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -75,20 +78,30 @@ public class Animatronics : MonoBehaviour
         }
         else
         {
-            StartCoroutine(WaitForNightStartThenMove());
+            StartCoroutine(WaitForAIStartThenMove());
         }
     }
-    private IEnumerator WaitForNightStartThenMove()
+    private IEnumerator WaitForAIStartThenMove()
     {
-       
-        while (NightsDifficulty.CurrentMinute < 1)
+        // Wait until night logic actually updates
+        while (NightsDifficulty.CurrentMinute < Mathf.Max(startingMinute, 1))
         {
             yield return null;
         }
 
-        
         ScheduleNextMove();
     }
+    //private IEnumerator WaitForNightStartThenMove()
+    //{
+
+    //    while (NightsDifficulty.CurrentMinute < 1)
+    //    {
+    //        yield return null;
+    //    }
+
+
+    //    ScheduleNextMove();
+    //}
 
     void ScheduleNextMove()
     {

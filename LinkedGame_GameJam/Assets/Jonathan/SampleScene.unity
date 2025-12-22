@@ -911,12 +911,12 @@ Transform:
   m_GameObject: {fileID: 424749293}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.79, y: -0.59, z: 0}
+  m_LocalPosition: {x: -200.97919, y: -148.26105, z: -3.3766665}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 890419296}
-  m_Father: {fileID: 742254285}
+  m_Father: {fileID: 1836939337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -1259,6 +1259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 742254285}
+  - component: {fileID: 742254286}
   m_Layer: 0
   m_Name: FredikSprite
   m_TagString: Untagged
@@ -1274,16 +1275,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 742254284}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 727.85284, y: 519.3375, z: -10.335947}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -198.18921, y: -147.67108, z: -3.3766665}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1692476762}
-  - {fileID: 999199396}
-  - {fileID: 424749294}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1836939337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &742254286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742254284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96be7f6399bcc5c428b5b9faea4a0cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fredrik: {fileID: 0}
+  benny: {fileID: 0}
 --- !u!1 &770270793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,6 +1546,7 @@ MonoBehaviour:
   currentRoom: 0
   isBeingWatched: 0
   stepSound: {fileID: 0}
+  startingMinute: 0
 --- !u!114 &890419298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,12 +1686,12 @@ Transform:
   m_GameObject: {fileID: 999199395}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.79, y: -0.59, z: 0}
+  m_LocalPosition: {x: -200.97919, y: -148.26105, z: -3.3766665}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1602274075}
-  m_Father: {fileID: 742254285}
+  m_Father: {fileID: 1836939337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1048841530
 GameObject:
@@ -2317,6 +2331,7 @@ MonoBehaviour:
   currentRoom: 0
   isBeingWatched: 0
   stepSound: {fileID: 0}
+  startingMinute: 0
 --- !u!114 &1602274077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2570,6 +2585,7 @@ MonoBehaviour:
   currentRoom: 0
   isBeingWatched: 0
   stepSound: {fileID: 0}
+  startingMinute: 0
 --- !u!1 &1712915389
 GameObject:
   m_ObjectHideFlags: 0
@@ -2728,6 +2744,55 @@ MonoBehaviour:
   roomIndex: 1
   roomLayer: CAM2
   isDoorWaypoint: 0
+--- !u!1 &1836939335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836939337}
+  - component: {fileID: 1836939336}
+  m_Layer: 0
+  m_Name: Animatronics Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1836939336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836939335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96be7f6399bcc5c428b5b9faea4a0cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fredrik: {fileID: 1692476764}
+  benny: {fileID: 1602274076}
+--- !u!4 &1836939337
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836939335}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 926.04205, y: 667.0086, z: -6.9592805}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 742254285}
+  - {fileID: 999199396}
+  - {fileID: 424749294}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1837155807
 GameObject:
   m_ObjectHideFlags: 0
@@ -2790,7 +2855,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minuteLength: 20
-  timer: 0
 --- !u!4 &1863281659
 Transform:
   m_ObjectHideFlags: 0
@@ -3007,6 +3071,6 @@ SceneRoots:
   - {fileID: 1091537884}
   - {fileID: 1837155808}
   - {fileID: 572492110}
-  - {fileID: 742254285}
+  - {fileID: 1836939337}
   - {fileID: 1863281659}
   - {fileID: 1166093508}

@@ -1006,8 +1006,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: A (The) Quirky Night Shift
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 53b537193894845a89bdb5916650f937, type: 2}
+  m_sharedMaterial: {fileID: -1544643353501383209, guid: 53b537193894845a89bdb5916650f937, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1766,7 +1766,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 47b12592e3bd3454284c73d9ffbac105, type: 3}
+  m_Sprite: {fileID: -3377185239336811476, guid: 1f135562068c14bbfa00803eeed743bb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3511,7 +3511,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 47b12592e3bd3454284c73d9ffbac105, type: 3}
+  m_Sprite: {fileID: -4781373940957465942, guid: fb7630cc3fad54a94a1569bf18e13240, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4317,7 +4317,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4d3eb1f1cde6741d99e771ce6294c3b5, type: 3}
+  m_Sprite: {fileID: -4781373940957465942, guid: fb7630cc3fad54a94a1569bf18e13240, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

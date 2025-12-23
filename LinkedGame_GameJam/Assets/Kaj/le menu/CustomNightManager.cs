@@ -6,21 +6,19 @@ public class CustomNightManager : MonoBehaviour
 {
 
     [Header("UI")]
-    public TMP_Dropdown nightDropdown;    // Controls the night starting minute for normal animatronics
-    public TMP_Dropdown ventDropdown;     // Separate dropdown for Vent
+    public TMP_Dropdown nightDropdown;   // Normal animatronics
+    public TMP_Dropdown ventDropdown;    // Vent animatronic
 
-    public VentScript ventAnim;
-
-    // Dropdown options corresponding to starting minutes / AI levels
+    // Dropdown options
     private readonly int[] aiValues = { 0, 5, 10, 15, 20 };
 
     void Start()
     {
-        // Set default values
+        // Default dropdowns
         nightDropdown.value = 0;
         ventDropdown.value = 0;
 
-        // Add listeners
+        // Listeners
         nightDropdown.onValueChanged.AddListener(OnNightDropdownChanged);
         ventDropdown.onValueChanged.AddListener(OnVentDropdownChanged);
 
@@ -29,13 +27,11 @@ public class CustomNightManager : MonoBehaviour
         ApplyVentFromDropdown();
     }
 
-    // Called when the night dropdown changes
     void OnNightDropdownChanged(int value)
     {
         ApplyNightFromDropdown();
     }
 
-    // Called when the Vent dropdown changes
     void OnVentDropdownChanged(int value)
     {
         ApplyVentFromDropdown();
@@ -46,13 +42,13 @@ public class CustomNightManager : MonoBehaviour
         int index = nightDropdown.value;
         int aiMinute = aiValues[index];
 
-        // Advance the night timer to match dropdown
+        // Advance night time
         NightsDifficulty.SetStartingMinute(aiMinute);
 
-        // Update animatronics startingMinute
+        // Update animatronics in THIS scene (menu previews, if any)
         Animatronics[] allAnims = Object.FindObjectsByType<Animatronics>(
-             FindObjectsInactive.Include,    // include inactive objects
-             FindObjectsSortMode.None        // unsorted, faster
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
         );
 
         foreach (var anim in allAnims)
@@ -60,18 +56,18 @@ public class CustomNightManager : MonoBehaviour
             anim.startingMinute = aiMinute;
         }
 
-        Debug.Log($"Custom Night AI set → starting minute: {aiMinute}");
+        Debug.Log($"Custom Night → Animatronic AI starts at minute {aiMinute}");
     }
 
     void ApplyVentFromDropdown()
     {
-        if (ventAnim == null) return;
-
         int index = ventDropdown.value;
         int aiLevel = aiValues[index];
 
-        ventAnim.AiLevel = aiLevel;          // set starting AI
-        ventAnim.AiTimerValue = 60f;         // reset AI progression timer
-        Debug.Log($"Vent AI set → {aiLevel}");
+        // Store vent difficulty globally
+        VentDifficulty.StartingAI = aiLevel;
+        VentDifficulty.StartingAiTimer = 60f;
+
+        Debug.Log($"Custom Night → Vent AI set to {aiLevel}");
     }
 }

@@ -28,6 +28,9 @@ public class VentScript : MonoBehaviour
     void Start()
     {
         MovementTimer = OpportunityTime;
+
+        AiLevel = VentDifficulty.StartingAI;
+        AiTimerValue = VentDifficulty.StartingAiTimer;
     }
 
     // Update is called once per frame

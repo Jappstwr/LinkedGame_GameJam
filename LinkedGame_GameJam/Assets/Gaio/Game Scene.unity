@@ -3047,7 +3047,7 @@ MonoBehaviour:
   goldenCheckIntervalMin: 360
   goldenCheckIntervalMax: 600
   goldenBaseAttackChance: 1
-  goldenChanceIncreasePerMinute: 3
+  goldenChanceIncreasePerMinute: 1
   isFrozenAtDoor: 0
   isAtDoor: 0
   waypoints:
@@ -3062,6 +3062,7 @@ MonoBehaviour:
   currentRoom: 0
   isBeingWatched: 0
   stepSound: {fileID: 8300000, guid: 335c477e372ef9145ab96fa97bcb1ff7, type: 3}
+  startingMinute: 0
 --- !u!114 &749091363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3770,6 +3771,7 @@ MonoBehaviour:
   currentRoom: 0
   isBeingWatched: 0
   stepSound: {fileID: 8300000, guid: 335c477e372ef9145ab96fa97bcb1ff7, type: 3}
+  startingMinute: 0
 --- !u!114 &807826987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5021,6 +5023,7 @@ MonoBehaviour:
   currentRoom: 0
   isBeingWatched: 0
   stepSound: {fileID: 8300000, guid: 335c477e372ef9145ab96fa97bcb1ff7, type: 3}
+  startingMinute: 0
 --- !u!114 &1049614472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7729,6 +7732,7 @@ MonoBehaviour:
   AiLevel: 0
   currentPosition: 0
   OpportunityTime: 5.5
+  AiTimer: 60
   advanceSound: {fileID: 8300000, guid: dcfa4776472ee45409a3ad8513ed5b0a, type: 3}
   retreatSound: {fileID: 8300000, guid: a7a7e18e96f0c1e4b96fd975dca542e3, type: 3}
 --- !u!4 &1805268188

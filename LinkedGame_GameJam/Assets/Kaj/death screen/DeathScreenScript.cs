@@ -5,6 +5,8 @@ public class DeathScreenScript : MonoBehaviour
 {
     public void GoToMainMenu()
     {
+        NightsDifficulty.ResetNight();
+        CustomNightConfig.Reset();
         SceneManager.LoadScene(0); 
     }
 

@@ -3042,10 +3042,10 @@ MonoBehaviour:
   Jumpscare: {fileID: 1023505078}
   IsFredrik: 1
   isGoldenFredrik: 1
-  goldenAttackCooldown: 360
+  goldenAttackCooldown: 10
   goldenKillDelay: 7
-  goldenCheckIntervalMin: 360
-  goldenCheckIntervalMax: 600
+  goldenCheckIntervalMin: 10
+  goldenCheckIntervalMax: 11
   goldenBaseAttackChance: 1
   goldenChanceIncreasePerMinute: 1
   isFrozenAtDoor: 0

@@ -12,15 +12,15 @@ public class Animatronics : MonoBehaviour
 
     [Header("Golden Fredrik")]
     public bool isGoldenFredrik;
-    public float goldenAttackCooldown = 1f; //360
+    public float goldenAttackCooldown = 60f; //360
     public float goldenKillDelay = 7f;
 
     [Header("Golden Fredrik – Attack Control")]
-    public float goldenCheckIntervalMin = 360f; //360
-    public float goldenCheckIntervalMax = 600f; // 600
+    public float goldenCheckIntervalMin = 60f; //360
+    public float goldenCheckIntervalMax = 120f; // 600
     [Range(0f, 3f)] public float goldenBaseAttackChance = 15f;
     public float goldenChanceIncreasePerMinute = 3f;
-    private float goldenRetreatCooldown = 360f; //360
+    private float goldenRetreatCooldown = 60f; //360
     private bool canGoldenAttack = true;
 
     //private bool goldenAttackScheduled = false;
@@ -428,9 +428,9 @@ public class Animatronics : MonoBehaviour
 
         int minute = NightsDifficulty.CurrentMinute;
 
-        // Calculate chance, min 5%, max 85%
+        // Calculate chance, min 0%, max 5%
         float chance = goldenBaseAttackChance + (minute * goldenChanceIncreasePerMinute);
-        chance = Mathf.Clamp(chance, 5f, 85f);
+        chance = Mathf.Clamp(chance, 0f, 5f);
 
         float roll = Random.Range(0f, 100f);
         Debug.Log($"Golden Fredrik roll: {roll} / {chance}");

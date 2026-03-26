@@ -4,12 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class NightLogicScript : MonoBehaviour
 {
+    PlayerControls controls;
     public bool Alive = true;
-
     public SpriteRenderer LeftSR, RightSR, FrontSR;
     public GameObject[] OfficeParts;
     private GameObject currentPart;
-    private int index = 0;
+    private int index = 0; // room index
     public GameObject Camera;
     public GameObject Office;
     public GameObject Computer;
@@ -53,6 +53,39 @@ public class NightLogicScript : MonoBehaviour
 
     public AudioClip doorSound, turnSound, yamsSound, hackSound, clickSound, pressSound, jumpscareSound, phoneMessageSound, phoneMessageSound2, callSound, fredrikSqueakSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Awake()
+    {
+        controls = new PlayerControls();
+        controls.Enable();
+        controls.Game.Left.performed += _ => Left();
+        controls.Game.Right.performed += _ => Right();
+        controls.Game.Enter.performed += _ => GamepadEnterClosePressed();
+    }
+
+    void GamepadEnterClosePressed()
+    {
+        switch (index)
+        {
+            case 0:
+                CameraToggle();
+                break;
+            case 1:
+                RightDoorToggle();
+                break;
+            case 2:
+                if (Error && !ComputerisOpen)
+                    ComputerToggle();
+                else if (ComputerisOpen && !VentisOpen)
+                    Hack();
+                else
+                    VentToggle();
+                break;
+            case 3:
+                LeftDoorToggle();
+                break;
+        }
+    }
+
     void Start()
     {
         currentPart = OfficeParts[index];
@@ -172,7 +205,7 @@ public class NightLogicScript : MonoBehaviour
                 {
                     mainCameraScript.SwitchCamera(mainCameraScript.StartingCameraIndex);
                 }
-                    
+
             }
 
             if (Error && CameraisOpen)
@@ -182,7 +215,7 @@ public class NightLogicScript : MonoBehaviour
                 {
                     mainCameraScript.CloseCameras();
                 }
-                   
+
             }
 
             callTimer -= UnityEngine.Time.deltaTime;
@@ -193,7 +226,7 @@ public class NightLogicScript : MonoBehaviour
                 SoundEffectsScript.instance.PlaySoundEffect(phoneMessageSound, 1f);
                 PickedUp = false;
             }
-            else if(callTimer > 0 && callCooldown <= 0)
+            else if (callTimer > 0 && callCooldown <= 0)
             {
                 SoundEffectsScript.instance.PlaySoundEffect(callSound, 0.2f);
                 callCooldown = 2;
@@ -209,7 +242,7 @@ public class NightLogicScript : MonoBehaviour
                 SoundEffectsScript.instance.PlaySoundEffect(phoneMessageSound2, 1f);
                 PickedUp2 = true;
             }
-        }        
+        }
         else
         {
             Jumpscare.SetActive(true);
@@ -283,7 +316,7 @@ public class NightLogicScript : MonoBehaviour
                 SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
                 ErrorTimer -= 3f;
             }
-               
+
         }
         else if (CameraisOpen)
         {
@@ -294,7 +327,7 @@ public class NightLogicScript : MonoBehaviour
                 ForceCloseCamera();
                 SoundEffectsScript.instance.PlaySoundEffect(pressSound, 0.2f);
             }
-               
+
         }
 
         //if (CameraisOpen == false && Error == false)
@@ -317,7 +350,7 @@ public class NightLogicScript : MonoBehaviour
     }
     public void FredrikSqueak()
     {
-        SoundEffectsScript.instance.PlaySoundEffect(fredrikSqueakSound, 0.5f); 
+        SoundEffectsScript.instance.PlaySoundEffect(fredrikSqueakSound, 0.5f);
     }
 
     public void VentToggle()

@@ -1,0 +1,95 @@
+{
+    "version": 1,
+    "name": "PlayerControls",
+    "maps": [
+        {
+            "name": "Game",
+            "id": "d9020841-2c7d-4751-9984-f8fdc23dbb15",
+            "actions": [
+                {
+                    "name": "Enter",
+                    "type": "Button",
+                    "id": "d3c89c58-3087-482b-9cee-f8eb3d6f68bb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Exit",
+                    "type": "Button",
+                    "id": "54d57a94-0de9-431b-9633-3baa739acaf8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Left",
+                    "type": "Button",
+                    "id": "b27c17db-7750-4d1c-b2b4-50cc99f61be8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Right",
+                    "type": "Button",
+                    "id": "8a805e31-aad3-43fd-b553-e740826ceaee",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "51647cae-d85c-4b93-8cc9-e4f6b0e336bb",
+                    "path": "<HID::8BitDo Ultimate 2C Wireless>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Enter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71467e4f-ea38-4bdf-b1d5-509f376c9831",
+                    "path": "<HID::8BitDo Ultimate 2C Wireless>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Exit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b7a8e71b-2b45-4399-90f1-7a7738918fe4",
+                    "path": "<HID::8BitDo Ultimate 2C Wireless>/button7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "91c1f8b6-336f-45dd-8efe-c158bd3d39fd",
+                    "path": "<HID::8BitDo Ultimate 2C Wireless>/button8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

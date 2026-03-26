@@ -6,22 +6,21 @@ using UnityEngine;
 
 public class Animatronics : MonoBehaviour
 {
-
     public NightLogicScript NLS;
     public GameObject Jumpscare;
     public bool IsFredrik;
 
     [Header("Golden Fredrik")]
     public bool isGoldenFredrik;
-    public float goldenAttackCooldown = 360f;
-    public float goldenKillDelay = 5f;
+    public float goldenAttackCooldown = 60f; //360
+    public float goldenKillDelay = 7f;
 
     [Header("Golden Fredrik – Attack Control")]
-    public float goldenCheckIntervalMin = 360f; 
-    public float goldenCheckIntervalMax = 600f; 
-    [Range(0f, 100f)] public float goldenBaseAttackChance = 15f;
+    public float goldenCheckIntervalMin = 60f; //360
+    public float goldenCheckIntervalMax = 120f; // 600
+    [Range(0f, 3f)] public float goldenBaseAttackChance = 15f;
     public float goldenChanceIncreasePerMinute = 3f;
-    private float goldenRetreatCooldown = 360f; 
+    private float goldenRetreatCooldown = 60f; //360
     private bool canGoldenAttack = true;
 
     //private bool goldenAttackScheduled = false;
@@ -56,7 +55,7 @@ public class Animatronics : MonoBehaviour
     public AudioClip stepSound;
 
     [Header("Custom AI")]
-    public int startingMinute = 0; 
+    public int startingMinute = 0;
 
     void Start()
     {
@@ -73,7 +72,10 @@ public class Animatronics : MonoBehaviour
 
         if (isGoldenFredrik)
         {
-            InvokeRepeating(nameof(GoldenAttack), goldenAttackCooldown, goldenAttackCooldown);
+            // Removed InvokeRepeating to prevent guaranteed attacks
+            // InvokeRepeating(nameof(GoldenAttack), goldenAttackCooldown, goldenAttackCooldown);
+
+            // Start chance-based attack schedule
             ScheduleGoldenCheck();
         }
         else
@@ -110,7 +112,7 @@ public class Animatronics : MonoBehaviour
         //    Invoke(nameof(ScheduleNextMove), 60f);
         //    return;
         //}
-        
+
         float difficulty = GetDifficultyMultiplier();
         float min = minMoveDelay / difficulty;
         float max = maxMoveDelay / difficulty;
@@ -309,77 +311,6 @@ public class Animatronics : MonoBehaviour
             isAtDoor = false;
         }
     }
-
-    //private IEnumerator DoorCountdownUnified(bool isGolden)
-    //{
-    //    if (NLS == null)
-    //    {
-    //        yield break;
-    //    }
-
-    //    float countdownTime;
-    //    float timer = 0f;
-
-    //    if (isGolden)
-    //    {
-    //        countdownTime = goldenKillDelay;
-    //    }
-    //    else
-    //    {
-    //        countdownTime = 10f;
-    //    }
-
-    //    isAtDoor = true;
-
-    //    while (timer < countdownTime)
-    //    {
-    //        bool doorClosed;
-
-    //        if (IsFredrik)
-    //        {
-    //            doorClosed = NLS.IsRightClosed;
-    //        }
-    //        else
-    //        {
-    //            doorClosed = NLS.IsLeftClosed;
-    //        }
-
-    //        //if (doorClosed)
-    //        //{
-    //        //    isAtDoor = false;
-    //        //    SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
-    //        //    if (!isGolden)
-    //        //    {
-    //        //        MoveToRandomNonDoorWaypointAnywhere();
-    //        //    }
-
-    //        //    yield break;
-    //        //}
-    //        if (doorClosed)
-    //        {
-    //            SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
-
-    //            if (isGolden)
-    //            {
-    //                ResetGoldenFredrik();
-    //            }
-    //            else
-    //            {
-    //                isAtDoor = false;
-    //                MoveToRandomNonDoorWaypointAnywhere();
-    //            }
-
-    //            yield break;
-    //        }
-
-
-    //        timer += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    isAtDoor = false;
-    //    TriggerJumpscare();
-    //}
     private IEnumerator DoorCountdownUnified()
     {
         if (NLS == null)
@@ -458,7 +389,7 @@ public class Animatronics : MonoBehaviour
         NLS.Alive = false;
         SoundEffectsScript.instance.PlaySoundEffect(NLS.jumpscareSound, 1f);
     }
-    
+
     int GetCurrentWaypointIndex()
     {
         for (int i = 0; i < waypoints.Length; i++)
@@ -479,7 +410,7 @@ public class Animatronics : MonoBehaviour
         {
             return;
         }
-            
+
 
         Debug.Log("Golden Fredrik attacks!");
 
@@ -496,17 +427,20 @@ public class Animatronics : MonoBehaviour
         }
 
         int minute = NightsDifficulty.CurrentMinute;
+
+        // Calculate chance, min 0%, max 5%
         float chance = goldenBaseAttackChance + (minute * goldenChanceIncreasePerMinute);
-        chance = Mathf.Clamp(chance, 5f, 85f);
+        chance = Mathf.Clamp(chance, 0f, 5f);
 
         float roll = Random.Range(0f, 100f);
         Debug.Log($"Golden Fredrik roll: {roll} / {chance}");
 
         if (roll <= chance)
         {
-            GoldenAttack();
+            GoldenAttack(); // attack only if roll succeeds
         }
 
+        // Schedule the next check with random interval
         ScheduleGoldenCheck();
     }
 
@@ -566,7 +500,7 @@ public class Animatronics : MonoBehaviour
             {
                 cameraManager.RefreshAllAnimatronics();
             }
-               
+
         }
 
         // Start normal movement, ignoring camera for first move
@@ -600,12 +534,12 @@ public class Animatronics : MonoBehaviour
         {
             moved = TryMoveToDoor(ref hallway1DoorChance);
         }
-          
+
         else if (currentRoom == 2)
         {
             moved = TryMoveToDoor(ref hallway2DoorChance);
         }
-            
+
 
         if (!moved && currentRoom == 0)
         {
@@ -621,7 +555,7 @@ public class Animatronics : MonoBehaviour
         {
             MoveToRandomNonDoorWaypointAnywhere();
         }
-           
+
     }
     void SetGoldenReady()
     {
@@ -652,4 +586,382 @@ public class Animatronics : MonoBehaviour
         int minute = Mathf.Min(NightsDifficulty.CurrentMinute, 20);
         return 1f + (minute * 0.15f);
     }
+
+
+
+
+
+    //// =========================
+    //// References
+    //// =========================
+    //public NightLogicScript NLS;
+    //public GameObject Jumpscare;
+    //public bool IsFredrik;
+
+    //private SpriteRenderer sr;
+    //private MainCameraScript cameraManager;
+
+    //// =========================
+    //// Golden Fredrik
+    //// =========================
+    //[Header("Golden Fredrik")]
+    //public bool isGoldenFredrik;
+    //public float goldenKillDelay = 7f; // 7-second kill timer
+
+    //[Header("Golden Fredrik – Attack Control")]
+    //[Range(0f, 5f)] public float goldenBaseAttackChance = 0.1f; // 0.1% at 1 AM
+    //public float goldenChanceIncreasePerMinute = 0.1f;            // 0.2% at 2 AM, etc.
+
+    //private bool goldenIsAttacking = false;
+    //private bool canGoldenAttack = true;
+
+    //// =========================
+    //// Movement State
+    //// =========================
+    //[HideInInspector] public bool isFrozenAtDoor = false;
+    //[HideInInspector] public bool isAtDoor = false;
+    //[HideInInspector] public int currentRoom = 0;
+    //[HideInInspector] public bool isBeingWatched = false;
+
+    //// =========================
+    //// Waypoints
+    //// =========================
+    //[Header("Waypoints")]
+    //public RoomWaypoint[] waypoints;
+
+    //// =========================
+    //// Movement Timing
+    //// =========================
+    //[Header("Movement Timing")]
+    //public float minMoveDelay = 5f;
+    //public float maxMoveDelay = 15f;
+
+    //// =========================
+    //// Door Logic
+    //// =========================
+    //[Header("Door Chance")]
+    //[Range(0f, 100f)] public float baseDoorChance = 10f;
+    //public float doorChanceIncrease = 5f;
+    //private float hallway1DoorChance;
+    //private float hallway2DoorChance;
+
+    //// =========================
+    //// Camera Ignore Logic
+    //// =========================
+    //[Header("Ignore Camera")]
+    //[Range(0f, 100f)] public float baseIgnoreCameraChance = 0f;
+    //public float ignoreCameraIncreasePerMinute = 3f;
+
+    //// =========================
+    //// Audio
+    //// =========================
+    //public AudioClip stepSound;
+
+    //// =========================
+    //// Custom AI
+    //// =========================
+    //[Header("Custom AI")]
+    //public int startingMinute = 0;
+
+    //// =========================
+    //// Unity Events
+    //// =========================
+    //void Start()
+    //{
+    //    sr = GetComponent<SpriteRenderer>();
+    //    cameraManager = Object.FindFirstObjectByType<MainCameraScript>();
+
+    //    hallway1DoorChance = baseDoorChance;
+    //    hallway2DoorChance = baseDoorChance;
+
+    //    if (waypoints.Length > 0)
+    //        MoveToWaypoint(0);
+
+    //    if (isGoldenFredrik)
+    //    {
+    //        ScheduleGoldenCheck();
+    //    }
+    //    else
+    //    {
+    //        StartCoroutine(WaitForAIStartThenMove());
+    //    }
+    //}
+
+    //// =========================
+    //// Normal Animatronic Logic
+    //// =========================
+    //private IEnumerator WaitForAIStartThenMove()
+    //{
+    //    while (NightsDifficulty.CurrentMinute < Mathf.Max(startingMinute, 1))
+    //        yield return null;
+
+    //    ScheduleNextMove();
+    //}
+
+    //void ScheduleNextMove()
+    //{
+    //    float difficulty = GetDifficultyMultiplier();
+    //    float min = minMoveDelay / difficulty;
+    //    float max = maxMoveDelay / difficulty;
+
+    //    Invoke(nameof(MoveRandom), Random.Range(min, max));
+    //}
+
+    //void MoveRandom()
+    //{
+    //    if (isGoldenFredrik || waypoints.Length == 0 || isFrozenAtDoor)
+    //        return;
+
+    //    if (isBeingWatched && !ShouldIgnoreCamera())
+    //    {
+    //        ScheduleNextMove();
+    //        return;
+    //    }
+
+    //    bool moved = false;
+
+    //    if (currentRoom == 1)
+    //        moved = TryMoveToDoor(ref hallway1DoorChance);
+    //    else if (currentRoom == 2)
+    //        moved = TryMoveToDoor(ref hallway2DoorChance);
+
+    //    if (!moved && currentRoom == 0)
+    //    {
+    //        if (Random.value < GetMinuteDifficultyMultiplier() * 0.3f)
+    //        {
+    //            MoveToRandomNonDoorWaypointAnywhere();
+    //            moved = true;
+    //        }
+    //    }
+
+    //    if (!moved)
+    //        MoveToRandomNonDoorWaypointAnywhere();
+
+    //    ScheduleNextMove();
+    //}
+
+    //bool ShouldIgnoreCamera()
+    //{
+    //    int minute = Mathf.Min(NightsDifficulty.CurrentMinute, 20);
+    //    float chance = Mathf.Clamp(
+    //        baseIgnoreCameraChance + minute * ignoreCameraIncreasePerMinute,
+    //        0f, 50f
+    //    );
+
+    //    return Random.Range(0f, 100f) < chance;
+    //}
+
+    //// =========================
+    //// Door Helpers
+    //// =========================
+    //bool TryMoveToDoor(ref float doorChance)
+    //{
+    //    float effectiveChance = doorChance * GetMinuteDifficultyMultiplier();
+    //    if (currentRoom == 0) effectiveChance *= 1.5f;
+
+    //    if (Random.Range(0f, 100f) <= effectiveChance)
+    //    {
+    //        RoomWaypoint door = GetDoorWaypointForCurrentRoom();
+    //        if (door != null)
+    //        {
+    //            doorChance = baseDoorChance;
+    //            MoveToWaypoint(System.Array.IndexOf(waypoints, door));
+    //            return true;
+    //        }
+    //    }
+
+    //    doorChance += doorChanceIncrease;
+    //    return false;
+    //}
+
+    //RoomWaypoint GetDoorWaypointForCurrentRoom()
+    //{
+    //    foreach (var wp in waypoints)
+    //        if (wp != null && wp.roomIndex == currentRoom && wp.isDoorWaypoint)
+    //            return wp;
+
+    //    return null;
+    //}
+
+    //void MoveToRandomNonDoorWaypointAnywhere()
+    //{
+    //    List<int> valid = new List<int>();
+    //    int currentIndex = GetCurrentWaypointIndex();
+
+    //    for (int i = 0; i < waypoints.Length; i++)
+    //    {
+    //        if (waypoints[i] != null && !waypoints[i].isDoorWaypoint && i != currentIndex)
+    //            valid.Add(i);
+    //    }
+
+    //    if (valid.Count > 0)
+    //        MoveToWaypoint(valid[Random.Range(0, valid.Count)]);
+    //}
+
+    //void MoveToWaypoint(int index)
+    //{
+    //    if (index < 0 || index >= waypoints.Length) return;
+    //    RoomWaypoint wp = waypoints[index];
+    //    if (wp == null) return;
+
+    //    transform.position = wp.transform.position;
+    //    currentRoom = wp.roomIndex;
+
+    //    if (!string.IsNullOrEmpty(wp.roomLayer))
+    //    {
+    //        int layer = LayerMask.NameToLayer(wp.roomLayer);
+    //        if (layer != -1) gameObject.layer = layer;
+    //    }
+
+    //    cameraManager?.RefreshAllAnimatronics();
+    //}
+
+    //int GetCurrentWaypointIndex()
+    //{
+    //    for (int i = 0; i < waypoints.Length; i++)
+    //        if (waypoints[i] != null &&
+    //            waypoints[i].roomIndex == currentRoom &&
+    //            waypoints[i].transform.position == transform.position)
+    //            return i;
+
+    //    return -1;
+    //}
+
+    //// =========================
+    //// Golden Fredrik Logic
+    //// =========================
+    //void ScheduleGoldenCheck()
+    //{
+    //    if (NightsDifficulty.CurrentMinute < 1)
+    //    {
+    //        Invoke(nameof(ScheduleGoldenCheck), 60f); // wait for 1 AM
+    //        return;
+    //    }
+
+    //    Invoke(nameof(GoldenAttackCheck), 60f); // always every 60 seconds
+    //}
+
+    //void GoldenAttackCheck()
+    //{
+    //    Debug.Log("[Golden Fredrik] Attack Check");
+
+    //    if (!NLS.Alive || goldenIsAttacking || !canGoldenAttack)
+    //    {
+    //        ScheduleGoldenCheck();
+    //        return;
+    //    }
+
+    //    int minute = NightsDifficulty.CurrentMinute;
+    //    float chance = Mathf.Clamp(
+    //        goldenBaseAttackChance + (minute - 1) * goldenChanceIncreasePerMinute,
+    //        0.1f, 0.2f
+    //    );
+
+    //    if (Random.Range(0f, 100f) <= chance)
+    //    {
+    //        GoldenAttack();
+    //    }
+
+    //    ScheduleGoldenCheck(); // schedule next 60s check
+    //}
+
+    //void GoldenAttack()
+    //{
+    //    if (goldenIsAttacking || !NLS.Alive) return;
+    //    StartCoroutine(GoldenDoorRoutine());
+    //}
+
+    //IEnumerator GoldenDoorRoutine()
+    //{
+    //    goldenIsAttacking = true;
+
+    //    RoomWaypoint door = GetAnyDoorWaypoint();
+    //    if (door == null)
+    //    {
+    //        Debug.Log("[Golden Fredrik] Failed to move to door!");
+    //        yield break;
+    //    }
+
+    //    transform.position = door.transform.position;
+    //    currentRoom = door.roomIndex;
+    //    isAtDoor = true;
+
+    //    Debug.Log("[Golden Fredrik] Successfully moved to door!");
+
+    //    float timer = 0f;
+    //    while (timer < goldenKillDelay)
+    //    {
+    //        if (NLS.IsRightClosed)
+    //        {
+    //            SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
+    //            ResetGoldenFredrik();
+    //            yield break;
+    //        }
+
+    //        timer += Time.deltaTime;
+    //        yield return null;
+    //    }
+
+    //    TriggerJumpscare();
+    //}
+
+    //RoomWaypoint GetAnyDoorWaypoint()
+    //{
+    //    foreach (var wp in waypoints)
+    //        if (wp != null && wp.isDoorWaypoint)
+    //            return wp;
+
+    //    return null;
+    //}
+
+    //void ResetGoldenFredrik()
+    //{
+    //    goldenIsAttacking = false;
+    //    isAtDoor = false;
+
+    //    Debug.Log("[Golden Fredrik] Attack repelled, entering cooldown");
+
+    //    StartCoroutine(GoldenRetreatCooldownRoutine());
+
+    //    foreach (var wp in waypoints)
+    //    {
+    //        if (wp != null && !wp.isDoorWaypoint)
+    //        {
+    //            transform.position = wp.transform.position;
+    //            currentRoom = wp.roomIndex;
+    //            break;
+    //        }
+    //    }
+
+    //    cameraManager?.RefreshAllAnimatronics();
+    //}
+
+    //IEnumerator GoldenRetreatCooldownRoutine()
+    //{
+    //    canGoldenAttack = false;
+    //    yield return new WaitForSeconds(60f); // 1-minute cooldown
+    //    canGoldenAttack = true;
+    //}
+
+    //void TriggerJumpscare()
+    //{
+    //    NLS.Camera.SetActive(false);
+    //    NLS.Computer.SetActive(false);
+    //    NLS.Office.SetActive(true);
+    //    Jumpscare.SetActive(true);
+
+    //    NLS.Alive = false;
+    //    SoundEffectsScript.instance.PlaySoundEffect(NLS.jumpscareSound, 1f);
+    //}
+
+    //float GetMinuteDifficultyMultiplier()
+    //{
+    //    return 1f + NightsDifficulty.CurrentMinute * 0.15f;
+    //}
+
+    //float GetDifficultyMultiplier()
+    //{
+    //    return 1f + Mathf.Min(NightsDifficulty.CurrentMinute, 20) * 0.15f;
+    //}
+
 }

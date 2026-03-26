@@ -27,10 +27,21 @@ public class VentScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Apply custom night settings ONCE
+        AiLevel = CustomNightConfig.VentAI;
+
+        // Reset progression timer so AI still scales naturally
+        AiTimer = 60f;
+
+        // Normal init
         MovementTimer = OpportunityTime;
 
-        AiLevel = VentDifficulty.StartingAI;
-        AiTimerValue = VentDifficulty.StartingAiTimer;
+        Debug.Log($"[Vent] Starting AI Level = {AiLevel}");
+
+        //MovementTimer = OpportunityTime;
+
+        //AiLevel = VentDifficulty.StartingAI;
+        //AiTimerValue = VentDifficulty.StartingAiTimer;
     }
 
     // Update is called once per frame

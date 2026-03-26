@@ -1530,7 +1530,7 @@ MonoBehaviour:
   goldenKillDelay: 5
   goldenCheckIntervalMin: 360
   goldenCheckIntervalMax: 600
-  goldenBaseAttackChance: 15
+  goldenBaseAttackChance: 3
   goldenChanceIncreasePerMinute: 3
   isFrozenAtDoor: 0
   isAtDoor: 0
@@ -2567,7 +2567,7 @@ MonoBehaviour:
   goldenKillDelay: 5
   goldenCheckIntervalMin: 360
   goldenCheckIntervalMax: 600
-  goldenBaseAttackChance: 15
+  goldenBaseAttackChance: 3
   goldenChanceIncreasePerMinute: 3
   isFrozenAtDoor: 0
   isAtDoor: 0

@@ -107,17 +107,22 @@ public class Animatronics : MonoBehaviour
 
     void ScheduleNextMove()
     {
-        //if (NightsDifficulty.CurrentMinute == 0)
-        //{
-        //    Invoke(nameof(ScheduleNextMove), 60f);
-        //    return;
-        //}
+        if (isAtDoor || isFrozenAtDoor)
+        {
+            return;
+        }
 
         float difficulty = GetDifficultyMultiplier();
         float min = minMoveDelay / difficulty;
         float max = maxMoveDelay / difficulty;
 
         Invoke(nameof(MoveRandom), Random.Range(min, max));
+
+        //float difficulty = GetDifficultyMultiplier();
+        //float min = minMoveDelay / difficulty;
+        //float max = maxMoveDelay / difficulty;
+
+        //Invoke(nameof(MoveRandom), Random.Range(min, max));
     }
 
     void ScheduleGoldenCheck()
@@ -151,28 +156,25 @@ public class Animatronics : MonoBehaviour
             return;
         }
 
-        // Only prevent movement if frozen at door
-        if (isFrozenAtDoor)
+        if (isAtDoor || isFrozenAtDoor)
         {
             return;
         }
 
         Debug.Log($"{name} attempting move. Room: {currentRoom}, isBeingWatched={isBeingWatched}");
 
-        // Camera freeze check
         if (isBeingWatched && !ShouldIgnoreCamera())
         {
-            Debug.Log($"{name} frozen by camera");
             ScheduleNextMove();
             return;
         }
         else if (isBeingWatched)
         {
-            Debug.Log($"{name} IGNORED camera");
+                Debug.Log($"{name} IGNORED camera");
         }
 
-        // Hallway / Door logic
-        bool moved = false;
+            bool moved = false;
+
         if (currentRoom == 1)
         {
             moved = TryMoveToDoor(ref hallway1DoorChance);
@@ -182,24 +184,74 @@ public class Animatronics : MonoBehaviour
             moved = TryMoveToDoor(ref hallway2DoorChance);
         }
 
-        // Stage logic: more likely to leave as difficulty ramps up
         if (!moved && currentRoom == 0)
         {
-            float difficulty = GetMinuteDifficultyMultiplier();
-            if (Random.value < difficulty * 0.3f)
+            if (Random.value < GetMinuteDifficultyMultiplier() * 0.3f)
             {
                 MoveToRandomNonDoorWaypointAnywhere();
                 moved = true;
             }
         }
 
-        // Normal random movement if no door/hallway movement
         if (!moved)
-        {
             MoveToRandomNonDoorWaypointAnywhere();
-        }
 
         ScheduleNextMove();
+
+        //if (waypoints.Length == 0 || isGoldenFredrik)
+        //{
+        //    return;
+        //}
+
+        //// Only prevent movement if frozen at door
+        //if (isFrozenAtDoor)
+        //{
+        //    return;
+        //}
+
+        //Debug.Log($"{name} attempting move. Room: {currentRoom}, isBeingWatched={isBeingWatched}");
+
+        //// Camera freeze check
+        //if (isBeingWatched && !ShouldIgnoreCamera())
+        //{
+        //    Debug.Log($"{name} frozen by camera");
+        //    ScheduleNextMove();
+        //    return;
+        //}
+        //else if (isBeingWatched)
+        //{
+        //    Debug.Log($"{name} IGNORED camera");
+        //}
+
+        //// Hallway / Door logic
+        //bool moved = false;
+        //if (currentRoom == 1)
+        //{
+        //    moved = TryMoveToDoor(ref hallway1DoorChance);
+        //}
+        //else if (currentRoom == 2)
+        //{
+        //    moved = TryMoveToDoor(ref hallway2DoorChance);
+        //}
+
+        //// Stage logic: more likely to leave as difficulty ramps up
+        //if (!moved && currentRoom == 0)
+        //{
+        //    float difficulty = GetMinuteDifficultyMultiplier();
+        //    if (Random.value < difficulty * 0.3f)
+        //    {
+        //        MoveToRandomNonDoorWaypointAnywhere();
+        //        moved = true;
+        //    }
+        //}
+
+        //// Normal random movement if no door/hallway movement
+        //if (!moved)
+        //{
+        //    MoveToRandomNonDoorWaypointAnywhere();
+        //}
+
+        //ScheduleNextMove();
     }
 
     bool TryMoveToDoor(ref float doorChance)
@@ -268,12 +320,10 @@ public class Animatronics : MonoBehaviour
 
     void MoveToWaypoint(int index)
     {
-        // Safety check
         if (index < 0 || index >= waypoints.Length)
         {
             return;
         }
-
         RoomWaypoint wp = waypoints[index];
         if (wp == null)
         {
@@ -283,53 +333,95 @@ public class Animatronics : MonoBehaviour
         transform.position = wp.transform.position;
         currentRoom = wp.roomIndex;
 
-        if (!string.IsNullOrEmpty(wp.roomLayer))
-        {
-            int layer = LayerMask.NameToLayer(wp.roomLayer);
-            if (layer != -1)
-            {
-                gameObject.layer = layer;
-            }
-        }
-
-        if (cameraManager != null)
-        {
-            cameraManager.RefreshAllAnimatronics();
-        }
+        cameraManager?.RefreshAllAnimatronics();
 
         if (wp.isDoorWaypoint)
         {
             isAtDoor = true;
+            isFrozenAtDoor = true;
+
+            // fixes everything
+            CancelInvoke(nameof(MoveRandom));
 
             if (!isGoldenFredrik)
-            {
                 StartCoroutine(DoorCountdownUnified());
-            }
         }
         else
         {
             isAtDoor = false;
+            isFrozenAtDoor = false;
         }
+
+        //// Safety check
+        //if (index < 0 || index >= waypoints.Length)
+        //{
+        //    return;
+        //}
+
+        //RoomWaypoint wp = waypoints[index];
+        //if (wp == null)
+        //{
+        //    return;
+        //}
+
+        //transform.position = wp.transform.position;
+        //currentRoom = wp.roomIndex;
+
+        //if (!string.IsNullOrEmpty(wp.roomLayer))
+        //{
+        //    int layer = LayerMask.NameToLayer(wp.roomLayer);
+        //    if (layer != -1)
+        //    {
+        //        gameObject.layer = layer;
+        //    }
+        //}
+
+        //if (cameraManager != null)
+        //{
+        //    cameraManager.RefreshAllAnimatronics();
+        //}
+
+        //if (wp.isDoorWaypoint)
+        //{
+        //    isAtDoor = true;
+
+        //    if (!isGoldenFredrik)
+        //    {
+        //        StartCoroutine(DoorCountdownUnified());
+        //    }
+        //}
+        //else
+        //{
+        //    isAtDoor = false;
+        //}
     }
     private IEnumerator DoorCountdownUnified()
     {
         if (NLS == null)
+        {
             yield break;
+        }
 
-        float countdownTime = 10f; // normal animatronics
         float timer = 0f;
+        float countdown = 10f;
 
         isAtDoor = true;
+        isFrozenAtDoor = true;
 
-        while (timer < countdownTime)
+        while (timer < countdown)
         {
             bool doorClosed = IsFredrik ? NLS.IsRightClosed : NLS.IsLeftClosed;
 
             if (doorClosed)
             {
                 SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
+
                 isAtDoor = false;
+                isFrozenAtDoor = false;
+
                 MoveToRandomNonDoorWaypointAnywhere();
+                ScheduleNextMove();
+
                 yield break;
             }
 
@@ -338,29 +430,60 @@ public class Animatronics : MonoBehaviour
         }
 
         isAtDoor = false;
+        isFrozenAtDoor = false;
+
         TriggerJumpscare();
+
+        //if (NLS == null)
+        //    yield break;
+
+        //float countdownTime = 10f; // normal animatronics
+        //float timer = 0f;
+
+        //isAtDoor = true;
+
+        //while (timer < countdownTime)
+        //{
+        //    bool doorClosed = IsFredrik ? NLS.IsRightClosed : NLS.IsLeftClosed;
+
+        //    if (doorClosed)
+        //    {
+        //        SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
+        //        isAtDoor = false;
+        //        MoveToRandomNonDoorWaypointAnywhere();
+        //        yield break;
+        //    }
+
+        //    timer += Time.deltaTime;
+        //    yield return null;
+        //}
+
+        //isAtDoor = false;
+        //TriggerJumpscare();
     }
     private IEnumerator GoldenDoorRoutine()
     {
         goldenIsAttacking = true;
+        isAtDoor = true;
+        isFrozenAtDoor = true;
 
-        // Move to door
+        CancelInvoke(nameof(MoveRandom));
+
         RoomWaypoint door = GetAnyDoorWaypoint();
-        if (door == null) yield break;
+        if (door == null)
+        {
+            yield break;
+        }
 
         transform.position = door.transform.position;
         currentRoom = door.roomIndex;
-        isAtDoor = true;
 
         float timer = 0f;
 
         while (timer < goldenKillDelay)
         {
-            bool doorClosed = NLS.IsRightClosed;
-
-            if (doorClosed)
+            if (NLS.IsRightClosed)
             {
-                // Player blocked him → retreat
                 SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
                 ResetGoldenFredrik();
                 yield break;
@@ -370,8 +493,38 @@ public class Animatronics : MonoBehaviour
             yield return null;
         }
 
-        // If door never closed → jumpscare
         TriggerJumpscare();
+
+        //goldenIsAttacking = true;
+
+        //// Move to door
+        //RoomWaypoint door = GetAnyDoorWaypoint();
+        //if (door == null) yield break;
+
+        //transform.position = door.transform.position;
+        //currentRoom = door.roomIndex;
+        //isAtDoor = true;
+
+        //float timer = 0f;
+
+        //while (timer < goldenKillDelay)
+        //{
+        //    bool doorClosed = NLS.IsRightClosed;
+
+        //    if (doorClosed)
+        //    {
+        //        // Player blocked him → retreat
+        //        SoundEffectsScript.instance.PlaySoundEffect(stepSound, 1f);
+        //        ResetGoldenFredrik();
+        //        yield break;
+        //    }
+
+        //    timer += Time.deltaTime;
+        //    yield return null;
+        //}
+
+        //// If door never closed → jumpscare
+        //TriggerJumpscare();
     }
 
     public void CloseDoorForAnimatronic()
@@ -477,34 +630,29 @@ public class Animatronics : MonoBehaviour
     {
         goldenIsAttacking = false;
         isAtDoor = false;
+        isFrozenAtDoor = false;
 
-        // Find a safe non-door waypoint to move him to
-        RoomWaypoint safeWaypoint = null;
-        for (int i = 0; i < waypoints.Length; i++)
+        CancelInvoke(nameof(MoveRandom));
+
+        RoomWaypoint safe = null;
+        foreach (var wp in waypoints)
         {
-            if (waypoints[i] != null && !waypoints[i].isDoorWaypoint)
+            if (wp != null && !wp.isDoorWaypoint)
             {
-                safeWaypoint = waypoints[i];
-                break; // pick the first valid one
+                safe = wp;
+                break;
             }
         }
 
-        if (safeWaypoint != null)
+        if (safe != null)
         {
-            transform.position = safeWaypoint.transform.position;
-            currentRoom = safeWaypoint.roomIndex;
-            isAtDoor = false;
-
-            // Refresh camera so movement is visible immediately
-            if (cameraManager != null)
-            {
-                cameraManager.RefreshAllAnimatronics();
-            }
-
+            transform.position = safe.transform.position;
+            currentRoom = safe.roomIndex;
+            cameraManager?.RefreshAllAnimatronics();
         }
 
-        // Start normal movement, ignoring camera for first move
-        StartCoroutine(ResumeNormalMovementAfterRetreat());
+        StartCoroutine(GoldenRetreatCooldownRoutine());
+        ScheduleNextMove();
     }
     private IEnumerator ResumeNormalMovementAfterRetreat()
     {
